@@ -53,12 +53,13 @@
                 <input class="kt-switch" data-kt-theme-switch-state="dark" data-kt-theme-switch-toggle="true"
                     name="check" type="checkbox" value="1" />
             </div>
-            <form action="{{ route('logout') }}">
+            <form action="{{ route('logout') }}" method="POST">
                 @method('DELETE')
 
                 @csrf
 
-                <button type="submit" class="kt-btn kt-btn-outline w-full justify-center">
+                <button type="button" data-kt-modal-toggle="#modal"
+                    class="kt-btn kt-btn-outline w-full justify-center">
                     Keluar
                 </button>
             </form>
