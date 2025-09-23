@@ -1,0 +1,262 @@
+<?php
+
+namespace App\Http\Controllers\Article;
+
+use App\Http\Controllers\Controller;
+use App\Models\Article;
+use App\Models\Category;
+use App\Models\Tag;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Throwable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+
+class ArticleController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $query = Article::with(['user', 'category', 'tags']);
+
+        // Search functionality
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('content', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('category', function ($categoryQuery) use ($search) {
+                        $categoryQuery->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('tags', function ($tagQuery) use ($search) {
+                        $tagQuery->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        // Sorting functionality
+        $sortField = $request->get('sort', 'created_at');
+        $sortDirection = $request->get('direction', 'desc');
+
+        // Validate sort fields
+        $allowedSortFields = ['title', 'created_at', 'is_active', 'is_pinned', 'views'];
+        if (!in_array($sortField, $allowedSortFields)) {
+            $sortField = 'created_at';
+        }
+
+        // Handle relation sorting
+        if ($sortField === 'user') {
+            $query->join('users', 'articles.user_id', '=', 'users.id')
+                ->orderBy('users.name', $sortDirection)
+                ->select('articles.*');
+        } elseif ($sortField === 'category') {
+            $query->join('categories', 'articles.category_id', '=', 'categories.id')
+                ->orderBy('categories.name', $sortDirection)
+                ->select('articles.*');
+        } else {
+            $query->orderBy($sortField, $sortDirection);
+        }
+
+        // Pagination
+        $perPage = $request->get('per_page', 10);
+        $articles = $query->paginate($perPage);
+
+        // Append query parameters to pagination links
+        $articles->appends($request->query());
+
+        $data = [
+            'articles' => $articles,
+            'search' => $request->search,
+            'sort' => $sortField,
+            'direction' => $sortDirection,
+            'per_page' => $perPage
+        ];
+
+        return view('pages.articles.index', compact('data'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $tags = Tag::all();
+
+        $data = [
+            'categories' => Category::all(),
+            'tags' => $tags,
+        ];
+
+        return view('pages.articles.create', compact('data'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        try {
+            $request->validate([
+                'category_id' => ['required', 'exists:categories,id'],
+                'tags' => ['nullable', 'array'],
+                'tags.*' => ['exists:tags,name'],
+                'title' => ['required', 'string', 'max:255'],
+                'content' => ['required', 'string'],
+                'thumbnail' => ['nullable', 'image', 'max:2048'],
+                'is_active' => ['required', 'boolean'],
+                'is_pinned' => ['required', 'boolean'],
+            ]);
+
+            DB::beginTransaction();
+
+            $data = $request->except(['thumbnail', 'tags']);
+            $data['user_id'] = Auth::id();
+            $data['slug'] = Str::slug($request->title);
+
+            if ($request->hasFile('thumbnail')) {
+                $disk = config('filesystems.default');
+                $path = Storage::disk($disk)->put('thumbnails', $request->file('thumbnail'));
+                $data['thumbnail'] = $path;
+            }
+
+            $article = Article::create($data);
+
+            if ($request->filled('tags')) {
+                $tagIds = Tag::whereIn('name', $request->tags)->pluck('id')->toArray();
+                $article->tags()->sync($tagIds);
+            }
+
+            DB::commit();
+
+            return redirect()
+                ->route('articles.index')
+                ->with('success', 'Artikel berhasil dibuat.');
+        } catch (ValidationException $e) {
+            DB::rollBack();
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Data yang diisi tidak valid. Silakan periksa kembali.');
+        } catch (Throwable $th) {
+            DB::rollBack();
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat menyimpan artikel.');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Article $article)
+    {
+        $data = [
+            'article' => $article,
+        ];
+
+        return view('pages.articles.show', compact('data'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Article $article)
+    {
+        $tags = Tag::all();
+        $data = [
+            'article' => $article,
+            'categories' => Category::all(),
+            'tags' => $tags,
+        ];
+
+        return view('pages.articles.edit', compact('data'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Article $article)
+    {
+        try {
+            $request->validate([
+                'category_id' => ['required', 'exists:categories,id'],
+                'tags' => ['nullable', 'array'],
+                'tags.*' => ['exists:tags,name'],
+                'title' => ['required', 'string', 'max:255'],
+                'content' => ['required', 'string'],
+                'thumbnail' => ['nullable', 'image', 'max:2048'],
+                'is_active' => ['required', 'boolean'],
+                'is_pinned' => ['required', 'boolean'],
+            ]);
+
+            DB::beginTransaction();
+
+            $data = $request->except(['thumbnail', 'tags', 'remove_thumbnail']);
+
+            $disk = config('filesystems.default');
+
+            if ($request->remove_thumbnail == '1') {
+                if ($article->thumbnail) {
+                    Storage::disk($disk)->delete($article->thumbnail);
+                    $data['thumbnail'] = null;
+                }
+            } elseif ($request->hasFile('thumbnail')) {
+                if ($article->thumbnail) {
+                    Storage::disk($disk)->delete($article->thumbnail);
+                }
+                $data['thumbnail'] = Storage::disk($disk)->put('thumbnails', $request->file('thumbnail'));
+            }
+
+            $article->update($data);
+
+            if ($request->filled('tags')) {
+                $tagIds = Tag::whereIn('name', $request->tags)->pluck('id')->toArray();
+                $article->tags()->sync($tagIds);
+            }
+
+            DB::commit();
+
+            return redirect()
+                ->route('articles.index')
+                ->with('success', 'Artikel berhasil diperbaharui.');
+        } catch (ValidationException $e) {
+            DB::rollBack();
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Data yang diisi tidak valid. Silakan periksa kembali.');
+        } catch (Throwable $th) {
+            DB::rollBack();
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat memperbaharui artikel.');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Article $article)
+    {
+        if ($article->thumbnail) {
+            $disk = config('filesystems.default');
+            Storage::disk($disk)->delete($article->thumbnail);
+        }
+
+        $article->delete();
+
+        return redirect()
+            ->route('articles.index')
+            ->with('success', 'Artikel berhasil diperbaharui.');
+    }
+}

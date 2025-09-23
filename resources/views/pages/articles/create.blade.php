@@ -1,0 +1,155 @@
+@extends('layouts.admin.base')
+
+@section('content')
+    <!-- Container -->
+    <div class="kt-container-fixed" id="contentContainer">
+    </div>
+    <!-- End of Container -->
+    <!-- Container -->
+    <div class="kt-container-fixed">
+        <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5 lg:items-end">
+            <div class="flex flex-col justify-center gap-2">
+                <h1 class="text-xl font-medium leading-none text-mono">
+                    Form Tambah Artikel
+                </h1>
+            </div>
+            <div class="flex items-center gap-2.5">
+                <a class="kt-btn kt-btn-outline" href="{{ route('articles.index') }}">
+                    Kembali
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- End of Container -->
+    <!-- Container -->
+    <div class="kt-container-fixed">
+        <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data"
+            class="kt-card p-5 space-y-5">
+            @csrf
+
+            <div>
+                <label for="category_id" class="kt-label">Kategori</label>
+                <span class="text-destructive">*</span>
+                <select name="category_id" class="kt-select" data-kt-select="true"
+                    data-kt-select-placeholder="Pilih kategori"
+                    data-kt-select-config='{
+                        "optionsClass": "kt-scrollable overflow-auto max-h-[250px]"
+                    }'>
+                    @foreach ($data['categories'] as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="tags" class="kt-label">Tag</label>
+                <select multiple name="tags[]" class="kt-select" data-kt-select="true"
+                    data-kt-select-placeholder="Pilih tag"
+                    data-kt-select-config='{
+                        "multiple": true,
+                        "optionsClass": "kt-scrollable overflow-auto max-h-[250px]"
+                    }'>
+                    @foreach ($data['tags'] as $tag)
+                        <option value="{{ $tag->name }}"
+                            {{ collect(old('tags'))->contains($tag->name) ? 'selected' : '' }}>
+                            {{ $tag->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="title" class="kt-label">Judul</label>
+                <span class="text-destructive">*</span>
+                <input type="text" name="title" class="kt-input w-full" placeholder="Masukkan judul"
+                    value="{{ old('title') }}" />
+            </div>
+
+            <div>
+                <label for="content" class="kt-label">Konten</label>
+                <span class="text-destructive">*</span>
+                <textarea name="content" class="kt-textarea w-full" rows="4" placeholder="Masukkan konten">{{ old('content') }}</textarea>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <div for="thumbnail" class="kt-label">Thumbnail</div>
+                <input type="file" name="thumbnail" class="kt-input w-full" />
+            </div>
+
+            <div>
+                <label for="is_active" class="kt-label mb-3">Status Publikasi</label>
+                <span class="text-destructive">*</span>
+                <div class="grid gap-2.5">
+                    <div class="flex items-center gap-2.5">
+                        <input type="radio" class="kt-radio" id="published" name="is_active" value="1"
+                            {{ old('is_active', '1') == '1' ? 'checked' : '' }} />
+                        <label class="kt-label" for="published">Dipublikasikan</label>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <input type="radio" class="kt-radio" id="unpublished" name="is_active" value="0"
+                            {{ old('is_active', '1') == '0' ? 'checked' : '' }} />
+                        <label class="kt-label" for="unpublished">Diarsipkan</label>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="is_pinned" class="kt-label mb-3">Pin Artikel</label>
+                <span class="text-destructive">*</span>
+                <div class="grid gap-2.5">
+                    <div class="flex items-center gap-2.5">
+                        <input type="radio" class="kt-radio" id="pinned" name="is_pinned" value="1"
+                            {{ old('is_pinned', '0') == '1' ? 'checked' : '' }} />
+                        <label class="kt-label" for="pinned">Pin di Beranda</label>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <input type="radio" class="kt-radio" id="unpinned" name="is_pinned" value="0"
+                            {{ old('is_pinned', '0') == '0' ? 'checked' : '' }} />
+                        <label class="kt-label" for="unpinned">Tidak Dipin</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="kt-btn kt-btn-primary mt-5" data-kt-modal-toggle="#modal">Tambah Artikel</button>
+
+            <div class="kt-modal z-40" data-kt-modal="true" id="modal">
+                <div
+                    class="kt-modal-content max-w-md w-[600px] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
+                    <div class="kt-modal-header">
+                        <h3 class="kt-modal-title">Konfirmasi Tambah</h3>
+                        <button type="button" class="kt-modal-close" aria-label="Close modal"
+                            data-kt-modal-dismiss="#modal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-x" aria-hidden="true">
+                                <path d="M18 6 6 18"></path>
+                                <path d="m6 6 12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="kt-modal-body">
+                        <div class="flex items-center gap-4">
+                            <i class="ki-filled ki-lock text-4xl text-blue-600"></i>
+                            <div>
+                                <p class="font-medium">Anda menambah artikel dengan data ini.</p>
+                                <p class="text-sm text-muted">Pastikan data sudah benar sebelum
+                                    melanjutkan.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-modal-footer">
+                        <div></div>
+                        <div class="flex gap-4">
+                            <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="#modal">Tidak,
+                                Kembali</button>
+                            <button class="kt-btn kt-btn-primary" type="submit">Ya, Tambah</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- End of Container -->
+@endsection
