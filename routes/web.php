@@ -68,15 +68,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update']);
     Route::delete('/profile', [ProfileController::class, 'destroy']);
 
-    Route::resource('/users', UserController::class)->middleware('permission:users_management');
+    Route::resource('/users', UserController::class)->middleware('permission:users-management');
 
-    Route::resource('/categories', CategoryController::class)->middleware('permission:categories_management');
-    Route::resource('/tags', TagController::class)->middleware('permission:tags_management');
-    Route::resource('/articles', ArticleController::class)->middleware('permission:articles_management');
-    Route::resource('/articles/{article}/comments', CommentController::class)->middleware('permission:articles_management');
+    Route::resource('/categories', CategoryController::class)->middleware('permission:categories-management');
+    Route::resource('/tags', TagController::class)->middleware('permission:tags-management');
+    Route::resource('/articles', ArticleController::class)->middleware('permission:articles-management');
+    Route::resource('/articles/{article}/comments', CommentController::class)->middleware('permission:articles-management');
 
-    Route::resource('/permissions', PermissionController::class)->middleware('permission:permission_role_management');
-    Route::resource('/roles', RoleController::class)->middleware('permission:permission_role_management');
-    Route::resource('/permission-role', PermissionRoleController::class)->middleware('permission:permission_role_management')->except('destroy');
-    Route::delete('/permission-role', [PermissionRoleController::class, 'destroy'])->middleware('permission:permission_role_management')->name('permission-role.destroy');
+    Route::resource('/permissions', PermissionController::class)->middleware('permission:permission-role-management');
+    Route::resource('/roles', RoleController::class)->middleware('permission:permission-role-management');
+    Route::resource('/permission-role', PermissionRoleController::class)->middleware('permission:permission-role-management')->except('destroy');
+    Route::delete('/permission-role', [PermissionRoleController::class, 'destroy'])->middleware('permission:permission-role-management')->name('permission-role.destroy');
 });

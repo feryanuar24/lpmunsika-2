@@ -15,4 +15,9 @@ class Comment extends Model
         'content',
         'is_active',
     ];
+
+    public function article()
+    {
+        return $this->belongsTo(Article::class);
+    }
 }
