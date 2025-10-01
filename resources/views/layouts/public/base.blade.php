@@ -17,8 +17,13 @@
             @include('layouts.public.header')
 
             <!-- Content -->
-            <main class="grow pt-5" id="content" role="content">
-                @yield('content')
+            <main class="pt-5 grid grid-cols-3" id="content" role="content">
+                <div class="col-span-2">
+                    @yield('content')
+                </div>
+                <div class="col-span-1">
+                    Spotify
+                </div>
             </main>
             <!-- End of Content -->
 

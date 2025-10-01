@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Artikel',
-                'slug' => 'article',
+                'slug' => 'artikel',
                 'description' => 'Kategori untuk artikel umum',
             ],
             [
@@ -63,6 +63,16 @@ class DatabaseSeeder extends Seeder
                 'slug' => 'puisi',
                 'description' => 'Kategori untuk artikel puisi',
             ],
+            [
+                'name' => 'Cerpen',
+                'slug' => 'cerpen',
+                'description' => 'Kategori untuk artikel cerpen',
+            ],
+            [
+                'name' => 'Gaya Mahasiswa',
+                'slug' => 'gaya-mahasiswa',
+                'description' => 'Kategori untuk gaya mahasiswa'
+            ]
         ];
 
         foreach ($categories as $category) {
