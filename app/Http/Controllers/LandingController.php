@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Embed;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LandingController extends Controller
 {
@@ -76,5 +78,66 @@ class LandingController extends Controller
         ];
 
         return view('pages.landing.index', compact('data'));
+    }
+
+    public function show($slug)
+    {
+        $article = Article::with(['user', 'category', 'tags', 'comments.user'])
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $article->increment('views');
+
+        $data = [
+            'article' => $article,
+            'relatedArticles' => Article::where('category_id', $article->category_id)
+                ->where('is_active', true)
+                ->where('id', '!=', $article->id)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.show', compact('data'));
+    }
+
+    public function like(Request $request)
+    {
+        $article = Article::where('slug', $request->slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $article->increment('likes');
+
+        return redirect()->route('detail', $request->slug)->with('success', 'Terima kasih telah menyukai artikel ini!');
+    }
+
+    public function comment(Request $request)
+    {
+        $article = Article::where('slug', $request->slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $request->validate([
+            'content' => ['required', 'string', 'max:2000'],
+        ]);
+
+        $article->comments()->create([
+            'article_id' => $article->id,
+            'user_id' => Auth::id(),
+            'content' => $request->content,
+            'is_active' => true,
+        ]);
+
+        return redirect()->route('detail', $request->slug)->with('success', 'Komentar Anda telah ditambahkan.');
     }
 }

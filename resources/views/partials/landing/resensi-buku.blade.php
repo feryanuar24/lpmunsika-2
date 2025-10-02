@@ -1,7 +1,7 @@
 <div>
     <div class="grid grid-cols-2 gap-6">
         @foreach ($data['resensi_buku'] as $article)
-            <a href="{{ route('articles.show', $article->slug) }}"
+            <a href="{{ route('detail', $article->slug) }}"
                 class="bg-white rounded-xl shadow-md overflow-hidden">
 
                 <div>

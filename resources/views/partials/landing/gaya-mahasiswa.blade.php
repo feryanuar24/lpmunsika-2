@@ -1,8 +1,8 @@
 <div>
-    <h2 class="text-3xl font-semibold mb-8 text-gray-800">Gaya Mahasiswa</h2>
+    <h2 class="text-3xl font-semibold mb-8 text-gray-800 border-b-2 pb-2 w-80">Gaya Mahasiswa</h2>
     <div class="grid grid-cols-2 gap-6">
         @foreach ($data['gaya_mahasiswa'] as $index => $article)
-            <a href="{{ route('articles.show', $article->slug) }}"
+            <a href="{{ route('detail', $article->slug) }}"
                 class="bg-white rounded-xl shadow-md overflow-hidden {{ $index === 0 ? 'col-span-2' : '' }}">
 
                 <div>

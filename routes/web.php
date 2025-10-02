@@ -32,6 +32,9 @@ use App\Http\Controllers\User\UserController;
 */
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/detail/{slug}', [LandingController::class, 'show'])->name('detail');
+Route::post('/like', [LandingController::class, 'like'])->name('like');
+Route::post('/comment', [LandingController::class, 'comment'])->name('comment');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);

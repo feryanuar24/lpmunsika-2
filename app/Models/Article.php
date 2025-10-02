@@ -36,6 +36,11 @@ class Article extends Model
         return $this->belongsToMany(Tag::class, 'article_tag', 'article_id', 'tag_id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getThumbnailUrlAttribute()
     {
         if (!$this->thumbnail) {
