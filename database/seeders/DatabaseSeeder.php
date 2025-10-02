@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Platform;
 use App\Models\Tag;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -94,6 +95,24 @@ class DatabaseSeeder extends Seeder
 
         foreach ($tags as $tag) {
             Tag::create($tag);
+        }
+
+        $platforms = [
+            [
+
+                'name' => 'Youtube',
+                'url' => 'https://www.youtube.com/lpmunsika',
+                'description' => 'Platform resmi LPM Unsika di Youtube',
+            ],
+            [
+                'name' => 'Spotify',
+                'url' => 'https://open.spotify.com/user/lpmunsika',
+                'description' => 'Platform resmi LPM Unsika di Spotify',
+            ],
+        ];
+
+        foreach ($platforms as $platform) {
+            Platform::create($platform);
         }
     }
 }

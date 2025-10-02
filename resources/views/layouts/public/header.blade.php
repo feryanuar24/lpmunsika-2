@@ -8,10 +8,10 @@
 
         <nav>
             <ul class="kt-menu gap-5">
-                <li><a href="#berita" class="kt-link kt-link-mono text-gray-500 text-sm">Berita</a></li>
-                <li><a href="#buletin" class="kt-link kt-link-mono text-gray-500 text-sm">Buletin</a></li>
-                <li><a href="#karyaMahasiswa" class="kt-link kt-link-mono text-gray-500 text-sm">Karya Mahasiswa</a></li>
-                <li><a href="#gayaMahasiswa" class="kt-link kt-link-mono text-gray-500 text-sm">Gaya Mahasiswa</a></li>
+                <li><a href="#berita" class="kt-link kt-link-mono text-gray-800 text-sm">Berita</a></li>
+                <li><a href="#buletin" class="kt-link kt-link-mono text-gray-800 text-sm">Buletin</a></li>
+                <li><a href="#karyaMahasiswa" class="kt-link kt-link-mono text-gray-800 text-sm">Karya Mahasiswa</a></li>
+                <li><a href="#gayaMahasiswa" class="kt-link kt-link-mono text-gray-800 text-sm">Gaya Mahasiswa</a></li>
             </ul>
         </nav>
 

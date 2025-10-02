@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Embed;
 
 class LandingController extends Controller
 {
@@ -61,6 +62,14 @@ class LandingController extends Controller
                 ->get(),
             'gaya_mahasiswa' => Article::where('category_id', 11)
                 ->where('is_active', true)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
                 ->latest()
                 ->limit(3)
                 ->get(),

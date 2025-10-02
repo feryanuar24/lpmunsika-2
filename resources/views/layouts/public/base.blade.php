@@ -22,7 +22,7 @@
                     @yield('content')
                 </div>
                 <div class="col-span-1">
-                    Spotify
+                    @include('layouts.public.sidebar')
                 </div>
             </main>
             <!-- End of Content -->
