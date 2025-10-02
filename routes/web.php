@@ -77,7 +77,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/categories', CategoryController::class)->middleware('permission:categories-management');
     Route::resource('/tags', TagController::class)->middleware('permission:tags-management');
     Route::resource('/articles', ArticleController::class)->middleware('permission:articles-management');
-    Route::resource('/articles/{article}/comments', CommentController::class)->middleware('permission:articles-management');
+    Route::resource('/comments', CommentController::class)->middleware('permission:articles-management');
 
     Route::resource('/platforms', PlatformController::class)->middleware('permission:platforms-management');
     Route::resource('/embeds', EmbedController::class)->middleware('permission:embeds-management');
