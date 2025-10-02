@@ -1,22 +1,26 @@
 @extends('layouts.public.base')
 
 @section('content')
-    <div class="kt-container-fixed">
+    <div class="kt-container-fixed space-y-5">
         <div id="berita" class="space-y-5">
             @include('partials.landing.pinned')
-            {{-- @include('partials.landing.berita') --}}
+            @include('partials.landing.berita')
         </div>
         <div id="buletin">
-            {{-- @include('partials.landing.buletin') --}}
+            @include('partials.landing.buletin')
         </div>
-        <div id="karyaMahasiswa">
-            {{-- @include('partials.landing.resensi-buku')
+        <div id="karyaMahasiswa" class="space-y-5">
+            <h2 class="text-3xl font-semibold mb-8 text-gray-800">Karya Mahasiswa</h2>
+            @include('partials.landing.resensi-buku')
             @include('partials.landing.review-film')
             @include('partials.landing.opini')
             @include('partials.landing.esai')
             @include('partials.landing.artikel')
             @include('partials.landing.puisi')
-            @include('partials.landing.cerpen') --}}
+            @include('partials.landing.cerpen')
+        </div>
+        <div id="gayaMahasiswa">
+            @include('partials.landing.gaya-mahasiswa')
         </div>
     </div>
 @endsection

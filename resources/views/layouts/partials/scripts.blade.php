@@ -32,4 +32,6 @@
     </script>
 @endif
 
+@stack('scripts')
+
 <!-- End of Scripts -->

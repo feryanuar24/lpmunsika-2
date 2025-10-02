@@ -29,6 +29,19 @@
             @method('PATCH')
 
             <div>
+                <label for="title" class="kt-label">Judul</label>
+                <span class="text-destructive">*</span>
+                <input type="text" name="title" class="kt-input w-full" placeholder="Masukkan judul"
+                    value="{{ old('title', $data['article']->title) }}" />
+            </div>
+
+            <div>
+                <label for="content" class="kt-label">Konten</label>
+                <span class="text-destructive">*</span>
+                <textarea id="content_texteditor" name="content" class="w-full" rows="10" placeholder="Masukkan konten">{{ old('content', $data['article']->content) }}</textarea>
+            </div>
+
+            <div>
                 <label for="category_id" class="kt-label">Kategori</label>
                 <span class="text-destructive">*</span>
                 <select name="category_id" class="kt-select" data-kt-select="true"
@@ -60,19 +73,6 @@
                         </option>
                     @endforeach
                 </select>
-            </div>
-
-            <div>
-                <label for="title" class="kt-label">Judul</label>
-                <span class="text-destructive">*</span>
-                <input type="text" name="title" class="kt-input w-full" placeholder="Masukkan judul"
-                    value="{{ old('title', $data['article']->title) }}" />
-            </div>
-
-            <div>
-                <label for="content" class="kt-label">Konten</label>
-                <span class="text-destructive">*</span>
-                <textarea name="content" class="kt-textarea w-full" rows="4" placeholder="Masukkan konten">{{ old('content', $data['article']->content) }}</textarea>
             </div>
 
             <div class="flex flex-col gap-3">
@@ -185,3 +185,51 @@
     </div>
     <!-- End of Container -->
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            ClassicEditor
+                .create(document.querySelector('#content_texteditor'), {
+                    toolbar: {
+                        items: [
+                            'heading',
+                            '|',
+                            'bold',
+                            'italic',
+                            'link',
+                            'bulletedList',
+                            'numberedList',
+                            '|',
+                            'outdent',
+                            'indent',
+                            '|',
+                            'blockQuote',
+                            'insertTable',
+                            '|',
+                            'undo',
+                            'redo'
+                        ]
+                    },
+                    image: {
+                        toolbar: [
+                            'imageTextAlternative',
+                            'imageStyle:inline',
+                            'imageStyle:block',
+                            'imageStyle:side'
+                        ]
+                    },
+                    table: {
+                        contentToolbar: [
+                            'tableColumn',
+                            'tableRow',
+                            'mergeTableCells'
+                        ]
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+@endpush

@@ -110,7 +110,7 @@ class ArticleController extends Controller
                 'tags.*' => ['exists:tags,name'],
                 'title' => ['required', 'string', 'max:255'],
                 'content' => ['required', 'string'],
-                'thumbnail' => ['nullable', 'image', 'max:2048'],
+                'thumbnail' => ['nullable', 'image', 'max:5120'],
                 'is_active' => ['required', 'boolean'],
                 'is_pinned' => ['required', 'boolean'],
             ]);
@@ -141,12 +141,18 @@ class ArticleController extends Controller
                 ->with('success', 'Artikel berhasil dibuat.');
         } catch (ValidationException $e) {
             DB::rollBack();
+
+            Log::error('Validation error creating article: ' . $e->getMessage());
+
             return redirect()
                 ->back()
                 ->withInput()
                 ->with('error', 'Data yang diisi tidak valid. Silakan periksa kembali.');
         } catch (Throwable $th) {
             DB::rollBack();
+
+            Log::error('Error creating article: ' . $th->getMessage());
+
             return redirect()
                 ->back()
                 ->withInput()
@@ -193,7 +199,7 @@ class ArticleController extends Controller
                 'tags.*' => ['exists:tags,name'],
                 'title' => ['required', 'string', 'max:255'],
                 'content' => ['required', 'string'],
-                'thumbnail' => ['nullable', 'image', 'max:2048'],
+                'thumbnail' => ['nullable', 'image', 'max:5120'],
                 'is_active' => ['required', 'boolean'],
                 'is_pinned' => ['required', 'boolean'],
             ]);

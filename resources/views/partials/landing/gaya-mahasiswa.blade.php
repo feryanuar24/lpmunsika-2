@@ -1,7 +1,7 @@
 <div>
-    <h2 class="text-3xl font-semibold mb-8 text-gray-800">Berita Disematkan</h2>
+    <h2 class="text-3xl font-semibold mb-8 text-gray-800">Gaya Mahasiswa</h2>
     <div class="grid grid-cols-2 gap-6">
-        @foreach ($data['pinnedArticles'] as $index => $article)
+        @foreach ($data['gaya_mahasiswa'] as $index => $article)
             <a href="{{ route('articles.show', $article->slug) }}"
                 class="bg-white rounded-xl shadow-md overflow-hidden {{ $index === 0 ? 'col-span-2' : '' }}">
 

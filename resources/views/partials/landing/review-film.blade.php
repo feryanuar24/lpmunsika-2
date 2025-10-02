@@ -1,14 +1,13 @@
 <div>
-    <h2 class="text-3xl font-semibold mb-8 text-gray-800">Berita Disematkan</h2>
     <div class="grid grid-cols-2 gap-6">
-        @foreach ($data['pinnedArticles'] as $index => $article)
+        @foreach ($data['review_film'] as $article)
             <a href="{{ route('articles.show', $article->slug) }}"
-                class="bg-white rounded-xl shadow-md overflow-hidden {{ $index === 0 ? 'col-span-2' : '' }}">
+                class="bg-white rounded-xl shadow-md overflow-hidden">
 
                 <div>
                     @if ($article->thumbnail_url)
                         <img src="{{ $article->thumbnail_url }}" alt="Thumbnail Artikel {{ $article->title }}"
-                            class="w-full {{ $index === 0 ? 'h-full' : 'h-48' }} object-cover" loading="lazy"
+                            class="w-full h-48 object-cover" loading="lazy"
                             decoding="async" />
                     @endif
                 </div>
@@ -17,6 +16,10 @@
                     <h3 class="text-xl font-semibold text-gray-900">
                         {{ $article->title }}
                     </h3>
+
+                    <div class="text-sm font-medium text-gray-500">
+                        {{ $article->category->name }}
+                    </div>
 
                     <div class="flex gap-2">
                         @foreach ($article->tags as $tag)
