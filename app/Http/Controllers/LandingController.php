@@ -140,4 +140,205 @@ class LandingController extends Controller
 
         return redirect()->route('detail', $request->slug)->with('success', 'Komentar Anda telah ditambahkan.');
     }
+
+    public function berita()
+    {
+        $data = [
+            'articles' => Article::with(['user', 'category', 'tags'])
+                ->where('category_id', 1)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(8),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.berita', compact('data'));
+    }
+
+    public function buletin()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 2)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.buletin', compact('data'));
+    }
+
+    public function resensiBuku()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 4)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.resensi-buku', compact('data'));
+    }
+
+    public function reviewFilm()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 5)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.review-film', compact('data'));
+    }
+
+    public function opini()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 6)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.opini', compact('data'));
+    }
+
+    public function esai()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 7)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.esai', compact('data'));
+    }
+
+    public function artikel()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 8)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.artikel', compact('data'));
+    }
+
+    public function puisi()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 9)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.puisi', compact('data'));
+    }
+
+    public function cerpen()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 10)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.cerpen', compact('data'));
+    }
+
+    public function gayaMahasiswa()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 11)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.gaya-mahasiswa', compact('data'));
+    }
 }

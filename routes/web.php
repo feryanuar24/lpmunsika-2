@@ -32,9 +32,21 @@ use App\Http\Controllers\User\UserController;
 */
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+
 Route::get('/detail/{slug}', [LandingController::class, 'show'])->name('detail');
 Route::post('/like', [LandingController::class, 'like'])->name('like');
 Route::post('/comment', [LandingController::class, 'comment'])->name('comment');
+
+Route::get('/berita', [LandingController::class, 'berita'])->name('berita');
+Route::get('/buletin', [LandingController::class, 'buletin'])->name('buletin');
+Route::get('/resensi-buku', [LandingController::class, 'resensiBuku'])->name('resensi-buku');
+Route::get('/review-film', [LandingController::class, 'reviewFilm'])->name('review-film');
+Route::get('/opini', [LandingController::class, 'opini'])->name('opini');
+Route::get('/esai', [LandingController::class, 'esai'])->name('esai');
+Route::get('/artikel', [LandingController::class, 'artikel'])->name('artikel');
+Route::get('/puisi', [LandingController::class, 'puisi'])->name('puisi');
+Route::get('/cerpen', [LandingController::class, 'cerpen'])->name('cerpen');
+Route::get('/gaya-mahasiswa', [LandingController::class, 'gayaMahasiswa'])->name('gaya-mahasiswa');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);

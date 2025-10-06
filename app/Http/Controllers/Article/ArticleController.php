@@ -208,6 +208,8 @@ class ArticleController extends Controller
 
             $data = $request->except(['thumbnail', 'tags', 'remove_thumbnail']);
 
+            $data['slug'] = Str::slug($request->title);
+
             $disk = config('filesystems.default');
 
             if ($request->remove_thumbnail == '1') {
