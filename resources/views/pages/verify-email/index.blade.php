@@ -1,7 +1,7 @@
 @extends('layouts.auth.base')
 
 @section('content')
-    <div class="w-[600px]">
+    <div class="w-full">
         <h1 class="font-semibold text-4xl mb-10">Verifikasi Email</h1>
 
         <form action="{{ route('verification.send') }}" method="POST" class="space-y-5">
@@ -18,7 +18,7 @@
 
             <div class="kt-modal z-40" data-kt-modal="true" id="modal">
                 <div
-                    class="kt-modal-content max-w-md w-[600px] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
+                    class="kt-modal-content max-w-md w-[90%] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
                     <div class="kt-modal-header">
                         <h3 class="kt-modal-title">Konfirmasi Verifikasi</h3>
                         <button type="button" class="kt-modal-close" aria-label="Close modal"

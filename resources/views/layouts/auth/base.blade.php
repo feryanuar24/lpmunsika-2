@@ -11,11 +11,11 @@
 
     <!-- Page -->
     <!-- Main -->
-    <div class="flex grow">
+    <div class="flex grow flex-col lg:flex-row">
         @include('layouts.auth.sidebar')
 
         <!-- Wrapper -->
-        <div class="w-full items-center justify-center flex">
+        <div class="w-full items-center justify-center flex kt-container-fixed py-10 lg:py-0">
             <!-- Content -->
             <main id="content" role="content">
                 @yield('content')

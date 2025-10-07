@@ -10,14 +10,14 @@
 
         <div>
             <label class="kt-label" for="email">Email</label>
-            <input type="email" name="email" id="email" required class="kt-input w-[600px]"
+            <input type="email" name="email" id="email" required class="kt-input w-full"
                 value="{{ old('email') }}" placeholder="Masukkan alamat email">
         </div>
 
         <div>
             <label class="kt-label" for="password">Kata Sandi Baru</label>
             <div class="relative max-w-72" data-kt-toggle-password="true">
-                <input type="password" name="password" class="kt-input w-[600px] pe-10"
+                <input type="password" name="password" class="kt-input w-full pe-10"
                     placeholder="Masukkan kata sandi baru" /><button
                     class="kt-btn kt-btn-icon kt-btn-ghost size-6 absolute end-2 top-1/2 -translate-y-1/2"
                     data-kt-toggle-password-trigger="true">
@@ -47,7 +47,7 @@
         <div>
             <label class="kt-label" for="password_confirmation">Konfirmasi Kata Sandi Baru</label>
             <div class="relative max-w-72" data-kt-toggle-password="true">
-                <input type="password" name="password_confirmation" class="kt-input w-[600px] pe-10"
+                <input type="password" name="password_confirmation" class="kt-input w-full pe-10"
                     placeholder="Masukkan konfirmasi kata sandi baru" /><button
                     class="kt-btn kt-btn-icon kt-btn-ghost size-6 absolute end-2 top-1/2 -translate-y-1/2"
                     data-kt-toggle-password-trigger="true">
@@ -78,7 +78,7 @@
 
         <div class="kt-modal z-40" data-kt-modal="true" id="modal">
             <div
-                class="kt-modal-content max-w-md w-[600px] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
+                class="kt-modal-content max-w-md w-[90%] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
                 <div class="kt-modal-header">
                     <h3 class="kt-modal-title">Konfirmasi Perbarui Kata Sandi</h3>
                     <button type="button" class="kt-modal-close" aria-label="Close modal" data-kt-modal-dismiss="#modal">
