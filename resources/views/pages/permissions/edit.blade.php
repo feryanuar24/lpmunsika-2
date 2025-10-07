@@ -10,7 +10,7 @@
         <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5 lg:items-end">
             <div class="flex flex-col justify-center gap-2">
                 <h1 class="text-xl font-medium leading-none text-mono">
-                    Form Edit Kategori
+                    Form Edit Permission
                 </h1>
             </div>
             <div class="flex items-center gap-2.5">
@@ -46,7 +46,7 @@
 
             <div class="kt-modal z-40" data-kt-modal="true" id="modal">
                 <div
-                    class="kt-modal-content max-w-md w-[600px] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
+                    class="kt-modal-content max-w-md w-[90%] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
                     <div class="kt-modal-header">
                         <h3 class="kt-modal-title">Konfirmasi Edit</h3>
                         <button type="button" class="kt-modal-close" aria-label="Close modal"

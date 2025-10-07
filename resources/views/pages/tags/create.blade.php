@@ -10,7 +10,7 @@
         <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5 lg:items-end">
             <div class="flex flex-col justify-center gap-2">
                 <h1 class="text-xl font-medium leading-none text-mono">
-                    Form Tambah Kategori
+                    Form Tambah Tag
                 </h1>
             </div>
             <div class="flex items-center gap-2.5">
@@ -39,11 +39,11 @@
             </div>
 
             <button type="button" class="kt-btn kt-btn-primary mt-5" data-kt-modal-toggle="#modal">Tambah
-                Kategori</button>
+                Tag</button>
 
             <div class="kt-modal z-40" data-kt-modal="true" id="modal">
                 <div
-                    class="kt-modal-content max-w-md w-[600px] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
+                    class="kt-modal-content max-w-md w-[90%] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
                     <div class="kt-modal-header">
                         <h3 class="kt-modal-title">Konfirmasi Tambah</h3>
                         <button type="button" class="kt-modal-close" aria-label="Close modal"
@@ -60,7 +60,7 @@
                         <div class="flex items-center gap-4">
                             <i class="ki-filled ki-lock text-4xl text-blue-600"></i>
                             <div>
-                                <p class="font-medium">Anda menambah kategori dengan data ini.</p>
+                                <p class="font-medium">Anda menambah tag dengan data ini.</p>
                                 <p class="text-sm text-muted">Pastikan data sudah benar sebelum
                                     melanjutkan.</p>
                             </div>

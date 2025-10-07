@@ -2,10 +2,6 @@
 
 @section('content')
     <!-- Container -->
-    <div class="kt-container-fixed" id="contentContainer">
-    </div>
-    <!-- End of Container -->
-    <!-- Container -->
     <div class="kt-container-fixed">
         <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5 lg:items-end">
             <div class="flex flex-col justify-center gap-2">
@@ -19,10 +15,7 @@
                 </a>
             </div>
         </div>
-    </div>
-    <!-- End of Container -->
-    <!-- Container -->
-    <div class="kt-container-fixed">
+        
         <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data"
             class="kt-card p-5 space-y-5">
             @csrf
@@ -34,7 +27,7 @@
                     value="{{ old('title') }}" />
             </div>
 
-            <div>
+            <div class="max-w-lg w-full">
                 <label for="content" class="kt-label">Konten</label>
                 <span class="text-destructive">*</span>
                 <textarea id="content_texteditor" name="content" class="w-full" rows="10" placeholder="Masukkan konten">{{ old('content') }}</textarea>
@@ -116,7 +109,7 @@
 
             <div class="kt-modal z-40" data-kt-modal="true" id="modal">
                 <div
-                    class="kt-modal-content max-w-md w-[600px] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
+                    class="kt-modal-content max-w-md w-[90%] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
                     <div class="kt-modal-header">
                         <h3 class="kt-modal-title">Konfirmasi Tambah</h3>
                         <button type="button" class="kt-modal-close" aria-label="Close modal"

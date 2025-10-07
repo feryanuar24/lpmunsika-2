@@ -4,7 +4,7 @@
     <div class="flex flex-col items-center justify-center text-center space-y-5 min-h-[600px]">
         <img src="{{ asset('assets/media/illustrations/8.svg') }}" alt="Access Denied" class="w-80">
         <h2 class="text-2xl font-semibold">Terjadi Kesalahan Server</h2>
-        <p class="text-gray-400 w-[600px]">Maaf, terjadi kesalahan pada server kami. Silakan coba beberapa saat lagi
+        <p class="text-gray-400 w-[90%]">Maaf, terjadi kesalahan pada server kami. Silakan coba beberapa saat lagi
             atau hubungi administrator jika masalah terus berlanjut.</p>
         <button class="kt-btn kt-btn-primary">
             <a href="/" class="text-white">Kembali ke Beranda</a>
