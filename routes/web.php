@@ -3,7 +3,6 @@
 use App\Http\Controllers\Article\CategoryController;
 use App\Http\Controllers\Article\TagController;
 use App\Http\Controllers\Article\ArticleController;
-use App\Http\Controllers\Article\ArticleThumbnailController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +17,7 @@ use App\Http\Controllers\PermissionRole\PermissionController;
 use App\Http\Controllers\PermissionRole\PermissionRoleController;
 use App\Http\Controllers\PermissionRole\RoleController;
 use App\Http\Controllers\External\PlatformController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\User\UserController;
 
 /*
@@ -59,9 +59,7 @@ Route::post('/forgot-password', [PasswordResetController::class, 'store'])->name
 Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])->name('password.reset');
 Route::post('/reset-password', [PasswordResetController::class, 'update'])->name('password.update');
 
-Route::get('articles/thumbnail/{path}', [ArticleThumbnailController::class, 'show'])
-    ->where('path', '.*')
-    ->name('articles.thumbnail');
+Route::get('/files/{path}', [FileController::class, 'show'])->where('path', '.*')->name('files');
 
 Route::middleware('auth')->group(function () {
     Route::get('/email/verify', [VerificationController::class, 'create'])
@@ -89,6 +87,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/categories', CategoryController::class)->middleware('permission:categories-management');
     Route::resource('/tags', TagController::class)->middleware('permission:tags-management');
     Route::resource('/articles', ArticleController::class)->middleware('permission:articles-management');
+    Route::post('/ckeditor/upload', [ArticleController::class, 'uploadImage'])->name('ckeditor.upload')->middleware('permission:articles-management');
     Route::resource('/comments', CommentController::class)->middleware('permission:articles-management');
 
     Route::resource('/platforms', PlatformController::class)->middleware('permission:platforms-management');

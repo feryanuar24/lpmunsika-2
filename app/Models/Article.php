@@ -55,7 +55,7 @@ class Article extends Model
         }
 
         if ($disk === 'local') {
-            return route('articles.thumbnail', ['path' => $this->thumbnail]);
+            return route('files', ['path' => $this->thumbnail]);
         }
 
         $diskConfig = config("filesystems.disks.{$disk}");

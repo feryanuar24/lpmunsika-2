@@ -267,4 +267,43 @@ class ArticleController extends Controller
             ->route('articles.index')
             ->with('success', 'Artikel berhasil diperbaharui.');
     }
+
+    /**
+     * Handle CKEditor image upload
+     */
+    public function uploadImage(Request $request)
+    {
+        try {
+            $request->validate([
+                'upload' => 'required|image|max:5120',
+            ]);
+
+            $disk = config('filesystems.default');
+            $path = Storage::put('contents', $request->file('upload'));
+
+            if ($disk === 'public') {
+                $url = asset('storage/' . $path);
+            } else {
+                $url = route('files', ['path' => $path]);
+            }
+
+            return response()->json([
+                'url' => $url
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'error' => [
+                    'message' => 'File yang diupload harus berupa gambar dengan ukuran maksimal 5MB.'
+                ]
+            ], 400);
+        } catch (Throwable $th) {
+            Log::error('Error uploading image to CKEditor: ' . $th->getMessage());
+
+            return response()->json([
+                'error' => [
+                    'message' => 'Terjadi kesalahan saat mengupload gambar.'
+                ]
+            ], 500);
+        }
+    }
 }
