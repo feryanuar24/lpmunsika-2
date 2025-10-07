@@ -1,5 +1,5 @@
 <div>
-    <div class="grid grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         @foreach ($data['artikel'] as $article)
             <a href="{{ route('detail', $article->slug) }}"
                 class="bg-white rounded-xl shadow-md overflow-hidden">
@@ -7,7 +7,7 @@
                 <div>
                     @if ($article->thumbnail_url)
                         <img src="{{ $article->thumbnail_url }}" alt="Thumbnail Artikel {{ $article->title }}"
-                            class="w-full h-48 object-cover" 
+                            class="w-full h-48 object-cover"
                             loading="lazy"
                             decoding="async" />
                     @endif

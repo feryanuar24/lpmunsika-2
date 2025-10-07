@@ -1,5 +1,5 @@
 <div>
-    <div class="grid grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         @foreach ($data['review_film'] as $article)
             <a href="{{ route('detail', $article->slug) }}"
                 class="bg-white rounded-xl shadow-md overflow-hidden">

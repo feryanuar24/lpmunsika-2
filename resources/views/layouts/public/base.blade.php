@@ -17,11 +17,11 @@
             @include('layouts.public.header')
 
             <!-- Content -->
-            <main class="py-5 grid grid-cols-3" id="content" role="content">
-                <div class="col-span-2">
+            <main class="py-5 grid grid-cols-1 lg:grid-cols-3" id="content" role="content">
+                <div class="col-span-1 lg:col-span-2">
                     @yield('content')
                 </div>
-                <div class="col-span-1">
+                <div class="mt-7 lg:mt-0 col-span-1">
                     @include('layouts.public.sidebar')
                 </div>
             </main>
