@@ -12,7 +12,7 @@
         </div>
 
         <!-- Articles Grid -->
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid grid-col-1 lg:grid-cols-2 gap-6">
             @forelse ($data['articles'] as $article)
                 <article class="kt-card kt-card-bordered hover:shadow-lg transition-shadow duration-300 overflow-hidden">
                     <a href="{{ route('detail', $article->slug) }}" class="block">

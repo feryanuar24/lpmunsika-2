@@ -11,7 +11,7 @@
                 </h1>
 
                 <!-- Article Meta -->
-                <div class="flex items-center gap-4">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center gap-4">
                     <!-- Author -->
                     <div class="flex items-center gap-2">
                         <i class="ki-filled ki-profile-circle text-gray-500"></i>
