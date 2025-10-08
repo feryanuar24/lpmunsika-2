@@ -110,6 +110,7 @@ class ArticleController extends Controller
                 'tags.*' => ['exists:tags,name'],
                 'title' => ['required', 'string', 'max:255'],
                 'content' => ['required', 'string'],
+                'embed' => ['nullable', 'string'],
                 'thumbnail' => ['nullable', 'image', 'max:5120'],
                 'is_active' => ['required', 'boolean'],
                 'is_pinned' => ['required', 'boolean'],
@@ -117,9 +118,15 @@ class ArticleController extends Controller
 
             DB::beginTransaction();
 
-            $data = $request->except(['thumbnail', 'tags']);
+            $data = $request->except(['thumbnail', 'tags', 'embed']);
             $data['user_id'] = Auth::id();
             $data['slug'] = Str::slug($request->title);
+
+            $content = $request->content;
+            if ($request->filled('embed')) {
+                $content .= "<br><br>" . $request->embed;
+            }
+            $data['content'] = $content;
 
             if ($request->hasFile('thumbnail')) {
                 $disk = config('filesystems.default');
@@ -178,8 +185,26 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         $tags = Tag::all();
+
+        $content = $article->content;
+        $embed = '';
+
+        $contentParts = explode("<br><br>", $content);
+        if (count($contentParts) > 1) {
+            $lastPart = end($contentParts);
+            if (preg_match('/<iframe|<embed|<object|<script/', $lastPart)) {
+                $embed = $lastPart;
+                array_pop($contentParts);
+                $content = implode("<br><br>", $contentParts);
+            }
+        }
+
+        $articleForEdit = clone $article;
+        $articleForEdit->content = $content;
+        $articleForEdit->embed = $embed;
+
         $data = [
-            'article' => $article,
+            'article' => $articleForEdit,
             'categories' => Category::all(),
             'tags' => $tags,
         ];
@@ -199,6 +224,7 @@ class ArticleController extends Controller
                 'tags.*' => ['exists:tags,name'],
                 'title' => ['required', 'string', 'max:255'],
                 'content' => ['required', 'string'],
+                'embed' => ['nullable', 'string'],
                 'thumbnail' => ['nullable', 'image', 'max:5120'],
                 'is_active' => ['required', 'boolean'],
                 'is_pinned' => ['required', 'boolean'],
@@ -206,9 +232,15 @@ class ArticleController extends Controller
 
             DB::beginTransaction();
 
-            $data = $request->except(['thumbnail', 'tags', 'remove_thumbnail']);
+            $data = $request->except(['thumbnail', 'tags', 'remove_thumbnail', 'embed']);
 
             $data['slug'] = Str::slug($request->title);
+
+            $content = $request->content;
+            if ($request->filled('embed')) {
+                $content .= "<br><br>" . $request->embed;
+            }
+            $data['content'] = $content;
 
             $disk = config('filesystems.default');
 
@@ -291,6 +323,8 @@ class ArticleController extends Controller
                 'url' => $url
             ]);
         } catch (ValidationException $e) {
+            Log::error('Validation error uploading image to CKEditor: ' . $e->getMessage());
+
             return response()->json([
                 'error' => [
                     'message' => 'File yang diupload harus berupa gambar dengan ukuran maksimal 5MB.'

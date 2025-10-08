@@ -41,10 +41,15 @@
                 <textarea id="content_texteditor" name="content" class="w-full" rows="10" placeholder="Masukkan konten">{{ old('content', $data['article']->content) }}</textarea>
             </div>
 
+            <div id="embed-section" class="hidden">
+                <label for="embed" class="kt-label">Penyematan</label>
+                <textarea class="kt-textarea" name="embed" id="embed" cols="30" rows="10" placeholder="Masukkan kode">{{ old('embed', $data['article']->embed ?? '') }}</textarea>
+            </div>
+
             <div>
                 <label for="category_id" class="kt-label">Kategori</label>
                 <span class="text-destructive">*</span>
-                <select name="category_id" class="kt-select" data-kt-select="true"
+                <select name="category_id" id="category_select" class="kt-select" data-kt-select="true"
                     data-kt-select-placeholder="Pilih kategori"
                     data-kt-select-config='{
                         "optionsClass": "kt-scrollable overflow-auto max-h-[250px]"
@@ -211,7 +216,7 @@
 
             _initRequest() {
                 const xhr = this.xhr = new XMLHttpRequest();
-                xhr.open('POST', '{{ route("ckeditor.upload") }}', true);
+                xhr.open('POST', '{{ route('ckeditor.upload') }}', true);
                 xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
                 xhr.responseType = 'json';
             }
@@ -302,6 +307,25 @@
                 .catch(error => {
                     console.error(error);
                 });
+
+            // Handle category change to show/hide embed section
+            const categorySelect = document.getElementById('category_select');
+            const embedSection = document.getElementById('embed-section');
+
+            function toggleEmbedSection() {
+                const selectedValue = categorySelect.value;
+                if (selectedValue == '2') {
+                    embedSection.classList.remove('hidden');
+                } else {
+                    embedSection.classList.add('hidden');
+                }
+            }
+
+            // Listen for change event
+            categorySelect.addEventListener('change', toggleEmbedSection);
+
+            // Check initial state (for old input values)
+            toggleEmbedSection();
         });
     </script>
 @endpush
