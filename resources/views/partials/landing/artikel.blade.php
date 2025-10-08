@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         @foreach ($data['artikel'] as $article)
             <a href="{{ route('detail', $article->slug) }}"
-                class="bg-white rounded-xl shadow-md overflow-hidden">
+                class="kt-card overflow-hidden">
 
                 <div>
                     @if ($article->thumbnail_url)
@@ -14,23 +14,23 @@
                 </div>
 
                 <div class="p-5 space-y-3">
-                    <h3 class="text-xl font-semibold text-gray-900">
+                    <h3 class="text-xl font-semibold text-mono">
                         {{ $article->title }}
                     </h3>
 
-                    <div class="text-sm font-medium text-gray-500">
+                    <div class="text-sm font-medium text-mono">
                         {{ $article->category->name }}
                     </div>
 
                     <div class="flex gap-2">
                         @foreach ($article->tags as $tag)
-                            <span class="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
+                            <span class="kt-badge kt-badge-outline kt-badge-secondary rounded-full">
                                 {{ $tag->name ?? $tag }}
                             </span>
                         @endforeach
                     </div>
 
-                    <p class="text-sm text-gray-600">
+                    <p class="text-sm text-mono">
                         {{ Str::limit(strip_tags($article->content), 120, '...') }}
                     </p>
                 </div>

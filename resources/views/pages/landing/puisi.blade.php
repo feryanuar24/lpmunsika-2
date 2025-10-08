@@ -4,17 +4,17 @@
     <div class="kt-container-fixed py-8">
         <!-- Page Header -->
         <div class="mb-8">
-            <h1 class="text-4xl font-semibold text-gray-900 mb-2 border-b-4 border-primary-600 inline-block pb-2">
+            <h1 class="text-4xl font-semibold text-mono mb-2 border-b-4 border-primary-600 inline-block pb-2">
                 <i class="ki-filled ki-book text-primary-600 mr-3"></i>
                 Semua Puisi
             </h1>
-            <p class="text-gray-600 mt-4">Kumpulan puisi pilihan dari mahasiswa UNSIKA</p>
+            <p class="text-mono mt-4">Kumpulan puisi pilihan dari mahasiswa UNSIKA</p>
         </div>
 
         <!-- Articles Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             @forelse ($data['articles'] as $article)
-                <article class="kt-card kt-card-bordered hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                <article class="kt-card overflow-hidden">
                     <a href="{{ route('detail', $article->slug) }}" class="block">
                         <!-- Article Image -->
                         @if ($article->thumbnail_url)
@@ -30,7 +30,7 @@
                         <!-- Article Content -->
                         <div class="kt-card-body p-5">
                             <!-- Title -->
-                            <h2 class="text-xl font-semibold text-gray-900 mb-3 line-clamp-2 hover:text-primary-600 transition-colors">
+                            <h2 class="text-xl font-semibold text-mono mb-3 line-clamp-2 hover:text-primary-600 transition-colors">
                                 {{ $article->title }}
                             </h2>
 
@@ -48,7 +48,7 @@
                             @if ($article->tags->count() > 0)
                                 <div class="flex flex-wrap gap-1 mb-3">
                                     @foreach ($article->tags as $tag)
-                                        <span class="kt-badge kt-badge-outline kt-badge-xs">
+                                        <span class="kt-badge kt-badge-secondary kt-badge-xs">
                                             {{ $tag->name }}
                                         </span>
                                     @endforeach
@@ -56,12 +56,12 @@
                             @endif
 
                             <!-- Content Excerpt -->
-                            <p class="text-gray-600 text-sm line-clamp-3 mb-4 leading-relaxed">
+                            <p class="text-mono text-sm line-clamp-3 mb-4 leading-relaxed">
                                 {{ Str::limit(strip_tags($article->content), 120, '...') }}
                             </p>
 
                             <!-- Article Meta -->
-                            <div class="flex items-center justify-between text-xs text-gray-500 border-t border-gray-100 pt-3">
+                            <div class="flex items-center justify-between text-xs text-mono border-t border-mono pt-3">
                                 <div class="flex items-center gap-2">
                                     <i class="ki-filled ki-profile-circle"></i>
                                     <span>{{ $article->user->name }}</span>
@@ -77,9 +77,9 @@
             @empty
                 <!-- Empty State -->
                 <div class="col-span-full text-center py-16">
-                    <i class="ki-filled ki-file-search text-6xl text-gray-300 mb-4"></i>
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Belum Ada Artikel</h3>
-                    <p class="text-gray-500">Artikel akan muncul di sini setelah dipublikasikan.</p>
+                    <i class="ki-filled ki-file-search text-6xl text-mono mb-4"></i>
+                    <h3 class="text-xl font-semibold text-mono mb-2">Belum Ada Artikel</h3>
+                    <p class="text-mono">Artikel akan muncul di sini setelah dipublikasikan.</p>
                 </div>
             @endforelse
         </div>
@@ -88,7 +88,7 @@
         @if ($data['articles']->hasPages())
             <div class="mt-7">
                 <!-- Pagination Info -->
-                <div class="text-center text-sm text-gray-600 mb-4">
+                <div class="text-center text-sm text-mono mb-4">
                     Menampilkan {{ $data['articles']->firstItem() }} - {{ $data['articles']->lastItem() }}
                     dari {{ $data['articles']->total() }} artikel
                 </div>

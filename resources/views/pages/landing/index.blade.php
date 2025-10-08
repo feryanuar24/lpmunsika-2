@@ -10,7 +10,7 @@
             @include('partials.landing.buletin')
         </div>
         <div id="karyaMahasiswa" class="space-y-5">
-            <h2 class="text-3xl font-semibold mb-8 text-gray-800 border-b-2 pb-2 w-full lg:w-80">Karya Mahasiswa</h2>
+            <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Karya Mahasiswa</h2>
             @include('partials.landing.resensi-buku')
             @include('partials.landing.review-film')
             @include('partials.landing.opini')

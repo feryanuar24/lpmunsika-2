@@ -1,9 +1,9 @@
 <div>
-    <h2 class="text-3xl font-semibold mb-8 text-gray-800 border-b-2 pb-2 w-full lg:w-80">Buletin</h2>
+    <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Buletin</h2>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         @foreach ($data['buletin'] as $index => $article)
             <a href="{{ route('detail', $article->slug) }}"
-                class="bg-white rounded-xl shadow-md overflow-hidden {{ $index === 0 ? 'col-span-1 lg:col-span-2' : '' }}">
+                class="kt-card overflow-hidden {{ $index === 0 ? 'col-span-1 lg:col-span-2' : '' }}">
 
                 <div>
                     @if ($article->thumbnail_url)
@@ -14,19 +14,19 @@
                 </div>
 
                 <div class="p-5 space-y-3">
-                    <h3 class="text-xl font-semibold text-gray-900">
+                    <h3 class="text-xl font-semibold text-mono">
                         {{ $article->title }}
                     </h3>
 
                     <div class="flex gap-2">
                         @foreach ($article->tags as $tag)
-                            <span class="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
+                            <span class="kt-badge kt-badge-outline kt-badge-secondary rounded-full">
                                 {{ $tag->name ?? $tag }}
                             </span>
                         @endforeach
                     </div>
 
-                    <p class="text-sm text-gray-600">
+                    <p class="text-sm text-mono">
                         {{ Str::limit(strip_tags($article->content), 120, '...') }}
                     </p>
                 </div>
