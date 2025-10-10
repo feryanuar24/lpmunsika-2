@@ -1,220 +1,177 @@
-# Metronic Tailwind HTML Laravel Integration
+# LPM UNSIKA - Portal Berita Resmi
 
-This project integrates Metronic Tailwind HTML themes into a Laravel application, providing 10 complete demo layouts showcasing different UI patterns and design approaches.
+[![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.3+-777BB4?style=flat-square&logo=php)](https://php.net)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
 
-## Project Overview
+## Tentang Proyek
 
-**Goal**: Convert Metronic Tailwind HTML demo layouts (Demo1 through Demo10) into standard Laravel Blade views, providing a comprehensive showcase of Metronic's design system within Laravel's MVC architecture.
+**LPM UNSIKA** adalah web portal berita resmi milik **UKM Lembaga Pers Mahasiswa Universitas Singaperbangsa Karawang**. Portal ini dirancang sebagai platform informasi terpercaya untuk menyampaikan informasi terkini seputar kehidupan dunia jurnalistik oleh mahasiswa.
 
-## Tech Stack
+### 🎯 Tujuan Utama
 
-- **Laravel**: 12.x (Latest)
-- **PHP**: 8.2+
-- **Tailwind CSS**: 3.x
-- **Vite**: 5.x for asset building
-- **Node.js**: Latest LTS version
+- Menyediakan platform berita digital untuk LPM UNSIKA
+- Meningkatkan literasi digital dan jurnalistik mahasiswa
+- Menjadi sumber informasi terpercaya untuk civitas akademika UNSIKA
+- Mengembangkan kemampuan menulis dan reporting mahasiswa
 
-## Project Structure
+## ✨ Fitur Utama
 
-```
-app/Http/Controllers/
-├── Demo1Controller.php
-├── Demo2Controller.php
-├── ...
-└── Demo10Controller.php
+### 📰 Manajemen Konten
 
-resources/views/
-├── layouts/
-│   ├── partials/
-│   │   ├── head.blade.php
-│   │   └── scripts.blade.php
-│   ├── demo1/
-│   │   ├── base.blade.php
-│   │   └── partials/
-│   ├── demo2/
-│   │   ├── base.blade.php
-│   │   └── partials/
-│   └── ... (demo3-demo10)
-├── pages/
-│   ├── demo1/
-│   │   └── index.blade.php
-│   ├── demo2/
-│   │   └── index.blade.php
-│   └── ... (demo3-demo10)
-└── components/
-    ├── demo1/
-    ├── demo2/
-    ├── ... (demo3-demo10)
-    └── shared/
+- **Artikel**: Sistem publikasi artikel dengan data relasi lengkap
+- **Kategori**: Organisasi konten berdasarkan topik (Berita, Buletin, Karya Mahasiswa, Gaya Mahasiswa, dsb.)
+- **Tag System**: Pengelompokan artikel dengan tag untuk pengelompokan lebih terstruktur.
+- **Komentar**: Sistem komentar untuk engagement pembaca
 
-public/assets/
-├── css/
-│   └── styles.css
-├── js/
-│   ├── core.bundle.js
-│   └── layouts/
-│       ├── demo1.js
-│       ├── demo2.js
-│       └── ... (demo3-demo10.js)
-├── media/
-└── vendors/
-```
+### 👥 Sistem User & Role
 
-## Demo Layouts
+- **User Management**: Pengelolaan admin/penulis dan pengunjung
+- **Permission System**: Kontrol akses berdasarkan role menggunakan Laratrust
 
-This integration includes 10 complete demo layouts, each showcasing different UI patterns:
+### 🎨 Media & Embed
 
-- **Demo 1**: Sidebar Layout - Traditional admin dashboard with sidebar navigation
-- **Demo 2**: Header Layout - Modern dashboard with top navigation
-- **Demo 3**: Minimal Layout - Clean, minimalist design approach
-- **Demo 4**: Creative Layout - Creative and artistic dashboard design
-- **Demo 5**: Modern Layout - Contemporary UI with modern elements
-- **Demo 6**: Professional Layout - Business-focused professional design
-- **Demo 7**: Corporate Layout - Enterprise-grade corporate dashboard
-- **Demo 8**: Executive Layout - Executive-level dashboard interface
-- **Demo 9**: Premium Layout - Premium design with advanced components
-- **Demo 10**: Ultimate Layout - Most comprehensive layout with all features
+- **Embed System**: Integrasi konten multimedia (YouTube dan Spotify)
+- **Media Management**: Upload dan pengelolaan gambar hingga embed pada artikel
 
-## Features
+### 🔍 Fitur Tambahan
 
-### ✅ Core Implementation
+- **Search Engine Friendly**: SEO optimized untuk visibility yang lebih baik
+- **Responsive Design**: Tampilan yang optimal di semua perangkat
 
-1. **Laravel MVC Architecture**
-   - Dedicated controllers for each demo (Demo1Controller - Demo10Controller)
-   - Clean routing structure with named routes
-   - Blade template inheritance and components
+## 🛠️ Teknologi yang Digunakan
 
-2. **Asset Management**
-   - Metronic CSS and JavaScript assets properly integrated
-   - Laravel asset helpers for proper path resolution
-   - Vite integration for development workflow
+### Backend
 
-3. **Template System**
-   - Blade layouts for each demo with proper inheritance
-   - Reusable partials for headers, sidebars, and footers
-   - Component-based architecture for UI elements
+- **Laravel 12.x** - PHP Framework
+- **MySQL** - Database
+- **Laratrust** - Role & Permission Management
 
-4. **Responsive Design**
-   - Mobile-first responsive layouts
-   - Touch-friendly navigation
-   - Adaptive components across all screen sizes
+### Frontend
 
-### 🎨 Design System
+- **Tailwind CSS** - CSS Framework
+- **Vite** - Build Tool & Asset Bundling
+- **Blade Templates** - Laravel Templating Engine
+- **KTUI** - UI Component Library
 
-- **Metronic Tailwind CSS** - Complete design system integration
-- **Theme Support** - Light and dark mode switching
-- **Custom Components** - Metronic-specific UI components
-- **Icon System** - Comprehensive icon library integration
+### Development Tools
 
-## Getting Started
+- **Composer** - PHP Dependency Manager
+- **NPM** - JavaScript Package Manager
 
-### Prerequisites
-- PHP 8.2 or higher
+## 📋 Persyaratan Sistem
+
+- PHP >= 8.3
 - Composer
-- Node.js (LTS version)
-- A web server (Apache/Nginx) or use Laravel's built-in server
+- Node.js & NPM
+- MySQL
+- Web Server (Apache/Nginx/PHP Built-in)
 
-### Installation
+## 🚀 Instalasi
 
-1. **Clone the repository**
+### 1. Clone Repository
+
 ```bash
-git clone https://github.com/keenthemes/metronic-tailwind-html-integration.git
-cd metronic-tailwind-html-integration/metronic-tailwind-laravel
+git clone https://github.com/feryanuar24/lpmunsika-2.git
+cd lpmunsika-2
 ```
 
-2. **Install PHP dependencies**
+### 2. Install Dependencies
+
 ```bash
+# Install PHP dependencies
 composer install
-```
 
-3. **Install Node.js dependencies**
-```bash
+# Install JavaScript dependencies
 npm install
 ```
 
-4. **Copy Metronic assets**
-```bash
-# Copy assets from metronic-tailwind-html/dist/assets to public/assets/
-cp -r ../metronic-tailwind-html/dist/assets public/
-```
+### 3. Environment Setup
 
-5. **Environment setup**
 ```bash
+# Copy environment file
 cp .env.example .env
+
+# Generate application key
 php artisan key:generate
 ```
 
-6. **Start development servers**
-```bash
-# Terminal 1: Laravel server
-php artisan serve
+### 4. Database Setup
 
-# Terminal 2: Vite dev server
+#### Atur konfigurasi database di file `.env`:
+
+```bash
+# Run migrations
+php artisan migrate
+
+# (Optional) Run seeders
+php artisan db:seed
+```
+
+### 5. Build Assets
+
+```bash
+# Development
 npm run dev
-```
 
-### Available Routes
-- **Demo 1**: `/demo1` - Sidebar Layout
-- **Demo 2**: `/demo2` - Header Layout
-- **Demo 3**: `/demo3` - Minimal Layout
-- **Demo 4**: `/demo4` - Creative Layout
-- **Demo 5**: `/demo5` - Modern Layout
-- **Demo 6**: `/demo6` - Professional Layout
-- **Demo 7**: `/demo7` - Corporate Layout
-- **Demo 8**: `/demo8` - Executive Layout
-- **Demo 9**: `/demo9` - Premium Layout
-- **Demo 10**: `/demo10` - Ultimate Layout
-
-## Production Deployment
-
-### Build for Production
-```bash
-# Build optimized assets
+# Production
 npm run build
-
-# Optimize Laravel
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
-# Optimize Composer autoloader
-composer install --optimize-autoloader --no-dev
 ```
 
-## Customization
+### 6. Start Development Server
 
-### Adding Your Own Content
-1. **Controllers**: Modify demo controllers to return your actual data
-2. **Views**: Customize Blade templates with your content
-3. **Components**: Create new Blade components for your specific needs
-4. **Styling**: Add custom CSS in `resources/css/app.css`
+```bash
+php artisan serve
+```
 
-### Extending Layouts
-- Each demo layout is independent and can be customized separately
-- Shared partials allow for consistent elements across demos
-- Component system enables reusable UI elements
+Aplikasi akan berjalan di `http://localhost:8000`
 
-## Architecture
+## 📁 Struktur Database
 
-### Design Principles
-- **MVC Pattern**: Clean separation using Laravel's MVC architecture
-- **Component-Based**: Reusable Blade components for UI elements
-- **Asset Integration**: Proper integration of Metronic assets with Laravel
-- **Responsive Design**: Mobile-first approach across all layouts
+### Tabel Utama
 
-### File Organization
-- **Controllers**: One controller per demo layout
-- **Views**: Organized by demo with shared layouts and partials
-- **Assets**: Metronic assets properly integrated in `public/assets/`
-- **Components**: Reusable UI components for consistent functionality
+- **users** - Data Admin/Pengunjung
+- **roles & permissions** - Sistem role dan izin
+- **categories** - Kategori artikel
+- **tags** - Tag artikel
+- **articles** - Artikel utama
+- **comments** - Komentar artikel
+- **platforms** - Platform media sosial
+- **embeds** - Konten embedded
 
-## Documentation
+### Relasi
 
-For detailed integration steps and customization guides, refer to the complete documentation in the main repository.
+- Article belongsToMany Tags (Many-to-Many)
+- Article hasMany Comments (One-to-Many)
+- Article belongsTo Category (Many-to-One)
+- User hasMany Articles (One-to-Many)
 
-## Support
+## 📝 Kontribusi
 
-For questions and support:
-- Review the integration documentation
-- Check the demo implementations for examples
-- Refer to Laravel documentation for framework-specific questions
+Terbuka kontribusi untuk seluruh anggota LPM UNSIKA!
+
+1. Fork repository ini
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+### 📋 Panduan Kontribusi
+
+- Update dokumentasi jika diperlukan
+- Gunakan commit message yang deskriptif
+
+## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
+
+## 👨‍💻 Tim Pengembang
+
+**LPM UNSIKA Development Team**
+
+## 📞 Kontak & Support
+
+- **Website**: [LPM UNSIKA Official](https://lpmunsika.com)
+- **Email**: lpmunsika@gmail.com
+- **Instagram**: [@lpmunsika](https://instagram.com/lpmunsika)
+- **Issues**: [GitHub Issues](https://github.com/feryanuar24/lpmunsika-2/issues)
