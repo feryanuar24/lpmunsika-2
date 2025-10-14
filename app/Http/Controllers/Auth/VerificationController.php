@@ -17,19 +17,9 @@ class VerificationController extends Controller
     }
 
     /**
-     * Handle the verification callback.
-     */
-    public function store(EmailVerificationRequest $request)
-    {
-        $request->fulfill();
-
-        return redirect()->route('dashboard')->with('success', 'Verifikasi email berhasil!');
-    }
-
-    /**
      * Send the verification email.
      */
-    public function update(Request $request)
+    public function store(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->route('dashboard');
@@ -38,5 +28,15 @@ class VerificationController extends Controller
         $request->user()->sendEmailVerificationNotification();
 
         return back()->with('success', 'Link verifikasi telah dikirim ke email Anda.');
+    }
+
+    /**
+     * Handle the verification callback.
+     */
+    public function update(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+
+        return redirect()->route('dashboard')->with('success', 'Verifikasi email berhasil!');
     }
 }

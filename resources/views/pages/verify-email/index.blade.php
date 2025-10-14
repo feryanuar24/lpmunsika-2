@@ -13,7 +13,7 @@
 
             @csrf
 
-            <button type="submit" class="kt-btn kt-btn-primary" data-kt-modal-toggle="#modal">Kirim ulang email
+            <button type="button" class="kt-btn kt-btn-primary" data-kt-modal-toggle="#modal">Kirim ulang email
                 verifikasi</button>
 
             <div class="kt-modal z-40" data-kt-modal="true" id="modal">
