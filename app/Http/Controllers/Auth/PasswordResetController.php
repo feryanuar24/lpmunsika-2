@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\RecaptchaHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,6 +24,14 @@ class PasswordResetController extends Controller
      */
     public function store(Request $request)
     {
+        $recaptchaResult = RecaptchaHelper::validateRecaptcha($request);
+
+        if (!$recaptchaResult['success']) {
+            return back()
+                ->with('error', $recaptchaResult['message'])
+                ->onlyInput('email');
+        }
+
         $request->validate([
             'email' => ['required', 'string', 'email', 'max:255', 'exists:users']
         ]);
@@ -51,6 +60,14 @@ class PasswordResetController extends Controller
      */
     public function update(Request $request)
     {
+        $recaptchaResult = RecaptchaHelper::validateRecaptcha($request);
+
+        if (!$recaptchaResult['success']) {
+            return back()
+                ->with('error', $recaptchaResult['message'])
+                ->onlyInput('email');
+        }
+
         $request->validate([
             'token'    => ['required', 'string'],
             'email'    => ['required', 'string', 'email', 'max:255', 'exists:users'],

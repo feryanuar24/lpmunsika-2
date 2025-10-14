@@ -74,6 +74,8 @@
             </div>
         </div>
 
+        <input type="hidden" name="g-recaptcha-response" id="recaptcha">
+
         <button type="button" class="kt-btn kt-btn-primary" data-kt-modal-toggle="#modal">Perbarui Kata Sandi</button>
 
         <div class="kt-modal z-40" data-kt-modal="true" id="modal">
@@ -111,3 +113,17 @@
         </div>
     </form>
 @endsection
+
+@push('scripts')
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}"></script>
+
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}', {
+                action: 'reset-password'
+            }).then(function(token) {
+                document.getElementById('recaptcha').value = token;
+            });
+        });
+    </script>
+@endpush

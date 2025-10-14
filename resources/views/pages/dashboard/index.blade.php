@@ -110,10 +110,10 @@
                     <h3 class="text-lg font-semibold mb-4">Top Authors</h3>
                     <div class="space-y-3">
                         @foreach ($data['top_authors'] as $author)
-                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                <div class="flex items-center gap-3">
+                            <div class="flex flex-row items-center justify-between kt-card p-3">
+                                <div>
                                     <div
-                                        class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                                        class="kt-badge kt-badge-primary rounded-full">
                                         {{ substr($author['name'], 0, 1) }}
                                     </div>
                                     <span class="font-medium">{{ $author['name'] }}</span>
@@ -129,9 +129,9 @@
                     <h3 class="text-lg font-semibold mb-4">Most Viewed Articles</h3>
                     <div class="space-y-3">
                         @foreach ($data['most_viewed_articles'] as $article)
-                            <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="p-3 kt-card">
                                 <h4 class="font-medium text-sm line-clamp-2 mb-2">{{ $article['title'] }}</h4>
-                                <div class="flex items-center justify-between text-xs text-gray-600">
+                                <div class="flex items-center justify-between text-mono text-xs">
                                     <span>by {{ $article['author'] }}</span>
                                     <span class="kt-badge kt-badge-info">{{ number_format($article['views']) }} views</span>
                                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\RecaptchaHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,14 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
+        $recaptchaResult = RecaptchaHelper::validateRecaptcha($request);
+
+        if (!$recaptchaResult['success']) {
+            return back()
+                ->with('error', $recaptchaResult['message'])
+                ->onlyInput('email');
+        }
+
         $credentials = $request->validate([
             'email'    => ['required', 'string', 'email', 'max:255', 'exists:users,email'],
             'password' => ['required', 'string'],

@@ -20,7 +20,7 @@
                     <a href="https://instagram.com/lpmunsika" class="kt-btn kt-btn-outline">
                         <i class="ki-filled ki-instagram text-lg"></i>
                     </a>
-                    <a href="https://youtube.com/lpmunsika" class="kt-btn kt-btn-outline">
+                    <a href="https://youtube.com/@lpmunsika" class="kt-btn kt-btn-outline">
                         <i class="ki-filled ki-youtube text-lg"></i>
                     </a>
                 </div>

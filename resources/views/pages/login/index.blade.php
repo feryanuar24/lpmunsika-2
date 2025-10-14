@@ -47,6 +47,7 @@
             <label class="kt-label" for="remember_me">Ingat Saya</label>
         </div>
 
+        <input type="hidden" name="g-recaptcha-response" id="recaptcha">
 
         <button type="button" data-kt-modal-toggle="#modal" class="kt-btn kt-btn-primary">Masuk</button>
 
@@ -93,3 +94,17 @@
         <a href="{{ route('password.request') }}" class="kt-link-underlined kt-link">Lupa kata sandi?</a>
     </form>
 @endsection
+
+@push('scripts')
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}"></script>
+
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}', {
+                action: 'login'
+            }).then(function(token) {
+                document.getElementById('recaptcha').value = token;
+            });
+        });
+    </script>
+@endpush

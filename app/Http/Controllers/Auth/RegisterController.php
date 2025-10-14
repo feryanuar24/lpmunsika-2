@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\RecaptchaHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,6 +32,14 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
+        $recaptchaResult = RecaptchaHelper::validateRecaptcha($request);
+
+        if (!$recaptchaResult['success']) {
+            return back()
+                ->with('error', $recaptchaResult['message'])
+                ->onlyInput('name', 'email');
+        }
+
         $validated = $request->validate([
             'name'                  => ['required', 'string', 'max:255'],
             'email'                 => ['required', 'string', 'email', 'max:255', 'unique:users'],

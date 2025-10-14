@@ -12,6 +12,8 @@
                 placeholder="Masukkan alamat email">
         </div>
 
+        <input type="hidden" name="g-recaptcha-response" id="recaptcha">
+
         <button type="button" data-kt-modal-toggle="#modal" class="kt-btn kt-btn-primary">Kirim Permintaan</button>
 
         <div class="kt-modal z-40" data-kt-modal="true" id="modal">
@@ -55,3 +57,17 @@
             sekarang</a>
     </form>
 @endsection
+
+@push('scripts')
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}"></script>
+
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}', {
+                action: 'forgot-password'
+            }).then(function(token) {
+                document.getElementById('recaptcha').value = token;
+            });
+        });
+    </script>
+@endpush

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\RecaptchaHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -21,6 +22,13 @@ class VerificationController extends Controller
      */
     public function store(Request $request)
     {
+        $recaptchaResult = RecaptchaHelper::validateRecaptcha($request);
+
+        if (!$recaptchaResult['success']) {
+            return back()
+                ->with('error', $recaptchaResult['message']);
+        }
+
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->route('dashboard');
         }

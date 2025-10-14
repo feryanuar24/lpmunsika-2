@@ -13,6 +13,8 @@
 
             @csrf
 
+            <input type="hidden" name="g-recaptcha-response" id="recaptcha">
+
             <button type="button" class="kt-btn kt-btn-primary" data-kt-modal-toggle="#modal">Kirim ulang email
                 verifikasi</button>
 
@@ -52,3 +54,19 @@
         </form>
     </div>
 @endsection
+
+@push('scripts')
+    <script
+        src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}">
+    </script>
+
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}', {
+                action: 'verify-email'
+            }).then(function(token) {
+                document.getElementById('recaptcha').value = token;
+            });
+        });
+    </script>
+@endpush

@@ -21,7 +21,8 @@
         <div>
             <label class="kt-label" for="password">Kata Sandi</label>
             <div class="relative max-w-72" data-kt-toggle-password="true">
-                <input type="password" name="password" class="kt-input w-full pe-10" placeholder="Masukkan kata sandi" /><button
+                <input type="password" name="password" class="kt-input w-full pe-10"
+                    placeholder="Masukkan kata sandi" /><button
                     class="kt-btn kt-btn-icon kt-btn-ghost size-6 absolute end-2 top-1/2 -translate-y-1/2"
                     data-kt-toggle-password-trigger="true">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -91,8 +92,7 @@
             </div>
         </div>
 
-        <div>
-        </div>
+        <input type="hidden" name="g-recaptcha-response" id="recaptcha">
 
         <button type="submit" class="kt-btn kt-btn-primary" data-kt-modal-toggle="#modal">Daftar</button>
 
@@ -136,3 +136,19 @@
         <a href="{{ route('login') }}" class="kt-link-underlined kt-link">Sudah punya akun? Masuk sekarang</a>
     </form>
 @endsection
+
+@push('scripts')
+    <script
+        src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}">
+    </script>
+
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}', {
+                action: 'register'
+            }).then(function(token) {
+                document.getElementById('recaptcha').value = token;
+            });
+        });
+    </script>
+@endpush

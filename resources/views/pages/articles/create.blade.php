@@ -15,7 +15,7 @@
                 </a>
             </div>
         </div>
-        
+
         <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data"
             class="kt-card p-5 space-y-5">
             @csrf
@@ -151,6 +151,16 @@
     </div>
     <!-- End of Container -->
 @endsection
+
+@push('styles')
+    <style>
+        .dark #content_texteditor,
+        .dark .ck-editor__editable,
+        .dark .ck-content {
+            background-color: #0b0b0b !important;
+        }
+    </style>
+@endpush
 
 @push('scripts')
     <script>
