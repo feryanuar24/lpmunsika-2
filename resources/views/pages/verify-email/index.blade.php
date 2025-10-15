@@ -5,13 +5,12 @@
         <h1 class="font-semibold text-4xl mb-10">Verifikasi Email</h1>
 
         <form action="{{ route('verification.send') }}" method="POST" class="space-y-5">
+            @csrf
 
             <p>Terima kasih telah mendaftar! Sebelum memulai, dapatkah Anda memverifikasi alamat email Anda dengan
                 mengklik tautan yang baru saja kami kirimkan ke email Anda? Jika Anda tidak menerima email tersebut, kami
                 dengan
                 senang hati akan mengirimkan email lain untuk Anda.</p>
-
-            @csrf
 
             <input type="hidden" name="g-recaptcha-response" id="recaptcha">
 
@@ -63,7 +62,7 @@
     <script>
         grecaptcha.ready(function() {
             grecaptcha.execute('{{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}', {
-                action: 'verify-email'
+                action: 'verify_email'
             }).then(function(token) {
                 document.getElementById('recaptcha').value = token;
             });
