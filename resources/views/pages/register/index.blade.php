@@ -78,7 +78,7 @@
             </div>
         </div>
 
-        <div>
+        <div class="col-span-2">
             <label class="kt-label">Pilih Avatar</label>
             <div class="kt-scrollable overflow-y-auto h-40 rounded-lg border border-border space-y-3 py-3">
                 @for ($i = 1; $i <= 34; $i++)
@@ -94,7 +94,7 @@
 
         <input type="hidden" name="g-recaptcha-response" id="recaptcha">
 
-        <button type="submit" class="kt-btn kt-btn-primary" data-kt-modal-toggle="#modal">Daftar</button>
+        <button type="submit" class="kt-btn kt-btn-primary col-span-2" data-kt-modal-toggle="#modal">Daftar</button>
 
         <div class="kt-modal z-40" data-kt-modal="true" id="modal">
             <div
@@ -133,7 +133,7 @@
 
         <br>
 
-        <a href="{{ route('login') }}" class="kt-link-underlined kt-link">Sudah punya akun? Masuk sekarang</a>
+        <a href="{{ route('login') }}" class="kt-link-underlined kt-link col-span-2">Sudah punya akun? Masuk sekarang</a>
     </form>
 @endsection
 

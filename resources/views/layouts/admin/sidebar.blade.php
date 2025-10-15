@@ -41,6 +41,7 @@
                         </span>
                     </a>
                 </div>
+
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span
                         class="kt-menu-heading pe-[10px] ps-[10px] text-xs font-medium uppercase text-muted-foreground">
@@ -62,6 +63,7 @@
                         </span>
                     </a>
                 </div>
+                @permission('users-management')
                 <div class="kt-menu-item {{ request()->routeIs('users.*') ? 'active' : '' }}"
                     data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
                     <a href="{{ route('users.index') }}"
@@ -77,12 +79,15 @@
                         </span>
                     </a>
                 </div>
+                @endpermission
+
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span
                         class="kt-menu-heading pe-[10px] ps-[10px] text-xs font-medium uppercase text-muted-foreground">
                         Artikel
                     </span>
                 </div>
+                @permission('categories-management')
                 <div class="kt-menu-item {{ request()->routeIs('categories.*') ? 'active' : '' }}"
                     data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
                     <a href="{{ route('categories.index') }}"
@@ -98,6 +103,8 @@
                         </span>
                     </a>
                 </div>
+                @endpermission
+                @permission('tags-management')
                 <div class="kt-menu-item {{ request()->routeIs('tags.*') ? 'active' : '' }}"
                     data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
                     <a href="{{ route('tags.index') }}"
@@ -113,6 +120,8 @@
                         </span>
                     </a>
                 </div>
+                @endpermission
+                @permission('articles-management')
                 <div class="kt-menu-item {{ request()->routeIs('articles.*') ? 'active' : '' }}"
                     data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
                     <a href="{{ route('articles.index') }}"
@@ -128,12 +137,15 @@
                         </span>
                     </a>
                 </div>
+                @endpermission
+
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span
                         class="kt-menu-heading pe-[10px] ps-[10px] text-xs font-medium uppercase text-muted-foreground">
                         Integrasi
                     </span>
                 </div>
+                @permission('platforms-management')
                 <div class="kt-menu-item {{ request()->routeIs('platforms.*') ? 'active' : '' }}"
                     data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
                     <a href="{{ route('platforms.index') }}"
@@ -149,6 +161,8 @@
                         </span>
                     </a>
                 </div>
+                @endpermission
+                @permission('embeds-management')
                 <div class="kt-menu-item {{ request()->routeIs('embeds.*') ? 'active' : '' }}"
                     data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
                     <a href="{{ route('embeds.index') }}"
@@ -164,12 +178,14 @@
                         </span>
                     </a>
                 </div>
+                @endpermission
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span
                         class="kt-menu-heading pe-[10px] ps-[10px] text-xs font-medium uppercase text-muted-foreground">
                         Pengaturan
                     </span>
                 </div>
+                @permission('permission-role-management')
                 <div class="kt-menu-item {{ request()->routeIs('permissions.*') ? 'active' : '' }}"
                     data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
                     <a href="{{ route('permissions.index') }}"
@@ -215,6 +231,7 @@
                         </span>
                     </a>
                 </div>
+                @endpermission
             </div>
             <!-- End of Sidebar Menu -->
         </div>

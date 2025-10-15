@@ -6,12 +6,12 @@
     <form action="{{ route('password.update') }}" class="space-y-5" method="POST">
         @csrf
 
-        <input type="hidden" name="token" value="{{ $token }}">
+        <input type="hidden" name="token" value="{{ $data['token'] }}">
 
         <div>
             <label class="kt-label" for="email">Email</label>
             <input type="email" name="email" id="email" required class="kt-input w-full"
-                value="{{ old('email') }}" placeholder="Masukkan alamat email">
+                value="{{ old('email', $data['email']) }}" placeholder="Masukkan alamat email">
         </div>
 
         <div>

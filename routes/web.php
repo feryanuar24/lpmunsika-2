@@ -49,15 +49,23 @@ Route::get('/cerpen', [LandingController::class, 'cerpen'])->name('cerpen');
 Route::get('/gaya-mahasiswa', [LandingController::class, 'gayaMahasiswa'])->name('gaya-mahasiswa');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
-Route::post('/login', [LoginController::class, 'store']);
+Route::post('/login', [LoginController::class, 'store'])
+    ->middleware(['throttle:6,1']);
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
-Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/register', [RegisterController::class, 'store'])
+    ->middleware(['throttle:6,1']);
 
-Route::get('/forgot-password', [PasswordResetController::class, 'create'])->name('password.request');
-Route::post('/forgot-password', [PasswordResetController::class, 'store'])->name('password.email');
-Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])->name('password.reset');
-Route::post('/reset-password', [PasswordResetController::class, 'update'])->name('password.update');
+Route::get('/forgot-password', [PasswordResetController::class, 'create'])
+    ->name('password.request');
+Route::post('/forgot-password', [PasswordResetController::class, 'store'])
+    ->middleware(['throttle:6,1'])
+    ->name('password.email');
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('password.reset');
+Route::post('/reset-password', [PasswordResetController::class, 'update'])
+    ->name('password.update');
 
 Route::get('/files/{path}', [FileController::class, 'show'])->where('path', '.*')->name('files');
 

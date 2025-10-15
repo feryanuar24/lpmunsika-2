@@ -56,7 +56,9 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        return redirect('/dashboard')->with('success', 'Register Berhasil!');
+        $user->sendEmailVerificationNotification();
+
+        return redirect()->route('verification.notice')->with('success', 'Akun dibuat. Silakan cek email Anda untuk link verifikasi.');
     }
 
     /**

@@ -9,16 +9,21 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Carbon;
 
-class CustomVerifyEmail extends Notification
+class CustomResetPassword extends Notification
 {
     use Queueable;
 
     /**
+     * The password reset token.
+     */
+    public $token;
+
+    /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        $this->token = $token;
     }
 
     /**
@@ -36,21 +41,22 @@ class CustomVerifyEmail extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $verifyUrl = URL::temporarySignedRoute(
-            'verification.verify',
+        // Include the email in the signed parameters so the signature is valid
+        $resetUrl = URL::temporarySignedRoute(
+            'password.reset',
             Carbon::now()->addMinutes(60),
             [
-                'id' => $notifiable->getKey(),
-                'hash' => sha1($notifiable->getEmailForVerification()),
-            ]
+                'token' => $this->token,
+                'email' => $notifiable->getEmailForPasswordReset() ?? $notifiable->email,
+            ],
         );
 
         return (new MailMessage)
-            ->subject('Verifikasi Akun Anda')
+            ->subject('Atur Ulang Kata Sandi Anda')
             ->greeting('Halo, ' . $notifiable->name . '!')
-            ->line('Terima kasih telah mendaftar. Klik tombol di bawah untuk memverifikasi alamat email Anda:')
-            ->action('Verifikasi Sekarang', $verifyUrl)
-            ->line('Link ini akan kedaluwarsa dalam 60 menit. Jika Anda tidak membuat akun, abaikan email ini.')
+            ->line('Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda. Klik tombol di bawah untuk membuat kata sandi baru:')
+            ->action('Atur Ulang Kata Sandi', $resetUrl)
+            ->line('Tautan ini hanya berlaku selama 60 menit. Jika Anda tidak meminta pengaturan ulang kata sandi, abaikan email ini.')
             ->salutation('Salam Pers Mahasiswa!');
     }
 
