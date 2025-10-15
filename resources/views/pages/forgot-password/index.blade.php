@@ -64,7 +64,7 @@
     <script>
         grecaptcha.ready(function() {
             grecaptcha.execute('{{ config('services.recaptcha.site_key', env('RECAPTCHA_SITE_KEY')) }}', {
-                action: 'forgot-password'
+                action: 'forgot_password'
             }).then(function(token) {
                 document.getElementById('recaptcha').value = token;
             });
