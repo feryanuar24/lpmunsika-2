@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
         ->name('verification.send');
 
     Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'update'])
-        ->middleware(['signed'])
+        ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
 });
 

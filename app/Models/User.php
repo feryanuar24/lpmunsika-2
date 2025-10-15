@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Notifications\CustomVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laratrust\Contracts\LaratrustUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -58,5 +59,13 @@ class User extends Authenticatable implements MustVerifyEmail, LaratrustUser
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    /**
+     * Send the email verification notification.
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new CustomVerifyEmail());
     }
 }
