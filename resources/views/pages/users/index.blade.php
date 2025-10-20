@@ -39,6 +39,10 @@
                                         <span class="kt-table-col"><span class="kt-table-col-label">Email</span><span
                                                 class="kt-table-col-sort"></span></span>
                                     </th>
+                                    <th scope="col" class="w-20" data-kt-datatable-column="roles">
+                                        <span class="kt-table-col"><span class="kt-table-col-label">Role</span><span
+                                                class="kt-table-col-sort"></span></span>
+                                    </th>
                                     <th scope="col" class="w-10" data-kt-datatable-column="actions">Aksi</th>
                                 </tr>
                             </thead>
@@ -46,8 +50,13 @@
                             <tbody>
                                 @foreach ($data['users'] as $user)
                                     <tr>
-                                        <td>{{ $user->email }}</td>
                                         <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            @foreach ($user->roles as $role)
+                                                <span
+                                                    class="kt-badge kt-badge-inline kt-badge-light-primary">{{ $role->name }}</span>
+                                            @endforeach
                                         <td>
                                             <div class="flex justify-start gap-2">
                                                 <a href="{{ route('users.show', $user->id) }}"

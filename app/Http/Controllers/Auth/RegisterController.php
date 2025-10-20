@@ -54,6 +54,8 @@ class RegisterController extends Controller
             'avatar'   => $validated['avatar'],
         ]);
 
+        $user->addRole('visitor');
+
         Auth::login($user);
 
         $user->sendEmailVerificationNotification();

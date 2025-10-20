@@ -47,6 +47,16 @@
                     <label class="kt-label">Email</label>
                     <p class="mt-1 text-base">{{ $data['user']->email }}</p>
                 </div>
+
+                <div>
+                    <label class="kt-label">Role</label>
+                    <div class="mt-1 flex flex-wrap gap-2">
+                        @foreach ($data['user']->roles as $role)
+                            <span
+                                class="kt-badge kt-badge-inline kt-badge-light-primary">{{ $role->name }}</span>
+                        @endforeach
+                    </div>  
+                </div>
             </div>
         </div>
     </div>

@@ -41,6 +41,20 @@
             </div>
 
             <div>
+                <label for="roles" class="kt-label">Role</label>
+                <span class="text-destructive">*</span>
+                <select multiple name="roles[]" id="roles" class="kt-select" data-kt-select="true" data-kt-select-multiple="true"
+                    data-kt-select-max-selections="3" data-kt-select-placeholder="Pilih role..."
+                    data-kt-select-config='{
+                        "displaySeparator": " | "
+                    }'>
+                    @foreach ($data['roles'] as $role)
+                        <option value="{{ $role->name }}">{{ $role->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
                 <label class="kt-label" for="password">Kata Sandi</label>
                 <div class="relative max-w-72" data-kt-toggle-password="true">
                     <input type="password" name="password" class="kt-input w-full pe-10"

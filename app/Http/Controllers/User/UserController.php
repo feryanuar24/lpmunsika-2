@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $data = [
-            'users' => User::all(),
+            'users' => User::with('roles')->get(),
         ];
 
         return view('pages.users.index', compact('data'));
@@ -25,7 +26,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('pages.users.create');
+        $data = [
+            'roles' => Role::all(),
+        ];
+
+        return view('pages.users.create', compact('data'));
     }
 
     /**
@@ -36,15 +41,19 @@ class UserController extends Controller
         $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'roles'    => ['required', 'array'],
+            'roles.*'  => ['exists:roles,name'],
             'password' => ['required', 'min:8', 'confirmed'],
         ]);
 
-        User::create([
+        $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'email_verified_at' => now(),
             'password' => bcrypt($request->password),
         ]);
+
+        $user->addRoles($request->roles);
 
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
@@ -67,7 +76,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $data = [
-            'user' => $user
+            'user' => $user,
+            'roles' => Role::all(),
         ];
 
         return view('pages.users.edit', compact('data'));
@@ -81,6 +91,8 @@ class UserController extends Controller
         $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'roles'    => ['required', 'array'],
+            'roles.*'  => ['exists:roles,name'],
             'password' => ['nullable', 'min:8', 'confirmed'],
         ]);
 
@@ -90,6 +102,8 @@ class UserController extends Controller
         if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
         }
+
+        $user->syncRoles($request->roles);
 
         $user->save();
 
