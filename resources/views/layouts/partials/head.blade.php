@@ -1,26 +1,27 @@
-<title>LPM Unsika - Official Website</title>
+<title>{{ $data['article']->title ?? config('app.name') }}</title>
+
 <meta charset="utf-8" />
 <meta content="follow, index" name="robots" />
 <link href="{{ url(request()->path()) }}" rel="canonical" />
 <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
 <meta
-    content="LPM Unsika merupakan unit kegiatan mahasiswa yang berperan sebagai wadah untuk menyalurkan bakat dan hobi dalam bidang jurnalistik."
+    content="{{ Str::limit(strip_tags($data['article']->content ?? 'LPM Unsika merupakan unit kegiatan mahasiswa yang berperan sebagai wadah untuk menyalurkan bakat dan hobi dalam bidang jurnalistik.'), 160) }}"
     name="description" />
 <meta content="@lpmunsika" name="twitter:site" />
 <meta content="@lpmunsika" name="twitter:creator" />
 <meta content="summary_large_image" name="twitter:card" />
-<meta content="LPM Unsika - Official Website" name="twitter:title" />
+<meta content="{{ $data['article']->title ?? config('app.name') }}" name="twitter:title" />
 <meta
-    content="LPM Unsika merupakan unit kegiatan mahasiswa yang berperan sebagai wadah untuk menyalurkan bakat dan hobi dalam bidang jurnalistik."
+    content="{{ Str::limit(strip_tags($data['article']->content ?? 'LPM Unsika merupakan unit kegiatan mahasiswa yang berperan sebagai wadah untuk menyalurkan bakat dan hobi dalam bidang jurnalistik.'), 160) }}"
     name="twitter:description" />
 <meta content="{{ asset('assets/media/app/og-image.png') }}" name="twitter:image" />
 <meta content="{{ url(request()->path()) }}" property="og:url" />
 <meta content="id" property="og:locale" />
 <meta content="website" property="og:type" />
-<meta content="@lpmunsika" property="og:site_name" />
-<meta content="LPM Unsika - Official Website" property="og:title" />
+<meta content="{{ config('app.name') }}" property="og:site_name" />
+<meta content="{{ $data['article']->title ?? config('app.name') }}" property="og:title" />
 <meta
-    content="LPM Unsika merupakan unit kegiatan mahasiswa yang berperan sebagai wadah untuk menyalurkan bakat dan hobi dalam bidang jurnalistik."
+    content="{{ Str::limit(strip_tags($data['article']->content ?? 'LPM Unsika merupakan unit kegiatan mahasiswa yang berperan sebagai wadah untuk menyalurkan bakat dan hobi dalam bidang jurnalistik.'), 160) }}"
     property="og:description" />
 <meta content="{{ asset('assets/media/app/og-image.png') }}" property="og:image" />
 <link href="{{ asset('assets/media/app/apple-touch-icon.png') }}" rel="apple-touch-icon" sizes="180x180" />

@@ -1,5 +1,5 @@
 <div>
-    <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Berita Disematkan</h2>
+    <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Sorotan</h2>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         @foreach ($data['pinnedArticles'] as $index => $article)
             <a href="{{ route('detail', $article->slug) }}"
