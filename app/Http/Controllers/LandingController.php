@@ -25,7 +25,12 @@ class LandingController extends Controller
             'buletin' => Article::where('category_id', 2)
                 ->where('is_active', true)
                 ->latest()
-                ->limit(3)
+                ->limit(2)
+                ->get(),
+            'majalah' => Article::with('category')->where('category_id', 13)
+                ->where('is_active', true)
+                ->latest()
+                ->limit(2)
                 ->get(),
             'resensi_buku' => Article::with('category')->where('category_id', 4)
                 ->where('is_active', true)
@@ -180,6 +185,26 @@ class LandingController extends Controller
         ];
 
         return view('pages.landing.buletin', compact('data'));
+    }
+
+    public function majalah()
+    {
+        $data = [
+            'articles' => Article::where('category_id', 13)
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(9),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.majalah', compact('data'));
     }
 
     public function resensiBuku()

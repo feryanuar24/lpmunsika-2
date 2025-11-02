@@ -122,11 +122,21 @@ class ArticleController extends Controller
             $data['user_id'] = Auth::id();
             $data['slug'] = Str::slug($request->title);
 
-            $content = $request->content;
-            if ($request->filled('embed')) {
-                $content .= "<br><br>" . $request->embed;
+            $body = $request->content;
+            $embedHtml = $request->filled('embed') ? $request->embed : '';
+
+            if ($embedHtml) {
+                $combined = '<div class="article-wrapper">'
+                    . '<div class="article-body">' . $body . '</div>'
+                    . '<div class="article-embed">' . $embedHtml . '</div>'
+                    . '</div>';
+            } else {
+                $combined = '<div class="article-wrapper">'
+                    . '<div class="article-body">' . $body . '</div>'
+                    . '</div>';
             }
-            $data['content'] = $content;
+
+            $data['content'] = $combined;
 
             if ($request->hasFile('thumbnail')) {
                 $disk = config('filesystems.default');
@@ -189,13 +199,16 @@ class ArticleController extends Controller
         $content = $article->content;
         $embed = '';
 
-        $contentParts = explode("<br><br>", $content);
-        if (count($contentParts) > 1) {
-            $lastPart = end($contentParts);
-            if (preg_match('/<iframe|<embed|<object|<script/', $lastPart)) {
-                $embed = $lastPart;
-                array_pop($contentParts);
-                $content = implode("<br><br>", $contentParts);
+        if (preg_match('/<div[^>]*class=["\']article-embed["\'][^>]*>(.*?)<\/div>/is', $content, $m)) {
+            $embed = $m[1];
+            $content = preg_replace('/<div[^>]*class=["\']article-embed["\'][^>]*>.*?<\/div>/is', '', $content, 1);
+        }
+
+        if (preg_match('/<div[^>]*class=["\']article-body["\'][^>]*>(.*?)<\/div>/is', $content, $m2)) {
+            $content = $m2[1];
+        } else {
+            if (preg_match('/<div[^>]*class=["\']article-wrapper["\'][^>]*>(.*?)<\/div>/is', $content, $m3)) {
+                $content = $m3[1];
             }
         }
 
@@ -236,11 +249,21 @@ class ArticleController extends Controller
 
             $data['slug'] = Str::slug($request->title);
 
-            $content = $request->content;
-            if ($request->filled('embed')) {
-                $content .= "<br><br>" . $request->embed;
+            $body = $request->content;
+            $embedHtml = $request->filled('embed') ? $request->embed : '';
+
+            if ($embedHtml) {
+                $combined = '<div class="article-wrapper">'
+                    . '<div class="article-body">' . $body . '</div>'
+                    . '<div class="article-embed">' . $embedHtml . '</div>'
+                    . '</div>';
+            } else {
+                $combined = '<div class="article-wrapper">'
+                    . '<div class="article-body">' . $body . '</div>'
+                    . '</div>';
             }
-            $data['content'] = $content;
+
+            $data['content'] = $combined;
 
             $disk = config('filesystems.default');
 

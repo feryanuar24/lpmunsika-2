@@ -39,6 +39,7 @@ Route::post('/comment', [LandingController::class, 'comment'])->name('comment');
 
 Route::get('/berita', [LandingController::class, 'berita'])->name('berita');
 Route::get('/buletin', [LandingController::class, 'buletin'])->name('buletin');
+Route::get('/majalah', [LandingController::class, 'majalah'])->name('majalah');
 Route::get('/resensi-buku', [LandingController::class, 'resensiBuku'])->name('resensi-buku');
 Route::get('/review-film', [LandingController::class, 'reviewFilm'])->name('review-film');
 Route::get('/opini', [LandingController::class, 'opini'])->name('opini');

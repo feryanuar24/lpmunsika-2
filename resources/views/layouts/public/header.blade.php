@@ -10,7 +10,17 @@
         <nav class="hidden lg:block">
             <ul class="kt-menu gap-5">
                 <li><a href="{{ route('berita') }}" class="kt-link kt-link-mono text-mono text-sm">Berita</a></li>
-                <li><a href="{{ route('buletin') }}" class="kt-link kt-link-mono text-mono text-sm">Buletin</a></li>
+                <li class="inline-flex" data-kt-dropdown="true" data-kt-dropdown-trigger="click">
+                    <button class="kt-link kt-link-mono text-mono text-sm" data-kt-dropdown-toggle="true">Produk</button>
+                    <div class="kt-dropdown w-full max-w-56 p-3 text-sm" data-kt-dropdown-menu="true">
+                        <div class="grid grid-cols-1 gap-2">
+                            <a href="{{ route('buletin') }}"
+                                class="kt-link kt-link-mono text-mono text-sm">Buletin</a>
+                            <a href="{{ route('majalah') }}"
+                                class="kt-link kt-link-mono text-mono text-sm">Majalah</a>
+                        </div>
+                    </div>
+                </li>
                 <li class="inline-flex" data-kt-dropdown="true" data-kt-dropdown-trigger="click">
                     <button class="kt-link kt-link-mono text-mono text-sm" data-kt-dropdown-toggle="true">Karya
                         Mahasiswa</button>
@@ -67,8 +77,17 @@
                 <div class="kt-dropdown-item">
                     <a href="{{ route('berita') }}" class="kt-link kt-link-mono text-mono text-sm">Berita</a>
                 </div>
-                <div class="kt-dropdown-item">
-                    <a href="{{ route('buletin') }}" class="kt-link kt-link-mono text-mono text-sm">Buletin</a>
+                <div class="kt-dropdown-item" data-kt-dropdown="true" data-kt-dropdown-trigger="click">
+                    <button class="kt-link kt-link-mono text-mono text-sm w-full text-left"
+                        data-kt-dropdown-toggle="true">Produk</button>
+                    <div class="kt-dropdown w-full max-w-56 p-3 text-sm" data-kt-dropdown-menu="true">
+                        <div class="grid grid-cols-1 gap-2">
+                            <a href="{{ route('buletin') }}"
+                                class="kt-link kt-link-mono text-mono text-sm">Buletin</a>
+                            <a href="{{ route('majalah') }}"
+                                class="kt-link kt-link-mono text-mono text-sm">Majalah</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="kt-dropdown-item" data-kt-dropdown="true" data-kt-dropdown-trigger="click">
                     <button class="kt-link kt-link-mono text-mono text-sm w-full text-left"

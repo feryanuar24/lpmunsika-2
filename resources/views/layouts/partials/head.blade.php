@@ -1,4 +1,4 @@
-<title>{{ $data['article']->title ?? config('app.name') }}</title>
+<title>{{ ($data['article']->title ?? config('app.name')) . ' - lpmunsika.com' }}</title>
 
 <meta charset="utf-8" />
 <meta content="follow, index" name="robots" />
@@ -10,7 +10,7 @@
 <meta content="@lpmunsika" name="twitter:site" />
 <meta content="@lpmunsika" name="twitter:creator" />
 <meta content="summary_large_image" name="twitter:card" />
-<meta content="{{ $data['article']->title ?? config('app.name') }}" name="twitter:title" />
+<meta content="{{ ($data['article']->title ?? config('app.name')) . ' - lpmunsika.com' }}" name="twitter:title" />
 <meta
     content="{{ Str::limit(strip_tags($data['article']->content ?? 'LPM Unsika merupakan unit kegiatan mahasiswa yang berperan sebagai wadah untuk menyalurkan bakat dan hobi dalam bidang jurnalistik.'), 160) }}"
     name="twitter:description" />
@@ -19,7 +19,7 @@
 <meta content="id" property="og:locale" />
 <meta content="website" property="og:type" />
 <meta content="{{ config('app.name') }}" property="og:site_name" />
-<meta content="{{ $data['article']->title ?? config('app.name') }}" property="og:title" />
+<meta content="{{ ($data['article']->title ?? config('app.name')) . ' - lpmunsika.com' }}" property="og:title" />
 <meta
     content="{{ Str::limit(strip_tags($data['article']->content ?? 'LPM Unsika merupakan unit kegiatan mahasiswa yang berperan sebagai wadah untuk menyalurkan bakat dan hobi dalam bidang jurnalistik.'), 160) }}"
     property="og:description" />

@@ -285,7 +285,7 @@
 
             function toggleEmbedSection() {
                 const selectedValue = categorySelect.value;
-                if (selectedValue == '2') {
+                if (selectedValue == '2' || selectedValue == '13') {
                     embedSection.classList.remove('hidden');
                 } else {
                     embedSection.classList.add('hidden');

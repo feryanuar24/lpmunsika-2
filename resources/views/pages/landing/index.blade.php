@@ -2,12 +2,14 @@
 
 @section('content')
     <div class="kt-container-fixed space-y-5">
-        <div id="berita" class="space-y-5">
+        <div id="main" class="space-y-5">
             @include('partials.landing.pinned')
             @include('partials.landing.berita')
         </div>
-        <div id="buletin">
+        <div id="produk" class="space-y-5">
+            <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Produk</h2>
             @include('partials.landing.buletin')
+            @include('partials.landing.majalah')
         </div>
         <div id="karyaMahasiswa" class="space-y-5">
             <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Karya Mahasiswa</h2>

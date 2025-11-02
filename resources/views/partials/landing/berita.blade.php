@@ -18,6 +18,10 @@
                         {{ $article->title }}
                     </h3>
 
+                    <div class="text-sm font-medium text-mono">
+                        {{ $article->category->name }}
+                    </div>
+
                     <div class="flex gap-2">
                         @foreach ($article->tags as $tag)
                             <span class="kt-badge kt-badge-outline kt-badge-secondary rounded-full">
