@@ -6,6 +6,7 @@
             @if ($data['sliders']->isNotEmpty())
                 @include('partials.landing.sliders')
             @endif
+            @include('partials.landing.search')
             @include('partials.landing.pinned')
             @include('partials.landing.berita')
         </div>

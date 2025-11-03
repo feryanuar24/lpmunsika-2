@@ -49,6 +49,7 @@ Route::get('/artikel', [LandingController::class, 'artikel'])->name('artikel');
 Route::get('/puisi', [LandingController::class, 'puisi'])->name('puisi');
 Route::get('/cerpen', [LandingController::class, 'cerpen'])->name('cerpen');
 Route::get('/gaya-mahasiswa', [LandingController::class, 'gayaMahasiswa'])->name('gaya-mahasiswa');
+Route::get('/search', [LandingController::class, 'search'])->name('search');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])

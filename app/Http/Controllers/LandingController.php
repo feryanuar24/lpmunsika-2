@@ -368,4 +368,30 @@ class LandingController extends Controller
 
         return view('pages.landing.gaya-mahasiswa', compact('data'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+
+        $data = [
+            'query' => $query,
+            'articles' => Article::where('is_active', true)
+                ->where(function ($q) use ($query) {
+                    $q->where('title', 'LIKE', "%{$query}%")
+                        ->orWhere('content', 'LIKE', "%{$query}%");
+                })
+                ->latest()
+                ->paginate(12),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.landing.search', compact('data'));
+    }
 }
