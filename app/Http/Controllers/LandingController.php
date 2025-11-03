@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Embed;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,6 +13,7 @@ class LandingController extends Controller
     public function index()
     {
         $data = [
+            'sliders' => Slider::all(),
             'pinnedArticles' => Article::where('is_pinned', true)
                 ->where('is_active', true)
                 ->latest()

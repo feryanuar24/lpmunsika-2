@@ -142,7 +142,7 @@
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span
                         class="kt-menu-heading pe-[10px] ps-[10px] text-xs font-medium uppercase text-muted-foreground">
-                        Integrasi
+                        Widget
                     </span>
                 </div>
                 @permission('platforms-management')
@@ -179,6 +179,24 @@
                     </a>
                 </div>
                 @endpermission
+                @permission('sliders-management')
+                <div class="kt-menu-item {{ request()->routeIs('sliders.*') ? 'active' : '' }}"
+                    data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
+                    <a href="{{ route('sliders.index') }}"
+                        class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
+                        tabindex="0">
+                        <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
+                            <i class="ki-filled ki-slider text-lg">
+                            </i>
+                        </span>
+                        <span
+                            class="kt-menu-title kt-menu-item-active:text-primary kt-menu-link-hover:!text-primary text-sm font-medium text-foreground">
+                            Slider
+                        </span>
+                    </a>
+                </div>
+                @endpermission
+
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span
                         class="kt-menu-heading pe-[10px] ps-[10px] text-xs font-medium uppercase text-muted-foreground">

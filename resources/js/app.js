@@ -1,13 +1,18 @@
 import "./bootstrap";
 import Alpine from "alpinejs";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
-// Make CKEditor available globally
-window.ClassicEditor = ClassicEditor;
+import Splide from "@splidejs/splide";
+import "@splidejs/splide/css";
 
 // Start Alpine.js
 window.Alpine = Alpine;
 Alpine.start();
+
+// Make CKEditor available globally
+window.ClassicEditor = ClassicEditor;
+
+// Make Splide available globally
+window.Splide = Splide;
 
 // Metronic Core JavaScript functionality
 document.addEventListener("DOMContentLoaded", function () {

@@ -12,12 +12,13 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\External\EmbedController;
+use App\Http\Controllers\Media\EmbedController;
 use App\Http\Controllers\PermissionRole\PermissionController;
 use App\Http\Controllers\PermissionRole\PermissionRoleController;
 use App\Http\Controllers\PermissionRole\RoleController;
-use App\Http\Controllers\External\PlatformController;
+use App\Http\Controllers\Media\PlatformController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\Media\SliderController;
 use App\Http\Controllers\User\UserController;
 
 /*
@@ -101,6 +102,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('/platforms', PlatformController::class)->middleware('permission:platforms-management');
     Route::resource('/embeds', EmbedController::class)->middleware('permission:embeds-management');
+    Route::resource('/sliders', SliderController::class)->middleware('permission:sliders-management');
 
     Route::resource('/permissions', PermissionController::class)->middleware('permission:permission-role-management');
     Route::resource('/roles', RoleController::class)->middleware('permission:permission-role-management');

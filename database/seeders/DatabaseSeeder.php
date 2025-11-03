@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Platform;
+use App\Models\Slider;
 use App\Models\Tag;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -113,6 +114,28 @@ class DatabaseSeeder extends Seeder
 
         foreach ($platforms as $platform) {
             Platform::create($platform);
+        }
+
+        $sliders = [
+            [
+                'name' => 'Banner 1',
+                'banner' => 'assets/media/images/2600x1200/1.png',
+                'description' => 'Gambar 1'
+            ],
+            [
+                'name' => 'Banner 2',
+                'banner' => 'assets/media/images/2600x1200/2.png',
+                'description' => 'Gambar 2'
+            ],
+            [
+                'name' => 'Banner 3',
+                'banner' => 'assets/media/images/2600x1200/2.png',
+                'description' => 'Gambar 3'
+            ],
+        ];
+
+        foreach ($sliders as $slider) {
+            Slider::create($slider);
         }
     }
 }

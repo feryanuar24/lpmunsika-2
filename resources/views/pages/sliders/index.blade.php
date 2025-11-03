@@ -10,11 +10,11 @@
         <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5 lg:items-end">
             <div class="flex flex-col justify-center gap-2">
                 <h1 class="text-xl font-medium leading-none text-mono">
-                    Platform Media
+                    Slider Widget
                 </h1>
             </div>
             <div class="flex items-center gap-2.5">
-                <a class="kt-btn kt-btn-primary" href="{{ route('platforms.create') }}">
+                <a class="kt-btn kt-btn-primary" href="{{ route('sliders.create') }}">
                     Tambah
                 </a>
             </div>
@@ -35,30 +35,25 @@
                                         <span class="kt-table-col"><span class="kt-table-col-label">Nama</span><span
                                                 class="kt-table-col-sort"></span></span>
                                     </th>
-                                    <th scope="col" class="w-20" data-kt-datatable-column="email">
-                                        <span class="kt-table-col"><span class="kt-table-col-label">Slug</span><span
-                                                class="kt-table-col-sort"></span></span>
-                                    </th>
                                     <th scope="col" class="w-10" data-kt-datatable-column="actions">Aksi</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($data['platforms'] as $platform)
+                                @foreach ($data['sliders'] as $slider)
                                     <tr>
-                                        <td>{{ $platform->name }}</td>
-                                        <td><a href="{{ $platform->url }}" class="kt-link">{{ $platform->url }}</a></td>
+                                        <td>{{ $slider->name }}</td>
                                         <td>
                                             <div class="flex justify-start gap-2">
-                                                <a href="{{ route('platforms.show', $platform->id) }}"
+                                                <a href="{{ route('sliders.show', $slider->id) }}"
                                                     class="kt-btn kt-btn-icon kt-btn-outline size-6">
                                                     <i class="ki-filled ki-eye"></i>
                                                 </a>
-                                                <a href="{{ route('platforms.edit', $platform->id) }}"
+                                                <a href="{{ route('sliders.edit', $slider->id) }}"
                                                     class="kt-btn kt-btn-icon kt-btn-outline size-6">
                                                     <i class="ki-filled ki-pencil"></i>
                                                 </a>
-                                                <form action="{{ route('platforms.destroy', $platform->id) }}"
+                                                <form action="{{ route('sliders.destroy', $slider->id) }}"
                                                     method="POST">
                                                     @method('DELETE')
                                                     @csrf
@@ -87,7 +82,7 @@
                                                                 <div class="flex items-center gap-4">
                                                                     <i class="ki-filled ki-lock text-4xl text-blue-600"></i>
                                                                     <div>
-                                                                        <p class="font-medium">Anda menghapus platform ini.
+                                                                        <p class="font-medium">Anda menghapus slider ini.
                                                                         </p>
                                                                         <p class="text-sm text-muted">Pastikan data sudah
                                                                             dicadangkan sebelum

@@ -3,6 +3,9 @@
 @section('content')
     <div class="kt-container-fixed space-y-5">
         <div id="main" class="space-y-5">
+            @if ($data['sliders']->isNotEmpty())
+                @include('partials.landing.sliders')
+            @endif
             @include('partials.landing.pinned')
             @include('partials.landing.berita')
         </div>
