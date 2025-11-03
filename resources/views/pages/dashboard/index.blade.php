@@ -1,12 +1,7 @@
 @extends('layouts.admin.base')
 
 @section('content')
-    <!-- Container -->
-    <div class="kt-container-fixed" id="contentContainer">
-    </div>
-    <!-- End of Container -->
-
-    <!-- Container -->
+    <!-- Head Container -->
     <div class="kt-container-fixed">
         <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5 lg:items-end">
             <div class="flex flex-col justify-center gap-2">
@@ -17,20 +12,20 @@
             </div>
         </div>
     </div>
-    <!-- End of Container -->
+    <!-- End of Head Container -->
 
-    <!-- Container -->
+    <!-- Body Container -->
     <div class="kt-container-fixed">
         @permission('dashboard-access')
             <!-- Statistics Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-7.5">
                 <div class="kt-card p-5">
                     <div class="flex items-center gap-4">
-                        <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg">
+                        <div class="flex items-center justify-center w-12 h-12 bg-blue-50 rounded-lg">
                             <i class="ki-filled ki-people text-blue-600 text-xl"></i>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-600">Total Users</p>
+                            <p class="text-sm text-gray-600">Total Pengguna</p>
                             <h3 class="text-2xl font-bold">{{ number_format($data['stats']['total_users']) }}</h3>
                         </div>
                     </div>
@@ -38,36 +33,24 @@
 
                 <div class="kt-card p-5">
                     <div class="flex items-center gap-4">
-                        <div class="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg">
+                        <div class="flex items-center justify-center w-12 h-12 bg-green-50 rounded-lg">
                             <i class="ki-filled ki-document text-green-600 text-xl"></i>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-600">Total Articles</p>
+                            <p class="text-sm text-gray-600">Total Artikel</p>
                             <h3 class="text-2xl font-bold">{{ number_format($data['stats']['total_articles']) }}</h3>
                         </div>
                     </div>
                 </div>
 
-                <div class="kt-card p-5">
+                <div class="kt-card p-5 col-span-2">
                     <div class="flex items-center gap-4">
-                        <div class="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-lg">
-                            <i class="ki-filled ki-eye text-purple-600 text-xl"></i>
+                        <div class="flex items-center justify-center w-12 h-12 bg-violet-50 rounded-lg">
+                            <i class="ki-filled ki-eye text-violet-600 text-xl"></i>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-600">Total Views</p>
+                            <p class="text-sm text-gray-600">Total Artikel Dilihat</p>
                             <h3 class="text-2xl font-bold">{{ number_format($data['stats']['total_views']) }}</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kt-card p-5">
-                    <div class="flex items-center gap-4">
-                        <div class="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg">
-                            <i class="ki-filled ki-bookmark text-orange-600 text-xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600">Published Articles</p>
-                            <h3 class="text-2xl font-bold">{{ number_format($data['stats']['published_articles']) }}</h3>
                         </div>
                     </div>
                 </div>
@@ -77,13 +60,13 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-7.5">
                 <!-- Articles by Status -->
                 <div class="kt-card p-5">
-                    <h3 class="text-lg font-semibold mb-4">Articles by Status</h3>
+                    <h3 class="text-lg font-semibold mb-4">Artikel Berdasarkan Status</h3>
                     <div id="articles-status-chart" style="height: 300px;"></div>
                 </div>
 
                 <!-- Articles by Category -->
                 <div class="kt-card p-5">
-                    <h3 class="text-lg font-semibold mb-4">Top Categories</h3>
+                    <h3 class="text-lg font-semibold mb-4">Artikel Berdasarkan Kategori</h3>
                     <div id="articles-category-chart" style="height: 300px;"></div>
                 </div>
             </div>
@@ -92,13 +75,13 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-7.5">
                 <!-- User Registration Trend -->
                 <div class="kt-card p-5">
-                    <h3 class="text-lg font-semibold mb-4">User Registration Trend</h3>
+                    <h3 class="text-lg font-semibold mb-4">Tren Registrasi Pengguna</h3>
                     <div id="user-trend-chart" style="height: 300px;"></div>
                 </div>
 
                 <!-- Article Publishing Trend -->
                 <div class="kt-card p-5">
-                    <h3 class="text-lg font-semibold mb-4">Article Publishing Trend</h3>
+                    <h3 class="text-lg font-semibold mb-4">Tren Publikasi Artikel</h3>
                     <div id="article-trend-chart" style="height: 300px;"></div>
                 </div>
             </div>
@@ -107,7 +90,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-7.5">
                 <!-- Top Authors -->
                 <div class="kt-card p-5">
-                    <h3 class="text-lg font-semibold mb-4">Top Authors</h3>
+                    <h3 class="text-lg font-semibold mb-4">Penulis Teratas</h3>
                     <div class="space-y-3">
                         @foreach ($data['top_authors'] as $author)
                             <div class="flex flex-row items-center justify-between kt-card p-3">
@@ -118,7 +101,7 @@
                                     </div>
                                     <span class="font-medium">{{ $author['name'] }}</span>
                                 </div>
-                                <span class="kt-badge kt-badge-primary">{{ $author['count'] }} articles</span>
+                                <span class="kt-badge kt-badge-primary">{{ $author['count'] }} artikel</span>
                             </div>
                         @endforeach
                     </div>
@@ -126,14 +109,18 @@
 
                 <!-- Most Viewed Articles -->
                 <div class="kt-card p-5">
-                    <h3 class="text-lg font-semibold mb-4">Most Viewed Articles</h3>
+                    <h3 class="text-lg font-semibold mb-4">Artikel Teratas</h3>
                     <div class="space-y-3">
                         @foreach ($data['most_viewed_articles'] as $article)
                             <div class="p-3 kt-card">
-                                <h4 class="font-medium text-sm line-clamp-2 mb-2">{{ $article['title'] }}</h4>
+                                <h4 class="font-medium text-sm line-clamp-2 mb-2">
+                                    <a href="{{ route('articles.show', $article['id']) }}" class="hover:text-primary transition-colors">
+                                        {{ $article['title'] }}
+                                    </a>
+                                </h4>
                                 <div class="flex items-center justify-between text-mono text-xs">
-                                    <span>by {{ $article['author'] }}</span>
-                                    <span class="kt-badge kt-badge-info">{{ number_format($article['views']) }} views</span>
+                                    <span>oleh {{ $article['author'] }}</span>
+                                    <span class="kt-badge kt-badge-info">{{ number_format($article['views']) }} pengunjung</span>
                                 </div>
                             </div>
                         @endforeach
@@ -143,8 +130,36 @@
 
             <!-- Views Distribution -->
             <div class="kt-card p-5 mb-7.5">
-                <h3 class="text-lg font-semibold mb-4">Articles Views Distribution</h3>
+                <h3 class="text-lg font-semibold mb-4">Distribusi Jumlah Pembaca</h3>
                 <div id="views-distribution-chart" style="height: 300px;"></div>
+            </div>
+
+            <!-- Recent Comments -->
+            <div class="kt-card p-5 mb-7.5">
+                <h3 class="text-lg font-semibold mb-4">Komentar Terbaru</h3>
+                <div class="space-y-4">
+                    @foreach ($data['recent_comments'] as $comment)
+                        <div class="kt-card p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-medium text-sm">
+                                    <a href="{{ route('articles.show', $comment->article->id) }}" class="hover:text-primary transition-colors">
+                                        {{ $comment->article->title }}
+                                    </a>
+                                </h4>
+                                <span class="text-xs text-mono">{{ $comment->created_at->diffForHumans() }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-mono text-sm">
+                                    {{ Str::limit($comment->content, 100) }}
+                                </p>
+                                <div class="kt-badge kt-badge-secondary kt-badge-sm">
+                                    <i class="ki-filled ki-profile-circle text-xs mr-1"></i>
+                                    {{ $comment->user->name }}  
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
 
             <script>
@@ -159,7 +174,7 @@
                             height: 300,
                             fontFamily: 'Inter, sans-serif'
                         },
-                        labels: ['Published', 'Draft'],
+                        labels: ['Diterbitkan', 'Diarsipkan'],
                         colors: ['#10B981', '#F59E0B'],
                         legend: {
                             position: 'bottom'
@@ -183,7 +198,7 @@
                     // Articles by Category Bar Chart
                     const categoryChart = new ApexCharts(document.querySelector("#articles-category-chart"), {
                         series: [{
-                            name: 'Articles',
+                            name: 'Artikel',
                             data: {!! $data['articles_by_category']->pluck('count')->toJson() !!}
                         }],
                         chart: {
@@ -211,7 +226,7 @@
                     // User Registration Trend Line Chart
                     const userTrendChart = new ApexCharts(document.querySelector("#user-trend-chart"), {
                         series: [{
-                            name: 'New Users',
+                            name: 'Pengguna Baru',
                             data: {!! $data['user_registration_trend']->pluck('count')->toJson() !!}
                         }],
                         chart: {
@@ -245,7 +260,7 @@
                     // Article Publishing Trend Area Chart
                     const articleTrendChart = new ApexCharts(document.querySelector("#article-trend-chart"), {
                         series: [{
-                            name: 'Articles Published',
+                            name: 'Artikel Dipublikasikan',
                             data: {!! $data['article_publishing_trend']->pluck('count')->toJson() !!}
                         }],
                         chart: {
@@ -291,7 +306,7 @@
                             fontFamily: 'Inter, sans-serif'
                         },
                         colors: ['#EF4444', '#F59E0B', '#10B981'],
-                        labels: ['Low Views (<100)', 'Medium Views (100-1K)', 'High Views (>1K)'],
+                        labels: ['Sedikit (<100)', 'Sedang (100-1K)', 'Banyak (>1K)'],
                         plotOptions: {
                             radialBar: {
                                 dataLabels: {
@@ -322,10 +337,10 @@
                     <div class="kt-card p-5">
                         <div class="flex items-center gap-4">
                             <div class="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg">
-                                <i class="ki-filled ki-message text-orange-600 text-xl"></i>
+                                <i class="ki-filled ki-message-text text-orange-600 text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-600">Total Comments</p>
+                                <p class="text-sm text-gray-600">Total Komentar</p>
                                 <h3 class="text-2xl font-bold">{{ $data['comments']->count() }}</h3>
                             </div>
                         </div>
@@ -336,7 +351,7 @@
                                 <i class="ki-filled ki-document text-blue-600 text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-600">Unique Articles</p>
+                                <p class="text-sm text-gray-600">Total Artikel</p>
                                 <h3 class="text-2xl font-bold">{{ $data['comments']->pluck('article_id')->unique()->count() }}
                                 </h3>
                             </div>
@@ -348,7 +363,7 @@
                                 <i class="ki-filled ki-calendar text-green-600 text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-600">Last Comment</p>
+                                <p class="text-sm text-gray-600">Komentar Terbaru</p>
                                 <h3 class="text-2xl font-bold">
                                     {{ optional($data['comments']->first())->created_at ? $data['comments']->first()->created_at->diffForHumans() : '-' }}
                                 </h3>
@@ -357,11 +372,11 @@
                     </div>
                     <div class="kt-card p-5">
                         <div class="flex items-center gap-4">
-                            <div class="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-lg">
-                                <i class="ki-filled ki-clock text-purple-600 text-xl"></i>
+                            <div class="flex items-center justify-center w-12 h-12 bg-violet-50 rounded-lg">
+                                <i class="ki-filled ki-time text-violet-600 text-xl"></i>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-600">First Comment</p>
+                                <p class="text-sm text-gray-600">Komentar Pertama</p>
                                 <h3 class="text-2xl font-bold">
                                     {{ optional($data['comments']->last())->created_at ? $data['comments']->last()->created_at->diffForHumans() : '-' }}
                                 </h3>
@@ -372,20 +387,20 @@
 
                 <!-- Chart: Comments per Month -->
                 <div class="kt-card p-5 mb-7.5">
-                    <h3 class="text-lg font-semibold mb-4">Comments per Month</h3>
+                    <h3 class="text-lg font-semibold mb-4">Komentar per Bulan</h3>
                     <div id="comments-per-month-chart" style="height: 300px;"></div>
                 </div>
 
                 <!-- Recent Comments Table -->
                 <div class="kt-card p-5 mb-7.5">
-                    <h3 class="text-lg font-semibold mb-4">Recent Comments</h3>
+                    <h3 class="text-lg font-semibold mb-4">Komentar Terbaru</h3>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Article</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Content</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Created</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Judul Artikel</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Isi Artikel</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Waktu Publikasi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
@@ -426,7 +441,7 @@
                         });
                         const chart = new ApexCharts(document.querySelector("#comments-per-month-chart"), {
                             series: [{
-                                name: 'Comments',
+                                name: 'Komentar',
                                 data: counts
                             }],
                             chart: {
@@ -455,5 +470,5 @@
             </div>
         @endpermission
     </div>
-    <!-- End of Container -->
+    <!-- End of Body Container -->
 @endsection

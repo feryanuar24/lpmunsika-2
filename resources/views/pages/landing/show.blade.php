@@ -119,9 +119,8 @@
                                 <input type="text" name="slug" value="{{ $data['article']->slug }}" hidden />
                                 <input type="text" name="content" placeholder="Tulis komentar..." class="kt-input"
                                     required />
-                                <button type="submit" class="kt-btn kt-btn-sm">
-                                    <i class="ki-filled ki-send text-sm mr-2"></i>
-                                    Kirim
+                                <button type="submit" class="kt-btn kt-btn-sm kt-btn-mono">
+                                    <i class="ki-filled ki-paper-plane text-sm"></i>
                                 </button>
                             </div>
                         </form>

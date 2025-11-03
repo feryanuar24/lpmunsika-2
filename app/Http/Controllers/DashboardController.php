@@ -14,6 +14,29 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    /**
+     * Convert month number to Indonesian month name
+     */
+    private function getIndonesianMonth($month)
+    {
+        $months = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ];
+
+        return $months[$month] ?? $month;
+    }
+
     public function index()
     {
         $user = User::find(Auth::id());
@@ -24,7 +47,6 @@ class DashboardController extends Controller
                 'stats' => [
                     'total_users' => User::count(),
                     'total_articles' => Article::count(),
-                    'published_articles' => Article::where('is_active', true)->count(),
                     'total_views' => Article::sum('views'),
                     'pinned_articles' => Article::where('is_pinned', true)->count(),
                     'categories_count' => Category::count(),
@@ -59,8 +81,9 @@ class DashboardController extends Controller
                     ->orderBy('month')
                     ->get()
                     ->map(function ($item) {
+                        $date = Carbon::createFromFormat('Y-m', $item->month);
                         return [
-                            'month' => Carbon::createFromFormat('Y-m', $item->month)->format('M Y'),
+                            'month' => $this->getIndonesianMonth($date->format('m')) . ' ' . $date->format('Y'),
                             'count' => $item->count
                         ];
                     }),
@@ -75,8 +98,9 @@ class DashboardController extends Controller
                     ->orderBy('month')
                     ->get()
                     ->map(function ($item) {
+                        $date = Carbon::createFromFormat('Y-m', $item->month);
                         return [
-                            'month' => Carbon::createFromFormat('Y-m', $item->month)->format('M Y'),
+                            'month' => $this->getIndonesianMonth($date->format('m')) . ' ' . $date->format('Y'),
                             'count' => $item->count
                         ];
                     }),
@@ -100,6 +124,7 @@ class DashboardController extends Controller
                     ->get()
                     ->map(function ($article) {
                         return [
+                            'id' => $article->id,
                             'title' => $article->title,
                             'views' => $article->views,
                             'author' => $article->user->name,
@@ -119,6 +144,12 @@ class DashboardController extends Controller
                     'medium' => Article::whereBetween('views', [100, 1000])->count(),
                     'high' => Article::where('views', '>', 1000)->count(),
                 ],
+
+                // Recent Comments
+                'recent_comments' => Comment::with(['article', 'user'])
+                    ->orderBy('created_at', 'desc')
+                    ->limit(5)
+                    ->get(),
             ];
         } else {
             $data = [
