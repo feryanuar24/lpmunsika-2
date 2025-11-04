@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Notification;
+use App\Models\Chat;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -24,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $targetRoutes = ['dashboard', 'menus.*', 'profile.*', 'users.*', 'categories.*', 'tags.*', 'articles.*', 'platforms.*', 'embeds.*', 'sliders.*', 'permissions.*', 'roles.*', 'permission-role.*'];
+        $targetRoutes = ['dashboard', 'menus.*', 'profile', 'profile.*', 'users.*', 'categories.*', 'tags.*', 'articles.*', 'platforms.*', 'embeds.*', 'sliders.*', 'permissions.*', 'roles.*', 'permission-role.*'];
 
         View::composer('*', function ($view) use ($targetRoutes) {
             $route = Route::currentRouteName() ?? '';
@@ -39,7 +40,8 @@ class AppServiceProvider extends ServiceProvider
 
             if ($matched) {
                 $notifications = Notification::latest()->take(10)->get();
-                $view->with('notifications', $notifications);
+                $chats = Chat::latest()->take(10)->get();
+                $view->with('notifications', $notifications)->with('chats', $chats);
             }
         });
     }

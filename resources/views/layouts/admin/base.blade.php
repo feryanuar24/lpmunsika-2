@@ -54,7 +54,7 @@
                 <div class="kt-modal-footer">
                     <div></div>
                     <div class="flex gap-4">
-                        <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="#modal">Tidak, Kembali</button>
+                        <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="#modal" type="button">Tidak, Kembali</button>
                         <button class="kt-btn kt-btn-primary" type="submit" id="submit-button">Ya, Keluar</button>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <div class="kt-modal-header">
                         <h3 class="kt-modal-title">Cari Menu</h3>
                         <button type="button" class="kt-modal-close" aria-label="Close modal"
-                            data-kt-modal-dismiss="#modal">
+                            data-kt-modal-dismiss="#modal_topbar_search">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-x" aria-hidden="true">
@@ -78,12 +78,12 @@
                     </div>
                     <div class="kt-modal-body">
                         <input type="text" name="q" id="q" class="kt-input w-full"
-                            placeholder="Cari menu...">
+                            placeholder="Masukkan nama atau deskripsi...">
                     </div>
                     <div class="kt-modal-footer">
                         <div></div>
                         <div class="flex gap-4">
-                            <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="#modal">Kembali</button>
+                            <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="#modal_topbar_search" type="button">Kembali</button>
                             <button class="kt-btn kt-btn-primary" type="submit" id="submit-button">Cari</button>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                     <div class="kt-modal-header">
                         <h3 class="kt-modal-title">Notifikasi</h3>
                         <button type="button" class="kt-modal-close" aria-label="Close modal"
-                            data-kt-modal-dismiss="#modal">
+                            data-kt-modal-dismiss="#modal_topbar_notifications">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-x" aria-hidden="true">
@@ -118,7 +118,7 @@
                     <div class="kt-modal-footer">
                         <div></div>
                         <div class="flex gap-4">
-                            <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="#modal">Kembali</button>
+                            <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="#modal_topbar_notifications" type="button">Kembali</button>
                         </div>
                     </div>
                 </form>

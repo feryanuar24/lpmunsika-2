@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Media\EmbedController;
 use App\Http\Controllers\PermissionRole\PermissionController;
@@ -87,9 +88,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/menus/search', [MenuController::class, 'search'])->name('menus.search');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/menus/search', [MenuController::class, 'search'])->middleware('permission:dashboard-access')->name('menus.search');
+    Route::resource('/chat', ChatController::class)->middleware('permission:dashboard-access');
     Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
