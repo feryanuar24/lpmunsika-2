@@ -19,6 +19,7 @@ use App\Http\Controllers\PermissionRole\RoleController;
 use App\Http\Controllers\Media\PlatformController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\Media\SliderController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\User\UserController;
 
 /*
@@ -86,6 +87,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/menus/search', [MenuController::class, 'search'])->name('menus.search');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
 

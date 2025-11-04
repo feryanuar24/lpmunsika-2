@@ -32,7 +32,7 @@
                         class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
                         tabindex="0">
                         <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
-                            <i class="ki-filled ki-element-11 text-lg">
+                            <i class="ki-filled ki-graph text-lg">
                             </i>
                         </span>
                         <span
@@ -45,7 +45,7 @@
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span
                         class="kt-menu-heading pe-[10px] ps-[10px] text-xs font-medium uppercase text-muted-foreground">
-                        Pengguna
+                        Manajemen Pengguna
                     </span>
                 </div>
                 <div class="kt-menu-item {{ request()->routeIs('profile', 'profile.edit') ? 'active' : '' }}"
@@ -54,7 +54,7 @@
                         class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
                         tabindex="0">
                         <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
-                            <i class="ki-filled ki-profile-circle text-lg">
+                            <i class="ki-filled ki-user text-lg">
                             </i>
                         </span>
                         <span
@@ -75,7 +75,7 @@
                         </span>
                         <span
                             class="kt-menu-title kt-menu-item-active:text-primary kt-menu-link-hover:!text-primary text-sm font-medium text-foreground">
-                            Data
+                            Pengguna
                         </span>
                     </a>
                 </div>
@@ -84,9 +84,26 @@
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span
                         class="kt-menu-heading pe-[10px] ps-[10px] text-xs font-medium uppercase text-muted-foreground">
-                        Artikel
+                        Manajemen Konten
                     </span>
                 </div>
+                @permission('articles-management')
+                <div class="kt-menu-item {{ request()->routeIs('articles.*') ? 'active' : '' }}"
+                    data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
+                    <a href="{{ route('articles.index') }}"
+                        class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
+                        tabindex="0">
+                        <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
+                            <i class="ki-filled ki-document text-lg">
+                            </i>
+                        </span>
+                        <span
+                            class="kt-menu-title kt-menu-item-active:text-primary kt-menu-link-hover:!text-primary text-sm font-medium text-foreground">
+                            Artikel
+                        </span>
+                    </a>
+                </div>
+                @endpermission
                 @permission('categories-management')
                 <div class="kt-menu-item {{ request()->routeIs('categories.*') ? 'active' : '' }}"
                     data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
@@ -111,7 +128,7 @@
                         class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
                         tabindex="0">
                         <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
-                            <i class="ki-filled ki-price-tag text-lg">
+                            <i class="ki-filled ki-tag text-lg">
                             </i>
                         </span>
                         <span
@@ -121,28 +138,11 @@
                     </a>
                 </div>
                 @endpermission
-                @permission('articles-management')
-                <div class="kt-menu-item {{ request()->routeIs('articles.*') ? 'active' : '' }}"
-                    data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
-                    <a href="{{ route('articles.index') }}"
-                        class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
-                        tabindex="0">
-                        <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
-                            <i class="ki-filled ki-document text-lg">
-                            </i>
-                        </span>
-                        <span
-                            class="kt-menu-title kt-menu-item-active:text-primary kt-menu-link-hover:!text-primary text-sm font-medium text-foreground">
-                            Data
-                        </span>
-                    </a>
-                </div>
-                @endpermission
 
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span
                         class="kt-menu-heading pe-[10px] ps-[10px] text-xs font-medium uppercase text-muted-foreground">
-                        Widget
+                        Manajemen Widget
                     </span>
                 </div>
                 @permission('platforms-management')
@@ -152,7 +152,7 @@
                         class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
                         tabindex="0">
                         <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
-                            <i class="ki-filled ki-lock text-lg">
+                            <i class="ki-filled ki-social-media text-lg">
                             </i>
                         </span>
                         <span
@@ -169,12 +169,12 @@
                         class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
                         tabindex="0">
                         <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
-                            <i class="ki-filled ki-code text-lg">
+                            <i class="ki-filled ki-fasten text-lg">
                             </i>
                         </span>
                         <span
                             class="kt-menu-title kt-menu-item-active:text-primary kt-menu-link-hover:!text-primary text-sm font-medium text-foreground">
-                            Penyematan
+                            Embed
                         </span>
                     </a>
                 </div>
@@ -191,7 +191,7 @@
                         </span>
                         <span
                             class="kt-menu-title kt-menu-item-active:text-primary kt-menu-link-hover:!text-primary text-sm font-medium text-foreground">
-                            Slider
+                            Sliders
                         </span>
                     </a>
                 </div>
@@ -210,7 +210,7 @@
                         class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
                         tabindex="0">
                         <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
-                            <i class="ki-filled ki-social-media text-lg">
+                            <i class="ki-filled ki-lock text-lg">
                             </i>
                         </span>
                         <span
@@ -240,7 +240,7 @@
                         class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
                         tabindex="0">
                         <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
-                            <i class="ki-filled ki-key-square text-lg">
+                            <i class="ki-filled ki-shield text-lg">
                             </i>
                         </span>
                         <span

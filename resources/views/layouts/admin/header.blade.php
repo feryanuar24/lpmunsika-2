@@ -26,7 +26,6 @@
             @include('partials.topbar-search-modal')
             @include('partials.topbar-notification-dropdown')
             @include('partials.topbar-chat')
-            @include('partials.topbar-apps')
             @include('partials.topbar-user-dropdown')
         </div>
         <!-- End of Topbar -->

@@ -6,7 +6,7 @@
             src="{{ asset(Auth::user()->avatar) }}" />
     </div>
     <div class="kt-dropdown-menu w-[250px]" data-kt-dropdown-menu="true">
-        <div class="flex items-center justify-between gap-1.5 px-2.5 py-1.5">
+        <div class="flex flex-col gap-1.5 px-2.5 py-1.5">
             <div class="flex items-center gap-2">
                 <img alt="" class="size-9 shrink-0 rounded-full border-2 border-green-500"
                     src="{{ asset(Auth::user()->avatar) }}" />
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <span class="kt-badge kt-badge-sm kt-badge-primary kt-badge-outline">
-                Pro
+                {{ Auth::user()->roles[0]->name }}
             </span>
         </div>
         <ul class="kt-dropdown-menu-sub">

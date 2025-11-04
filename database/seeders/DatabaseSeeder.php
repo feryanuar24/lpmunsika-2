@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Menu;
 use App\Models\Platform;
 use App\Models\Slider;
 use App\Models\Tag;
@@ -136,6 +137,125 @@ class DatabaseSeeder extends Seeder
 
         foreach ($sliders as $slider) {
             Slider::create($slider);
+        }
+
+        $menus = [
+            [
+                'parent_id' => null,
+                'name' => 'Dashboard',
+                'url' => '/dashboard',
+                'icon' => 'ki-graph',
+                'description' => 'Halaman utama dashboard'
+            ],
+            [
+                'parent_id' => null,
+                'name' => 'Manajemen Pengguna',
+                'url' => null,
+                'icon' => null,
+                'description' => 'Menu parent untuk manajemen pengguna'
+            ],
+            [
+                'parent_id' => 2,
+                'name' => 'Profil',
+                'url' => '/profile',
+                'icon' => 'ki-user',
+                'description' => 'Halaman untuk melihat profil pengguna'
+            ],
+            [
+                'parent_id' => 2,
+                'name' => 'Pengguna',
+                'url' => '/users',
+                'icon' => 'ki-users',
+                'description' => 'Halaman untuk melihat daftar pengguna'
+            ],
+            [
+                'parent_id' => null,
+                'name' => 'Manajemen Konten',
+                'url' => null,
+                'icon' => null,
+                'description' => 'Menu parent untuk manajemen konten'
+            ],
+            [
+                'parent_id' => 5,
+                'name' => 'Artikel',
+                'url' => '/articles',
+                'icon' => 'ki-document',
+                'description' => 'Halaman untuk manajemen artikel'
+            ],
+            [
+                'parent_id' => 5,
+                'name' => 'Kategori',
+                'url' => '/categories',
+                'icon' => 'ki-category',
+                'description' => 'Halaman untuk manajemen kategori'
+            ],
+            [
+                'parent_id' => 5,
+                'name' => 'Tag',
+                'url' => '/tags',
+                'icon' => 'ki-tag',
+                'description' => 'Halaman untuk manajemen tag'
+            ],
+            [
+                'parent_id' => null,
+                'name' => 'Manajemen Widget',
+                'url' => null,
+                'icon' => null,
+                'description' => 'Menu parent untuk manajemen widget'
+            ],
+            [
+                'parent_id' => 9,
+                'name' => 'Platform',
+                'url' => '/platforms',
+                'icon' => 'ki-social-media',
+                'description' => 'Halaman untuk manajemen platform'
+            ],
+            [
+                'parent_id' => 9,
+                'name' => 'Embed',
+                'url' => '/embeds',
+                'icon' => 'ki-fasten',
+                'description' => 'Halaman untuk manajemen embed'
+            ],
+            [
+                'parent_id' => 9,
+                'name' => 'Sliders',
+                'url' => '/sliders',
+                'icon' => 'ki-slider',
+                'description' => 'Halaman untuk manajemen sliders'
+            ],
+            [
+                'parent_id' => null,
+                'name' => 'Pengaturan',
+                'url' => null,
+                'icon' => null,
+                'description' => 'Menu parent untuk pengaturan sistem'
+            ],
+            [
+                'parent_id' => 13,
+                'name' => 'Permissions',
+                'url' => '/permissions',
+                'icon' => 'ki-lock',
+                'description' => 'Halaman untuk manajemen permissions'
+            ],
+            [
+                'parent_id' => 13,
+                'name' => 'Roles',
+                'url' => '/roles',
+                'icon' => 'ki-key',
+                'description' => 'Halaman untuk manajemen roles'
+            ],
+            [
+                'parent_id' => 13,
+                'name' => 'Permission Role',
+                'url' => '/permission-role',
+                'icon' => 'ki-shield',
+                'description' => 'Halaman untuk manajemen permission role'
+            ],
+        ];
+
+        foreach ($menus as $menu) {
+            Menu::create($menu);
         }
     }
 }
