@@ -51,6 +51,9 @@ Route::get('/artikel', [LandingController::class, 'artikel'])->name('artikel');
 Route::get('/puisi', [LandingController::class, 'puisi'])->name('puisi');
 Route::get('/cerpen', [LandingController::class, 'cerpen'])->name('cerpen');
 Route::get('/gaya-mahasiswa', [LandingController::class, 'gayaMahasiswa'])->name('gaya-mahasiswa');
+
+Route::get('/tag/{tag}', [LandingController::class, 'tags'])->name('tag');
+
 Route::get('/search', [LandingController::class, 'search'])->name('search');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
@@ -66,6 +69,7 @@ Route::get('/forgot-password', [PasswordResetController::class, 'create'])
 Route::post('/forgot-password', [PasswordResetController::class, 'store'])
     ->middleware(['throttle:6,1'])
     ->name('password.email');
+
 Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])
     ->middleware(['signed', 'throttle:6,1'])
     ->name('password.reset');
@@ -77,34 +81,33 @@ Route::get('/files/{path}', [FileController::class, 'show'])->where('path', '.*'
 Route::middleware('auth')->group(function () {
     Route::get('/email/verify', [VerificationController::class, 'create'])
         ->name('verification.notice');
-
     Route::post('/email/verification-notification', [VerificationController::class, 'store'])
         ->middleware(['throttle:6,1'])
         ->name('verification.send');
-
     Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'update'])
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/menus/search', [MenuController::class, 'search'])->middleware('permission:dashboard-access')->name('menus.search');
-    Route::resource('/chat', ChatController::class)->middleware('permission:dashboard-access');
     Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/menus', [MenuController::class, 'index'])->middleware('permission:dashboard-access')->name('menus');
+    Route::resource('/chats', ChatController::class)->middleware('permission:dashboard-access');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update']);
     Route::delete('/profile', [ProfileController::class, 'destroy']);
+
     Route::resource('/users', UserController::class)->middleware('permission:users-management');
 
+    Route::resource('/articles', ArticleController::class)->middleware('permission:articles-management');
     Route::resource('/categories', CategoryController::class)->middleware('permission:categories-management');
     Route::resource('/tags', TagController::class)->middleware('permission:tags-management');
-    Route::resource('/articles', ArticleController::class)->middleware('permission:articles-management');
-    Route::post('/ckeditor/upload', [ArticleController::class, 'uploadImage'])->name('ckeditor.upload')->middleware('permission:articles-management');
     Route::resource('/comments', CommentController::class)->middleware('permission:articles-management');
+    Route::post('/ckeditor/upload', [ArticleController::class, 'uploadImage'])->name('ckeditor.upload')->middleware('permission:articles-management');
 
     Route::resource('/platforms', PlatformController::class)->middleware('permission:platforms-management');
     Route::resource('/embeds', EmbedController::class)->middleware('permission:embeds-management');

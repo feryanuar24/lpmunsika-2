@@ -31,7 +31,7 @@
             <!-- Search Form -->
             <div class="kt-card">
                 <div class="kt-card-body">
-                    <form action="{{ route('menus.search') }}" method="GET" class="flex gap-2">
+                    <form action="{{ route('menus') }}" method="GET" class="flex gap-2">
                         <div class="w-full">
                             <input type="text" name="q" value="{{ request('q') }}" class="kt-input"
                                 placeholder="Cari menu..." required>

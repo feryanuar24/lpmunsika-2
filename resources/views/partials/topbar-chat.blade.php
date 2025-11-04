@@ -42,24 +42,24 @@
             data-kt-scrollable-max-height="auto" data-kt-scrollable-offset="230px">
             <div class="flex flex-col gap-5 py-5">
                 @foreach ($chats as $chat)
-                <div class="flex items-end {{ $chat->user_id == Auth::id() ? 'justify-end' : '' }} gap-3.5 px-5">
-                    <img alt="" class="size-9 rounded-full" src="{{ $chat->user->avatar }}" />
-                    <div class="flex flex-col gap-1.5">
-                        <div
-                            class="kt-card bg-accent/60 rounded-bs-none text-2sm flex flex-col gap-2.5 p-3 shadow-none">
-                            {{ $chat->message }}
+                    <div class="flex items-end {{ $chat->user_id == Auth::id() ? 'justify-end' : '' }} gap-3.5 px-5">
+                        <img alt="" class="size-9 rounded-full" src="{{ $chat->user->avatar }}" />
+                        <div class="flex flex-col gap-1.5">
+                            <div
+                                class="kt-card bg-accent/60 rounded-bs-none text-2sm flex flex-col gap-2.5 p-3 shadow-none">
+                                {{ $chat->message }}
+                            </div>
+                            <span class="text-xs font-medium text-muted-foreground">
+                                {{ $chat->created_at->diffForHumans() }}
+                            </span>
                         </div>
-                        <span class="text-xs font-medium text-muted-foreground">
-                            {{ $chat->created_at->diffForHumans() }}
-                        </span>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
         <!--Chat Footer-->
         <div class="mx-5">
-            <form action="{{ route('chat.store') }}" method="POST" class="relative grow">
+            <form action="{{ route('chats.store') }}" method="POST" class="relative grow">
                 @csrf
                 <img alt="Avatar pengguna"
                     class="absolute start-0 top-2/4 ms-2.5 size-[30px] -translate-y-2/4 rounded-full"

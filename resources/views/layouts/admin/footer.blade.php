@@ -5,7 +5,7 @@
         <div class="flex flex-col items-center justify-center gap-3 py-5 md:flex-row md:justify-between">
             <div class="order-2 flex gap-2 text-sm font-normal md:order-1">
                 <span class="text-secondary-foreground">
-                    2025 © LPM Unsika.
+                    2025 © {{ config('app.name') }}.
                 </span>
             </div>
             <nav class="order-1 flex gap-4 text-sm font-normal text-secondary-foreground md:order-2">

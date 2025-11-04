@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Embed;
 use App\Models\Slider;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -281,5 +282,18 @@ class LandingController extends Controller
         ];
 
         return view('pages.landing.search', compact('data'));
+    }
+
+    public function tags(Tag $tag)
+    {
+        $data = [
+            'tag' => $tag,
+            'articles' => $tag->articles()
+                ->where('is_active', true)
+                ->latest()
+                ->paginate(12),
+        ];
+
+        return view('pages.landing.tag', compact('data'));
     }
 }

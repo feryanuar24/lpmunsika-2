@@ -11,9 +11,29 @@ class MenuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = $request->input('q');
+
+        $data = [
+            'query' => $query,
+            'menus' => Menu::where(function ($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%")
+                    ->orWhere('description', 'LIKE', "%{$query}%");
+            })
+                ->latest()
+                ->paginate(12),
+            'youtube' => Embed::where('platform_id', 1)
+                ->latest()
+                ->limit(3)
+                ->get(),
+            'spotify' => Embed::where('platform_id', 2)
+                ->latest()
+                ->limit(3)
+                ->get(),
+        ];
+
+        return view('pages.menus.search', compact('data'));
     }
 
     /**
@@ -62,33 +82,5 @@ class MenuController extends Controller
     public function destroy(Menu $menu)
     {
         //
-    }
-
-    /**
-     * Search menus.
-     */
-    public function search(Request $request)
-    {
-        $query = $request->input('q');
-
-        $data = [
-            'query' => $query,
-            'menus' => Menu::where(function ($q) use ($query) {
-                $q->where('name', 'LIKE', "%{$query}%")
-                    ->orWhere('description', 'LIKE', "%{$query}%");
-            })
-                ->latest()
-                ->paginate(12),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
-        ];
-
-        return view('pages.menus.search', compact('data'));
     }
 }
