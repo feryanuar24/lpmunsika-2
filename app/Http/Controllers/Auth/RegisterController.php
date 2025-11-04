@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\RecaptchaHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,6 +60,12 @@ class RegisterController extends Controller
         Auth::login($user);
 
         $user->sendEmailVerificationNotification();
+
+        Notification::create([
+            'user_id' => Auth::id(),
+            'title' => 'Pengguna Mendaftar',
+            'message' => 'Pengguna "' . $user->name ?? 'System' . '" telah berhasil mendaftar.',
+        ]);
 
         return redirect()->route('verification.notice')->with('success', 'Akun dibuat. Silakan cek email Anda untuk link verifikasi.');
     }

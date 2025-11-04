@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Article;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Notification;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -151,6 +152,12 @@ class ArticleController extends Controller
                 $article->tags()->sync($tagIds);
             }
 
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title' => 'Artikel Ditambahkan',
+                'message' => 'Artikel "' . $article->title . '" telah berhasil dibuat oleh ' . (Auth::user()?->name ?? 'System') . '.',
+            ]);
+
             DB::commit();
 
             return redirect()
@@ -286,6 +293,12 @@ class ArticleController extends Controller
                 $article->tags()->sync($tagIds);
             }
 
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title' => 'Artikel Diperbaharui',
+                'message' => 'Artikel "' . $article->title . '" telah berhasil diperbaharui oleh ' . (Auth::user()?->name ?? 'System') . '.',
+            ]);
+
             DB::commit();
 
             return redirect()
@@ -316,11 +329,18 @@ class ArticleController extends Controller
             Storage::disk($disk)->delete($article->thumbnail);
         }
 
+        // Create a notification for the deletion
+        Notification::create([
+            'user_id' => Auth::id(),
+            'title' => 'Artikel Dihapus',
+            'message' => 'Artikel "' . $article->title . '" telah dihapus oleh ' . (Auth::user()?->name ?? 'System') . '.',
+        ]);
+
         $article->delete();
 
         return redirect()
             ->route('articles.index')
-            ->with('success', 'Artikel berhasil diperbaharui.');
+            ->with('success', 'Artikel berhasil dihapus.');
     }
 
     /**
