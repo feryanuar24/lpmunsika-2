@@ -74,14 +74,6 @@ class LandingController extends Controller
                 ->latest()
                 ->limit(3)
                 ->get(),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.index', compact('data'));
@@ -101,14 +93,6 @@ class LandingController extends Controller
             'relatedArticles' => Article::where('category_id', $article->category_id)
                 ->where('is_active', true)
                 ->where('id', '!=', $article->id)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
                 ->latest()
                 ->limit(3)
                 ->get(),
@@ -156,14 +140,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(8),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.berita', compact('data'));
@@ -176,14 +152,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.buletin', compact('data'));
@@ -196,14 +164,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.majalah', compact('data'));
@@ -216,14 +176,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.resensi-buku', compact('data'));
@@ -236,14 +188,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.review-film', compact('data'));
@@ -256,14 +200,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.opini', compact('data'));
@@ -276,14 +212,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.esai', compact('data'));
@@ -296,14 +224,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.artikel', compact('data'));
@@ -316,14 +236,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.puisi', compact('data'));
@@ -336,14 +248,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.cerpen', compact('data'));
@@ -356,14 +260,6 @@ class LandingController extends Controller
                 ->where('is_active', true)
                 ->latest()
                 ->paginate(9),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.gaya-mahasiswa', compact('data'));
@@ -382,14 +278,6 @@ class LandingController extends Controller
                 })
                 ->latest()
                 ->paginate(12),
-            'youtube' => Embed::where('platform_id', 1)
-                ->latest()
-                ->limit(3)
-                ->get(),
-            'spotify' => Embed::where('platform_id', 2)
-                ->latest()
-                ->limit(3)
-                ->get(),
         ];
 
         return view('pages.landing.search', compact('data'));

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Notification;
 use App\Models\Chat;
+use App\Models\Embed;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -42,6 +43,27 @@ class AppServiceProvider extends ServiceProvider
                 $notifications = Notification::latest()->take(10)->get();
                 $chats = Chat::latest()->take(10)->get();
                 $view->with('notifications', $notifications)->with('chats', $chats);
+            }
+        });
+
+        // Share youtube and spotify embeds for landing pages
+        $landingRoutes = ['landing', 'detail', 'berita', 'buletin', 'majalah', 'resensi-buku', 'review-film', 'opini', 'esai', 'artikel', 'puisi', 'cerpen', 'gaya-mahasiswa', 'search'];
+
+        View::composer('*', function ($view) use ($landingRoutes) {
+            $route = Route::currentRouteName() ?? '';
+
+            $matched = false;
+            foreach ($landingRoutes as $pattern) {
+                if (Str::is($pattern, $route)) {
+                    $matched = true;
+                    break;
+                }
+            }
+
+            if ($matched) {
+                $youtube = Embed::where('platform_id', 1)->latest()->limit(3)->get();
+                $spotify = Embed::where('platform_id', 2)->latest()->limit(3)->get();
+                $view->with('youtube', $youtube)->with('spotify', $spotify);
             }
         });
     }
