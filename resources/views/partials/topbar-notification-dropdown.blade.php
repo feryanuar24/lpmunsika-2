@@ -1,7 +1,7 @@
 <div class="flex items-center gap-1.5">
     <!-- Notifications -->
     <button class="kt-btn kt-btn-ghost kt-btn-icon size-8 hover:bg-background hover:[&amp;_i]:text-primary"
-        data-kt-modal-toggle="#modal_topbar_notifications">
+        data-kt-modal-toggle="#modal-notification">
         <i class="ki-filled ki-notification-status text-lg">
         </i>
     </button>
@@ -14,7 +14,7 @@
 
         @csrf
 
-        <button type="button" data-kt-modal-toggle="#modal"
+        <button type="button" data-kt-modal-toggle="#modal-logout"
             class="kt-btn kt-btn-ghost kt-btn-icon size-8 hover:bg-background hover:[&amp;_i]:text-primary">
             <i class="ki-filled ki-exit-right">
             </i>

@@ -19,6 +19,7 @@ use App\Http\Controllers\PermissionRole\PermissionRoleController;
 use App\Http\Controllers\PermissionRole\RoleController;
 use App\Http\Controllers\Media\PlatformController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\Media\FooterController;
 use App\Http\Controllers\Media\SliderController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\User\UserController;
@@ -40,17 +41,7 @@ Route::get('/detail/{slug}', [LandingController::class, 'show'])->name('detail')
 Route::post('/like', [LandingController::class, 'like'])->name('like');
 Route::post('/comment', [LandingController::class, 'comment'])->name('comment');
 
-Route::get('/berita', [LandingController::class, 'berita'])->name('berita');
-Route::get('/buletin', [LandingController::class, 'buletin'])->name('buletin');
-Route::get('/majalah', [LandingController::class, 'majalah'])->name('majalah');
-Route::get('/resensi-buku', [LandingController::class, 'resensiBuku'])->name('resensi-buku');
-Route::get('/review-film', [LandingController::class, 'reviewFilm'])->name('review-film');
-Route::get('/opini', [LandingController::class, 'opini'])->name('opini');
-Route::get('/esai', [LandingController::class, 'esai'])->name('esai');
-Route::get('/artikel', [LandingController::class, 'artikel'])->name('artikel');
-Route::get('/puisi', [LandingController::class, 'puisi'])->name('puisi');
-Route::get('/cerpen', [LandingController::class, 'cerpen'])->name('cerpen');
-Route::get('/gaya-mahasiswa', [LandingController::class, 'gayaMahasiswa'])->name('gaya-mahasiswa');
+Route::get('/category/{category:slug}', [LandingController::class, 'category'])->name('category');
 
 Route::get('/tag/{tag}', [LandingController::class, 'tags'])->name('tag');
 
@@ -112,6 +103,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/platforms', PlatformController::class)->middleware('permission:platforms-management');
     Route::resource('/embeds', EmbedController::class)->middleware('permission:embeds-management');
     Route::resource('/sliders', SliderController::class)->middleware('permission:sliders-management');
+    Route::resource('/footers', FooterController::class)->middleware('permission:footers-management');
 
     Route::resource('/permissions', PermissionController::class)->middleware('permission:permission-role-management');
     Route::resource('/roles', RoleController::class)->middleware('permission:permission-role-management');

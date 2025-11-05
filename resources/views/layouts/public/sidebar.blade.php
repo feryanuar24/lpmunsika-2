@@ -33,7 +33,7 @@
         <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Categories</h2>
         <div class="flex flex-wrap gap-2">
             @foreach ($categories as $category)
-                <a href="{{ route($category->slug) }}"
+                <a href="{{ route('category', $category->slug) }}"
                     class="kt-badge badge-outline badge-sm">{{ $category->name }}</a>
             @endforeach
         </div>

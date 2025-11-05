@@ -58,7 +58,7 @@
 
                 @csrf
 
-                <button type="button" data-kt-modal-toggle="#modal"
+                <button type="button" data-kt-modal-toggle="#modal-logout"
                     class="kt-btn kt-btn-outline w-full justify-center">
                     Keluar
                 </button>

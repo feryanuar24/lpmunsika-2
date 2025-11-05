@@ -3,26 +3,19 @@
         <div class="grid grid-cols-2 gap-8">
             <!-- About Section -->
             <div class="col-span-2 lg:col-span-1">
-                <h3 class="text-xl font-semibold mb-4">LPM UNSIKA</h3>
+                <h3 class="text-xl font-semibold mb-4">{{ config('app.name') }}</h3>
                 <p class="mb-4">
-                    LPM Unsika merupakan unit kegiatan mahasiswa
+                    Lembaga Pers Mahasiswa Unsika merupakan unit kegiatan mahasiswa
                     yang berperan sebagai wadah untuk
                     menyalurkan bakat dan hobi dalam bidang
                     jurnalistik.
                 </p>
                 <div class="flex space-x-2">
-                    <a href="https://facebook.com/lpmunsika" class="kt-btn kt-btn-outline">
-                        <i class="ki-filled ki-facebook text-lg"></i>
+                    @foreach ($platforms as $platform)
+                    <a href="{{ $platform->url }}" class="kt-btn kt-btn-outline">
+                        <i class="ki-filled {{ $platform->icon }} text-lg"></i>
                     </a>
-                    <a href="https://twitter.com/lpmunsika" class="kt-btn kt-btn-outline">
-                        <i class="ki-filled ki-twitter text-lg"></i>
-                    </a>
-                    <a href="https://instagram.com/lpmunsika" class="kt-btn kt-btn-outline">
-                        <i class="ki-filled ki-instagram text-lg"></i>
-                    </a>
-                    <a href="https://youtube.com/@lpmunsika" class="kt-btn kt-btn-outline">
-                        <i class="ki-filled ki-youtube text-lg"></i>
-                    </a>
+                    @endforeach
                 </div>
             </div>
 
@@ -31,12 +24,11 @@
                 <div>
                     <h4 class="font-semibold mb-4">Tautan Cepat</h4>
                     <ul class="space-y-1">
-                        <li><a href="{{ route('landing') }}" class="kt-link kt-link-mono">Beranda</a></li>
-                        <li><a href="#" class="kt-link kt-link-mono">Tentang Kami</a></li>
-                        <li><a href="#" class="kt-link kt-link-mono">Redaksi</a></li>
-                        <li><a href="#" class="kt-link kt-link-mono">Kontak</a></li>
-                        <li><a href="#" class="kt-link kt-link-mono">Kebijakan Privasi</a>
-                        </li>
+                        @foreach ($footers as $footer)
+                            <li>
+                                <a href="{{ $footer->url }}" class="kt-link kt-link-mono">{{ $footer->name }}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
 
@@ -46,7 +38,8 @@
                     <div class="space-y-2">
                         <div class="flex items-center">
                             <i class="ki-filled ki-geolocation text-lg mr-1"></i>
-                            <a href="https://maps.app.goo.gl/knLR6F9KTrQLqgNH7" class="kt-link kt-link-mono">Jl. HS. Ronggowaluyo, Karawang</a>
+                            <a href="https://maps.app.goo.gl/knLR6F9KTrQLqgNH7" class="kt-link kt-link-mono">Jl. HS.
+                                Ronggowaluyo, Karawang</a>
                         </div>
                         <div class="flex items-center">
                             <i class="ki-filled ki-sms text-lg mr-1"></i>
@@ -71,12 +64,7 @@
         <!-- Bottom Footer -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-5 lg:gap-y-0">
             <div class="text-sm">
-                &copy; {{ date('Y') }} LPM UNSIKA. Semua hak cipta dilindungi undang-undang.
-            </div>
-            <div class="flex space-x-2 justify-end flex-col lg:flex-row">
-                <a href="#" class="kt-link kt-link-mono">Syarat & Ketentuan</a>
-                <a href="#" class="kt-link kt-link-mono">Disclaimer</a>
-                <a href="#" class="kt-link kt-link-mono">Sitemap</a>
+                &copy; {{ date('Y') }} {{ config('app.name') }}. Semua hak cipta dilindungi undang-undang.
             </div>
         </div>
     </div>

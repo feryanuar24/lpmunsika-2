@@ -4,15 +4,22 @@
     <div class="kt-container-fixed py-8">
         <!-- Page Header -->
         <div class="mb-8">
-            <h1 class="text-4xl font-semibold text-mono mb-2 border-b-4 border-primary-600 inline-block pb-2">
-                <i class="ki-filled ki-category text-primary-600 mr-3"></i>
-                Semua Buletin
+            <h1 class="text-4xl font-semibold text-mon mb-2 border-b-4 inline-block pb-2">
+                <i class="ki-filled ki-category text-mono mr-3"></i>
+                Category: {{ $data['category']->name }}
             </h1>
-            <p class="text-mono mt-4">Temukan berbagai buletin terkini dari LPM UNSIKA</p>
+            @if($data['category']->description)
+                <p class="text-mono mt-4">
+                    {{ $data['category']->description }}
+                </p>
+            @endif
+            <p class="text-mono text-sm mt-2">
+                Ditemukan {{ $data['articles']->total() }} artikel dalam kategori ini
+            </p>
         </div>
 
         <!-- Articles Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-col-1 lg:grid-cols-2 gap-6">
             @forelse ($data['articles'] as $article)
                 <article class="kt-card overflow-hidden">
                     <a href="{{ route('detail', $article->slug) }}" class="block">
@@ -38,7 +45,7 @@
                             @if ($article->category)
                                 <div class="mb-3">
                                     <span class="kt-badge kt-badge-primary kt-badge-sm">
-                                        <i class="ki-filled ki-primary text-xs mr-1"></i>
+                                        <i class="ki-filled ki-category text-xs mr-1"></i>
                                         {{ $article->category->name }}
                                     </span>
                                 </div>
@@ -48,16 +55,18 @@
                             @if ($article->tags->count() > 0)
                                 <div class="flex flex-wrap gap-1 mb-3">
                                     @foreach ($article->tags as $tag)
-                                        <span class="kt-badge kt-badge-secondary kt-badge-xs">
+                                        <a href="{{ route('tag', $tag->slug) }}"
+                                           class="kt-badge kt-badge-outline kt-badge-sm hover:kt-badge-primary transition-colors">
+                                            <i class="ki-filled ki-tag text-xs mr-1"></i>
                                             {{ $tag->name }}
-                                        </span>
+                                        </a>
                                     @endforeach
                                 </div>
                             @endif
 
-                            <!-- Content Excerpt -->
-                            <p class="text-mono text-sm line-clamp-3 mb-4 leading-relaxed">
-                                {{ Str::limit(strip_tags($article->content), 120, '...') }}
+                            <!-- Excerpt -->
+                            <p class="text-mono mt-3 line-clamp-3">
+                                {{ Str::limit(strip_tags($article->content), 150) }}
                             </p>
 
                             <!-- Article Meta -->
@@ -76,10 +85,18 @@
                 </article>
             @empty
                 <!-- Empty State -->
-                <div class="col-span-full text-center py-16">
-                    <i class="ki-filled ki-file-search text-6xl text-mono mb-4"></i>
-                    <h3 class="text-xl font-semibold text-mono mb-2">Belum Ada Artikel</h3>
-                    <p class="text-mono">Artikel akan muncul di sini setelah dipublikasikan.</p>
+                <div class="col-span-full">
+                    <div class="kt-card text-center py-16">
+                        <div class="kt-card-body">
+                            <i class="ki-filled ki-file-search text-6xl text-mono mb-4"></i>
+                            <h3 class="text-xl font-semibold text-mono mb-2">
+                                Belum Ada Artikel
+                            </h3>
+                            <p class="text-mono">
+                                Belum ada artikel yang dipublikasikan dalam kategori "{{ $data['category']->name }}" saat ini.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             @endforelse
         </div>

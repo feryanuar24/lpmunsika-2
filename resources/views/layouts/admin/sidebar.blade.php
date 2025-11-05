@@ -196,6 +196,23 @@
                     </a>
                 </div>
                 @endpermission
+                @permission('footers-management')
+                <div class="kt-menu-item {{ request()->routeIs('footers.*') ? 'active' : '' }}"
+                    data-kt-menu-item-toggle="accordion" data-kt-menu-item-trigger="click">
+                    <a href="{{ route('footers.index') }}"
+                        class="kt-menu-link flex grow cursor-pointer items-center gap-[10px] border border-transparent py-[6px] pe-[10px] ps-[10px]"
+                        tabindex="0">
+                        <span class="kt-menu-icon w-[20px] items-start text-muted-foreground">
+                            <i class="ki-filled ki-tablet-text-down text-lg">
+                            </i>
+                        </span>
+                        <span
+                            class="kt-menu-title kt-menu-item-active:text-primary kt-menu-link-hover:!text-primary text-sm font-medium text-foreground">
+                            Footer
+                        </span>
+                    </a>
+                </div>
+                @endpermission
 
                 <div class="kt-menu-item pt-2.25 pb-px">
                     <span

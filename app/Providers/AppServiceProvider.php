@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Notification;
 use App\Models\Chat;
 use App\Models\Embed;
+use App\Models\Footer;
+use App\Models\Platform;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
             'platforms.*',
             'embeds.*',
             'sliders.*',
+            'footers.*',
             'permissions.*',
             'roles.*',
             'permission-role.*'
@@ -59,7 +62,9 @@ class AppServiceProvider extends ServiceProvider
             if ($matched) {
                 $notifications = Notification::latest()->take(10)->get();
                 $chats = Chat::latest()->take(10)->get()->sortBy('created_at')->values();
-                $view->with('notifications', $notifications)->with('chats', $chats);
+                $view
+                    ->with('notifications', $notifications)
+                    ->with('chats', $chats);
             }
         });
 
@@ -68,17 +73,7 @@ class AppServiceProvider extends ServiceProvider
             'landing',
             'tag',
             'detail',
-            'berita',
-            'buletin',
-            'majalah',
-            'resensi-buku',
-            'review-film',
-            'opini',
-            'esai',
-            'artikel',
-            'puisi',
-            'cerpen',
-            'gaya-mahasiswa',
+            'category',
             'search'
         ];
 
@@ -98,7 +93,15 @@ class AppServiceProvider extends ServiceProvider
                 $spotify = Embed::where('platform_id', 2)->latest()->limit(3)->get();
                 $categoies = Category::all();
                 $tags = Tag::all();
-                $view->with('youtube', $youtube)->with('spotify', $spotify)->with('categories', $categoies)->with('tags', $tags);
+                $footers = Footer::all();
+                $platforms = Platform::all();
+                $view
+                    ->with('youtube', $youtube)
+                    ->with('spotify', $spotify)
+                    ->with('categories', $categoies)
+                    ->with('tags', $tags)
+                    ->with('footers', $footers)
+                    ->with('platforms', $platforms);
             }
         });
     }

@@ -150,21 +150,23 @@
                                 <tr>
                                     <td>{{ $article->title }}</td>
                                     <td>{{ $article->user->name }}</td>
-                                    <td>{{ $article->category->name }}</td>
+                                    <td>
+                                        <span class="kt-badge kt-badge-primary">{{ $article->category->name }}</span>
+                                    </td>
                                     <td>
                                         @foreach ($article->tags as $tag)
-                                            <span class="kt-badge kt-badge-info">{{ $tag->name ?? $tag }}</span>
+                                            <span class="kt-badge kt-badge-secondary">{{ $tag->name ?? $tag }}</span>
                                         @endforeach
                                     </td>
                                     <td>
                                         <span
-                                            class="kt-badge {{ $article->is_active ? 'kt-badge-success' : 'kt-badge-secondary' }}">
+                                            class="kt-badge {{ $article->is_active ? 'kt-badge-success' : 'kt-badge-destructive' }}">
                                             {{ $article->is_active ? 'Ya' : 'Tidak' }}
                                         </span>
                                     </td>
                                     <td>
                                         <span
-                                            class="kt-badge {{ $article->is_pinned ? 'kt-badge-warning' : 'kt-badge-light' }}">
+                                            class="kt-badge {{ $article->is_pinned ? 'kt-badge-success' : 'kt-badge-destructive' }}">
                                             {{ $article->is_pinned ? 'Ya' : 'Tidak' }}
                                         </span>
                                     </td>
@@ -183,19 +185,19 @@
                                                 style="display: inline;">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="button" data-kt-modal-toggle="#modal-{{ $article->id }}"
+                                                <button type="button" data-kt-modal-toggle="#modal-delete-article-{{ $article->id }}"
                                                     class="kt-btn kt-btn-icon kt-btn-outline size-6">
                                                     <i class="ki-filled ki-trash"></i>
                                                 </button>
                                                 <div class="kt-modal z-40" data-kt-modal="true"
-                                                    id="modal-{{ $article->id }}">
+                                                    id="modal-delete-article-{{ $article->id }}">
                                                     <div
                                                         class="kt-modal-content max-w-md w-[90%] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
                                                         <div class="kt-modal-header">
                                                             <h3 class="kt-modal-title">Konfirmasi Hapus</h3>
                                                             <button type="button" class="kt-modal-close"
                                                                 aria-label="Close modal"
-                                                                data-kt-modal-dismiss="#modal-{{ $article->id }}">
+                                                                data-kt-modal-dismiss="#modal-delete-article-{{ $article->id }}">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                     height="24" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2"
@@ -221,7 +223,7 @@
                                                             <div></div>
                                                             <div class="flex gap-4">
                                                                 <button class="kt-btn kt-btn-secondary"
-                                                                    data-kt-modal-dismiss="#modal-{{ $article->id }}">Tidak,
+                                                                    data-kt-modal-dismiss="#modal-delete-article-{{ $article->id }}" type="button">Tidak,
                                                                     Kembali</button>
                                                                 <button class="kt-btn kt-btn-primary" type="submit">Ya,
                                                                     Hapus</button>

@@ -10,11 +10,11 @@
         <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5 lg:items-end">
             <div class="flex flex-col justify-center gap-2">
                 <h1 class="text-xl font-medium leading-none text-mono">
-                    Tag Artikel
+                    Footer Media
                 </h1>
             </div>
             <div class="flex items-center gap-2.5">
-                <a class="kt-btn kt-btn-primary" href="{{ route('tags.create') }}">
+                <a class="kt-btn kt-btn-primary" href="{{ route('footers.create') }}">
                     Tambah
                 </a>
             </div>
@@ -35,8 +35,8 @@
                                         <span class="kt-table-col"><span class="kt-table-col-label">Nama</span><span
                                                 class="kt-table-col-sort"></span></span>
                                     </th>
-                                    <th scope="col" class="w-20" data-kt-datatable-column="email">
-                                        <span class="kt-table-col"><span class="kt-table-col-label">Slug</span><span
+                                    <th scope="col" class="w-20" data-kt-datatable-column="url">
+                                        <span class="kt-table-col"><span class="kt-table-col-label">URL</span><span
                                                 class="kt-table-col-sort"></span></span>
                                     </th>
                                     <th scope="col" class="w-10" data-kt-datatable-column="actions">Aksi</th>
@@ -44,34 +44,37 @@
                             </thead>
 
                             <tbody>
-                                @foreach ($data['tags'] as $tags)
+                                @foreach ($data['footers'] as $footer)
                                     <tr>
-                                        <td>{{ $tags->name }}</td>
-                                        <td>{{ $tags->slug }}</td>
+                                        <td>{{ $footer->name }}</td>
+                                        <td>
+                                            <a href="{{ $footer->url }}" target="_blank" class="kt-link">{{ $footer->url }}</a>
+                                        </td>
                                         <td>
                                             <div class="flex justify-start gap-2">
-                                                <a href="{{ route('tags.show', $tags->id) }}"
+                                                <a href="{{ route('footers.show', $footer->id) }}"
                                                     class="kt-btn kt-btn-icon kt-btn-outline size-6">
                                                     <i class="ki-filled ki-eye"></i>
                                                 </a>
-                                                <a href="{{ route('tags.edit', $tags->id) }}"
+                                                <a href="{{ route('footers.edit', $footer->id) }}"
                                                     class="kt-btn kt-btn-icon kt-btn-outline size-6">
                                                     <i class="ki-filled ki-pencil"></i>
                                                 </a>
-                                                <form action="{{ route('tags.destroy', $tags->id) }}" method="POST">
+                                                <form action="{{ route('footers.destroy', $footer->id) }}"
+                                                    method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button type="button" data-kt-modal-toggle="#modal-delete-tag-{{ $tags->id }}"
+                                                    <button type="button" data-kt-modal-toggle="#modal-delete-footer-{{ $footer->id }}"
                                                         class="kt-btn kt-btn-icon kt-btn-outline size-6">
                                                         <i class="ki-filled ki-trash"></i>
                                                     </button>
-                                                    <div class="kt-modal z-40" data-kt-modal="true" id="modal-delete-tag-{{ $tags->id }}">
+                                                    <div class="kt-modal z-40" data-kt-modal="true" id="modal-delete-footer-{{ $footer->id }}">
                                                         <div
                                                             class="kt-modal-content max-w-md w-[90%] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
                                                             <div class="kt-modal-header">
                                                                 <h3 class="kt-modal-title">Konfirmasi Hapus</h3>
                                                                 <button type="button" class="kt-modal-close"
-                                                                    aria-label="Close modal" data-kt-modal-dismiss="#modal-delete-tag-{{ $tags->id }}">
+                                                                    aria-label="Close modal" data-kt-modal-dismiss="#modal-delete-footer-{{ $footer->id }}">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                         height="24" viewBox="0 0 24 24" fill="none"
                                                                         stroke="currentColor" stroke-width="2"
@@ -86,7 +89,7 @@
                                                                 <div class="flex items-center gap-4">
                                                                     <i class="ki-filled ki-lock text-4xl text-blue-600"></i>
                                                                     <div>
-                                                                        <p class="font-medium">Anda menghapus tag ini.
+                                                                        <p class="font-medium">Anda menghapus footer ini.
                                                                         </p>
                                                                         <p class="text-sm text-muted">Pastikan data sudah
                                                                             dicadangkan sebelum
@@ -98,7 +101,7 @@
                                                                 <div></div>
                                                                 <div class="flex gap-4">
                                                                     <button class="kt-btn kt-btn-secondary"
-                                                                        data-kt-modal-dismiss="#modal-delete-tag-{{ $tags->id }}" type="button">Tidak,
+                                                                        data-kt-modal-dismiss="#modal-delete-footer-{{ $footer->id }}" type="button">Tidak,
                                                                         Kembali</button>
                                                                     <button class="kt-btn kt-btn-primary" type="submit">Ya,
                                                                         Hapus</button>

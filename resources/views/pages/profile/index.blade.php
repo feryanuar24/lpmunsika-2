@@ -10,7 +10,7 @@
         <div class="flex flex-wrap items-center justify-between gap-5 pb-7.5 lg:items-end">
             <div class="flex flex-col justify-center gap-2">
                 <h1 class="text-xl font-medium leading-none text-mono">
-                    Profil Saya
+                    Profil
                 </h1>
             </div>
             <div class="flex items-center gap-2.5">
@@ -19,15 +19,15 @@
 
                     @csrf
 
-                    <button type="button" class="kt-btn kt-btn-outline" data-kt-modal-toggle="#modal-delete">Hapus</button>
+                    <button type="button" class="kt-btn kt-btn-outline" data-kt-modal-toggle="#modal-delete-profile">Hapus</button>
 
-                    <div class="kt-modal z-40" data-kt-modal="true" id="modal-delete">
+                    <div class="kt-modal z-40" data-kt-modal="true" id="modal-delete-profile">
                         <div
                             class="kt-modal-content max-w-md w-[90%] fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6">
                             <div class="kt-modal-header">
                                 <h3 class="kt-modal-title">Konfirmasi Hapus</h3>
                                 <button type="button" class="kt-modal-close" aria-label="Close modal"
-                                    data-kt-modal-dismiss="#modal">
+                                    data-kt-modal-dismiss="#modal-delete-profile">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"
@@ -50,7 +50,7 @@
                             <div class="kt-modal-footer">
                                 <div></div>
                                 <div class="flex gap-4">
-                                    <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="#modal">Tidak,
+                                    <button class="kt-btn kt-btn-secondary" data-kt-modal-dismiss="#modal-delete-profile" type="button">Tidak,
                                         Kembali</button>
                                     <button class="kt-btn kt-btn-primary" type="submit">Ya, Hapus</button>
                                 </div>
@@ -90,6 +90,16 @@
                 <div>
                     <label class="kt-label">Email</label>
                     <p class="mt-1 text-base">{{ $data['user']->email }}</p>
+                </div>
+
+               <div>
+                    <label class="kt-label">Role</label>
+                    <div class="mt-1 flex flex-wrap gap-2">
+                        @foreach ($data['user']->roles as $role)
+                            <span
+                                class="kt-badge kt-badge-inline kt-badge-light-primary">{{ $role->name }}</span>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

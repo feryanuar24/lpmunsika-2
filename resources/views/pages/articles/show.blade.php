@@ -111,7 +111,7 @@
                                                             <div></div>
                                                             <div class="flex gap-4">
                                                                 <button class="kt-btn kt-btn-secondary"
-                                                                    data-kt-modal-dismiss="#modal-delete-comment-{{ $comment->id }}">Tidak,
+                                                                    data-kt-modal-dismiss="#modal-delete-comment-{{ $comment->id }}" type="button">Tidak,
                                                                     Kembali</button>
                                                                 <button class="kt-btn kt-btn-primary" type="submit">Ya,
                                                                     Hapus</button>

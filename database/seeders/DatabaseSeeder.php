@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Footer;
 use App\Models\Menu;
 use App\Models\Platform;
 use App\Models\Slider;
@@ -75,6 +76,16 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Gaya Mahasiswa',
                 'slug' => 'gaya-mahasiswa',
                 'description' => 'Kategori untuk gaya mahasiswa'
+            ],
+            [
+                'name' => 'Produk',
+                'slug' => 'produk',
+                'description' => 'Kategori parent untuk buletin dan majalah'
+            ],
+            [
+                'name' => 'Majalah',
+                'slug' => 'majalah',
+                'description' => 'Kategori untuk artikel majalah'
             ]
         ];
 
@@ -103,14 +114,46 @@ class DatabaseSeeder extends Seeder
             [
 
                 'name' => 'Youtube',
-                'url' => 'https://www.youtube.com/lpmunsika',
+                'url' => 'https://youtube.com/@lpmunsika',
+                'icon' => 'ki-youtube',
                 'description' => 'Platform resmi LPM Unsika di Youtube',
             ],
             [
                 'name' => 'Spotify',
-                'url' => 'https://open.spotify.com/user/lpmunsika',
+                'url' => 'https://open.spotify.com/show/3PSxdzFHQz77vVRZfxBRdS',
+                'icon' => 'ki-spotify',
                 'description' => 'Platform resmi LPM Unsika di Spotify',
             ],
+            [
+                'name' => 'Instagram',
+                'url' => 'https://instagram.com/lpmunsika',
+                'icon' => 'ki-instagram',
+                'description' => 'Platform resmi LPM Unsika di Instagram',
+            ],
+            [
+                'name' => 'Twitter',
+                'url' => 'https://twitter.com/lpmunsika',
+                'icon' => 'ki-twitter',
+                'description' => 'Platform resmi LPM Unsika di Twitter',
+            ],
+            [
+                'name' => 'Facebook',
+                'url' => 'https://facebook.com/lpmunsika',
+                'icon' => 'ki-facebook',
+                'description' => 'Platform resmi LPM Unsika di Facebook',
+            ],
+            [
+                'name' => 'LinkedIn',
+                'url' => 'https://id.linkedin.com/company/lembaga-pers-mahasiswa-unsika',
+                'icon' => 'ki-social-media',
+                'description' => 'Platform resmi LPM Unsika di LinkedIn',
+            ],
+            [
+                'name' => 'TikTok',
+                'url' => 'https://www.tiktok.com/@lpmunsika',
+                'icon' => 'ki-tiktok',
+                'description' => 'Platform resmi LPM Unsika di TikTok',
+            ]
         ];
 
         foreach ($platforms as $platform) {
@@ -252,10 +295,43 @@ class DatabaseSeeder extends Seeder
                 'icon' => 'ki-shield',
                 'description' => 'Halaman untuk manajemen permission role'
             ],
+            [
+                'parent_id' => 9,
+                'name' => 'Footer',
+                'url' => '/footers',
+                'icon' => 'ki-tablet-text-down',
+            ]
         ];
 
         foreach ($menus as $menu) {
             Menu::create($menu);
+        }
+
+        $footers = [
+            [
+                'name' => 'Profil',
+                'url' => 'https://youtu.be/0jd3CjEjeaY?si=QQoi3eNwv_AZzgRG',
+                'description' => 'Video profil LPM Unsika'
+            ],
+            [
+                'name' => 'Rekrutmen',
+                'url' => 'https://bit.ly/RekrutmenTerbukaLPMUnsikaTahun2025',
+                'description' => 'Formulir rekrutmen LPM Unsika'
+            ],
+            [
+                'name' => 'Buletin 38',
+                'url' => 'https://lpmunsika.com/detail/buletin-suara-unsika-edisi-38',
+                'description' => 'Buletin Suara Unsika Edisi 38'
+            ],
+            [
+                'name' => 'Kontributor',
+                'url' => 'https://bit.ly/LPMUNSIKA',
+                'description' => 'Bergabung menjadi kontributor LPM Unsika'
+            ]
+        ];
+
+        foreach ($footers as $footer) {
+            Footer::create($footer);
         }
     }
 }
