@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class TagController extends Controller
 {
@@ -34,10 +35,26 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $messages = [
+            'name.required' => 'Nama tag wajib diisi.',
+            'name.string' => 'Nama tag harus berupa teks.',
+            'name.max' => 'Nama tag tidak boleh lebih dari :max karakter.',
+            'name.unique' => 'Nama tag sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi tidak boleh lebih dari :max karakter.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255', 'unique:tags,name'],
             'description' => ['nullable', 'string', 'max:255']
-        ]);
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', implode('<br>', $validator->errors()->all()));
+        }
 
         $request->merge([
             'slug' => Str::slug($request->name),
@@ -79,10 +96,26 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        $request->validate([
+        $messages = [
+            'name.required' => 'Nama tag wajib diisi.',
+            'name.string' => 'Nama tag harus berupa teks.',
+            'name.max' => 'Nama tag tidak boleh lebih dari :max karakter.',
+            'name.unique' => 'Nama tag sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi tidak boleh lebih dari :max karakter.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255', 'unique:tags,name,' . $tag->id],
             'description' => ['nullable', 'string', 'max:255'],
-        ]);
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', implode('<br>', $validator->errors()->all()));
+        }
 
         $request->merge([
             'slug' => Str::slug($request->name),

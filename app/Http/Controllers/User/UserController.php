@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -38,24 +44,78 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'roles'    => ['required', 'array'],
-            'roles.*'  => ['exists:roles,name'],
-            'password' => ['required', 'min:8', 'confirmed'],
-        ]);
+        try {
+            $messages = [
+                'name.required' => 'Nama wajib diisi.',
+                'name.string' => 'Nama harus berupa teks.',
+                'name.max' => 'Nama maksimal :max karakter.',
+                'email.required' => 'Email wajib diisi.',
+                'email.string' => 'Email harus berupa teks.',
+                'email.email' => 'Format email tidak valid.',
+                'email.max' => 'Email maksimal :max karakter.',
+                'email.unique' => 'Email sudah digunakan.',
+                'roles.required' => 'Role wajib dipilih.',
+                'roles.array' => 'Format role tidak valid.',
+                'roles.*.exists' => 'Role tidak valid.',
+                'password.required' => 'Password wajib diisi.',
+                'password.min' => 'Password minimal :min karakter.',
+                'password.confirmed' => 'Konfirmasi password tidak cocok.',
+                'password.regex' => 'Password harus mengandung setidaknya satu huruf besar, satu huruf kecil, satu angka, dan satu karakter khusus.',
+            ];
 
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'email_verified_at' => now(),
-            'password' => bcrypt($request->password),
-        ]);
+            $validator = Validator::make($request->all(), [
+                'name'     => ['required', 'string', 'max:255'],
+                'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'roles'    => ['required', 'array'],
+                'roles.*'  => ['exists:roles,name'],
+                'password' => [
+                    'required',
+                    'min:8',
+                    'confirmed',
+                    'regex:/[a-z]/',
+                    'regex:/[A-Z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[@$!%*#?&]/',
+                ],
+            ], $messages);
 
-        $user->addRoles($request->roles);
+            if ($validator->fails()) {
+                return back()
+                    ->with('error', implode('<br>', $validator->errors()->all()))
+                    ->withInput();
+            }
 
-        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
+            $validated = $validator->validated();
+
+            DB::beginTransaction();
+
+            $user = User::create([
+                'name'     => $validated['name'],
+                'email'    => $validated['email'],
+                'email_verified_at' => now(),
+                'password' => bcrypt($validated['password']),
+            ]);
+
+            $user->addRoles($validated['roles']);
+
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title' => 'Pengguna Ditambahkan',
+                'message' => 'Pengguna ' . ($user->name ?? 'System') . ' berhasil ditambahkan.',
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
+        } catch (Throwable $th) {
+            DB::rollBack();
+
+            Log::error('Error during user creation: ' . $th->getMessage());
+
+            return back()
+                ->with('error', 'Terjadi kesalahan saat menambahkan user')
+                ->withInput();
+        }
     }
 
     /**
@@ -88,26 +148,79 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'roles'    => ['required', 'array'],
-            'roles.*'  => ['exists:roles,name'],
-            'password' => ['nullable', 'min:8', 'confirmed'],
-        ]);
+        try {
+            $messages = [
+                'name.required' => 'Nama wajib diisi.',
+                'name.string' => 'Nama harus berupa teks.',
+                'name.max' => 'Nama maksimal :max karakter.',
+                'email.required' => 'Email wajib diisi.',
+                'email.string' => 'Email harus berupa teks.',
+                'email.email' => 'Format email tidak valid.',
+                'email.max' => 'Email maksimal :max karakter.',
+                'email.unique' => 'Email sudah digunakan.',
+                'roles.required' => 'Role wajib dipilih.',
+                'roles.array' => 'Format role tidak valid.',
+                'roles.*.exists' => 'Role tidak valid.',
+                'password.min' => 'Password minimal :min karakter.',
+                'password.confirmed' => 'Konfirmasi password tidak cocok.',
+                'password.regex' => 'Password harus mengandung setidaknya satu huruf besar, satu huruf kecil, satu angka, dan satu karakter khusus.',
+            ];
 
-        $user->name  = $request->name;
-        $user->email = $request->email;
+            $validator = Validator::make($request->all(), [
+                'name'     => ['required', 'string', 'max:255'],
+                'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+                'roles'    => ['required', 'array'],
+                'roles.*'  => ['exists:roles,name'],
+                'password' => [
+                    'nullable',
+                    'min:8',
+                    'confirmed',
+                    'regex:/[a-z]/',
+                    'regex:/[A-Z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[@$!%*#?&]/',
+                ],
+            ], $messages);
 
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->password);
+            if ($validator->fails()) {
+                return back()
+                    ->with('error', implode('<br>', $validator->errors()->all()))
+                    ->withInput();
+            }
+
+            $validated = $validator->validated();
+
+            DB::beginTransaction();
+
+            $user->name  = $validated['name'];
+            $user->email = $validated['email'];
+
+            if (!empty($validated['password'])) {
+                $user->password = bcrypt($validated['password']);
+            }
+
+            $user->syncRoles($validated['roles']);
+
+            $user->save();
+
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title' => 'Pengguna Diperbaharui',
+                'message' => 'Pengguna ' . ($user->name ?? 'System') . ' berhasil diperbaharui.',
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
+        } catch (Throwable $th) {
+            DB::rollBack();
+
+            Log::error('Error during user update: ' . $th->getMessage());
+
+            return back()
+                ->with('error', 'Terjadi kesalahan saat memperbarui user')
+                ->withInput();
         }
-
-        $user->syncRoles($request->roles);
-
-        $user->save();
-
-        return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
     }
 
     /**
@@ -115,8 +228,27 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        try {
+            DB::beginTransaction();
 
-        return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
+            $user->delete();
+
+            Notification::create([
+                'user_id' => $user->id,
+                'title' => 'Pengguna Dihapus',
+                'message' => 'Pengguna ' . ($user->name ?? 'System') . ' berhasil dihapus.',
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
+        } catch (Throwable $th) {
+            DB::rollBack();
+
+            Log::error('Error during user deletion: ' . $th->getMessage());
+
+            return back()
+                ->with('error', 'Terjadi kesalahan saat menghapus user');
+        }
     }
 }

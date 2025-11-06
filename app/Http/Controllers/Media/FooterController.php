@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Media;
 
 use App\Http\Controllers\Controller;
 use App\Models\Footer;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class FooterController extends Controller
@@ -33,13 +34,30 @@ class FooterController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $messages = [
+            'name.required' => 'Nama footer wajib diisi.',
+            'name.string' => 'Nama footer harus berupa teks.',
+            'name.max' => 'Nama footer maksimal :max karakter.',
+            'name.unique' => 'Nama footer sudah digunakan.',
+            'url.required' => 'URL wajib diisi.',
+            'url.string' => 'URL harus berupa teks.',
+            'url.max' => 'URL maksimal :max karakter.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255', 'unique:footers,name'],
             'url' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-        ]);
+        ], $messages);
 
-        Footer::create($request->all());
+        if ($validator->fails()) {
+            return back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
+        Footer::create($validator->validated());
 
         return redirect()
             ->route('footers.index')
@@ -75,13 +93,30 @@ class FooterController extends Controller
      */
     public function update(Request $request, Footer $footer)
     {
-        $request->validate([
+        $messages = [
+            'name.required' => 'Nama footer wajib diisi.',
+            'name.string' => 'Nama footer harus berupa teks.',
+            'name.max' => 'Nama footer maksimal :max karakter.',
+            'name.unique' => 'Nama footer sudah digunakan.',
+            'url.required' => 'URL wajib diisi.',
+            'url.string' => 'URL harus berupa teks.',
+            'url.max' => 'URL maksimal :max karakter.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255', 'unique:footers,name,' . $footer->id],
             'url' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-        ]);
+        ], $messages);
 
-        $footer->update($request->all());
+        if ($validator->fails()) {
+            return back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
+        $footer->update($validator->validated());
 
         return redirect()
             ->route('footers.index')

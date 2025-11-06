@@ -30,7 +30,7 @@
     </div>
 
     <div>
-        <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Categories</h2>
+        <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Kategori</h2>
         <div class="flex flex-wrap gap-2">
             @foreach ($categories as $category)
                 <a href="{{ route('category', $category->slug) }}"
@@ -40,7 +40,7 @@
     </div>
 
     <div>
-        <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Tags</h2>
+        <h2 class="text-3xl font-semibold mb-8 text-mono border-b-2 pb-2 w-full lg:w-80">Tag</h2>
         <div class="flex flex-wrap gap-2">
             @foreach ($tags as $tag)
                 <a href="{{ route('tag', $tag->slug) }}"

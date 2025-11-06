@@ -15,28 +15,8 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     /**
-     * Convert month number to Indonesian month name
+     * Display a listing of the resource.
      */
-    private function getIndonesianMonth($month)
-    {
-        $months = [
-            '01' => 'Januari',
-            '02' => 'Februari',
-            '03' => 'Maret',
-            '04' => 'April',
-            '05' => 'Mei',
-            '06' => 'Juni',
-            '07' => 'Juli',
-            '08' => 'Agustus',
-            '09' => 'September',
-            '10' => 'Oktober',
-            '11' => 'November',
-            '12' => 'Desember',
-        ];
-
-        return $months[$month] ?? $month;
-    }
-
     public function index()
     {
         $user = User::find(Auth::id());
@@ -161,5 +141,28 @@ class DashboardController extends Controller
         }
 
         return view('pages.dashboard.index', compact('data'));
+    }
+
+    /**
+     * Convert month number to Indonesian month name
+     */
+    private function getIndonesianMonth($month)
+    {
+        $months = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ];
+
+        return $months[$month] ?? $month;
     }
 }

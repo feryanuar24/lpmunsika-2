@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Article\CategoryController;
 use App\Http\Controllers\Article\TagController;
 use App\Http\Controllers\Article\ArticleController;
+use App\Http\Controllers\Article\CommentController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -11,8 +14,6 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Media\EmbedController;
 use App\Http\Controllers\PermissionRole\PermissionController;
 use App\Http\Controllers\PermissionRole\PermissionRoleController;
@@ -21,7 +22,6 @@ use App\Http\Controllers\Media\PlatformController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\Media\FooterController;
 use App\Http\Controllers\Media\SliderController;
-use App\Http\Controllers\MenuController;
 use App\Http\Controllers\User\UserController;
 
 /*
@@ -36,16 +36,13 @@ use App\Http\Controllers\User\UserController;
 */
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/category/{category:slug}', [LandingController::class, 'category'])->name('category');
+Route::get('/tag/{tag}', [LandingController::class, 'tags'])->name('tag');
+Route::get('/search', [LandingController::class, 'search'])->name('search');
 
 Route::get('/detail/{slug}', [LandingController::class, 'show'])->name('detail');
 Route::post('/like', [LandingController::class, 'like'])->name('like');
 Route::post('/comment', [LandingController::class, 'comment'])->name('comment');
-
-Route::get('/category/{category:slug}', [LandingController::class, 'category'])->name('category');
-
-Route::get('/tag/{tag}', [LandingController::class, 'tags'])->name('tag');
-
-Route::get('/search', [LandingController::class, 'search'])->name('search');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])
@@ -81,7 +78,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/menus', [MenuController::class, 'index'])->middleware('permission:dashboard-access')->name('menus');
@@ -109,4 +105,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/roles', RoleController::class)->middleware('permission:permission-role-management');
     Route::resource('/permission-role', PermissionRoleController::class)->middleware('permission:permission-role-management')->except('destroy');
     Route::delete('/permission-role', [PermissionRoleController::class, 'destroy'])->middleware('permission:permission-role-management')->name('permission-role.destroy');
+
+    Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

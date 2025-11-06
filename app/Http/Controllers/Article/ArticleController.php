@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class ArticleController extends Controller
@@ -105,7 +106,26 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         try {
-            $request->validate([
+            $messages = [
+                'category_id.required' => 'Kategori wajib dipilih.',
+                'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+                'tags.array' => 'Tag harus berupa array.',
+                'tags.*.exists' => 'Tag yang dipilih tidak valid.',
+                'title.required' => 'Judul artikel wajib diisi.',
+                'title.string' => 'Judul artikel harus berupa teks.',
+                'title.max' => 'Judul artikel tidak boleh lebih dari :max karakter.',
+                'content.required' => 'Konten artikel wajib diisi.',
+                'content.string' => 'Konten artikel harus berupa teks.',
+                'embed.string' => 'Embed harus berupa teks.',
+                'thumbnail.image' => 'Thumbnail harus berupa gambar.',
+                'thumbnail.max' => 'Ukuran thumbnail tidak boleh lebih dari :max KB.',
+                'is_active.required' => 'Status aktif wajib dipilih.',
+                'is_active.boolean' => 'Status aktif harus berupa boolean.',
+                'is_pinned.required' => 'Status pin wajib dipilih.',
+                'is_pinned.boolean' => 'Status pin harus berupa boolean.',
+            ];
+
+            $validator = Validator::make($request->all(), [
                 'category_id' => ['required', 'exists:categories,id'],
                 'tags' => ['nullable', 'array'],
                 'tags.*' => ['exists:tags,name'],
@@ -115,17 +135,24 @@ class ArticleController extends Controller
                 'thumbnail' => ['nullable', 'image', 'max:5120'],
                 'is_active' => ['required', 'boolean'],
                 'is_pinned' => ['required', 'boolean'],
-            ]);
+            ], $messages);
+
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error', implode('<br>', $validator->errors()->all()));
+            }
 
             DB::beginTransaction();
 
             $data = $request->except(['thumbnail', 'tags', 'embed']);
+
             $data['user_id'] = Auth::id();
             $data['slug'] = Str::slug($request->title);
 
             $body = $request->content;
             $embedHtml = $request->filled('embed') ? $request->embed : '';
-
             if ($embedHtml) {
                 $combined = '<div class="article-wrapper">'
                     . '<div class="article-body">' . $body . '</div>'
@@ -140,8 +167,7 @@ class ArticleController extends Controller
             $data['content'] = $combined;
 
             if ($request->hasFile('thumbnail')) {
-                $disk = config('filesystems.default');
-                $path = Storage::disk($disk)->put('thumbnails', $request->file('thumbnail'));
+                $path = Storage::put('thumbnails', $request->file('thumbnail'));
                 $data['thumbnail'] = $path;
             }
 
@@ -155,7 +181,7 @@ class ArticleController extends Controller
             Notification::create([
                 'user_id' => Auth::id(),
                 'title' => 'Artikel Ditambahkan',
-                'message' => 'Artikel "' . $article->title . '" telah berhasil dibuat oleh ' . (Auth::user()?->name ?? 'System') . '.',
+                'message' => 'Artikel ' . $article->title . ' berhasil ditambahkan oleh ' . (Auth::user()->name ?? 'System') . '.',
             ]);
 
             DB::commit();
@@ -163,15 +189,6 @@ class ArticleController extends Controller
             return redirect()
                 ->route('articles.index')
                 ->with('success', 'Artikel berhasil dibuat.');
-        } catch (ValidationException $e) {
-            DB::rollBack();
-
-            Log::error('Validation error creating article: ' . $e->getMessage());
-
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Data yang diisi tidak valid. Silakan periksa kembali.');
         } catch (Throwable $th) {
             DB::rollBack();
 
@@ -238,7 +255,26 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         try {
-            $request->validate([
+            $messages = [
+                'category_id.required' => 'Kategori wajib dipilih.',
+                'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+                'tags.array' => 'Tag harus berupa array.',
+                'tags.*.exists' => 'Tag yang dipilih tidak valid.',
+                'title.required' => 'Judul artikel wajib diisi.',
+                'title.string' => 'Judul artikel harus berupa teks.',
+                'title.max' => 'Judul artikel tidak boleh lebih dari :max karakter.',
+                'content.required' => 'Konten artikel wajib diisi.',
+                'content.string' => 'Konten artikel harus berupa teks.',
+                'embed.string' => 'Embed harus berupa teks.',
+                'thumbnail.image' => 'Thumbnail harus berupa gambar.',
+                'thumbnail.max' => 'Ukuran thumbnail tidak boleh lebih dari :max KB.',
+                'is_active.required' => 'Status aktif wajib dipilih.',
+                'is_active.boolean' => 'Status aktif harus berupa boolean.',
+                'is_pinned.required' => 'Status pin wajib dipilih.',
+                'is_pinned.boolean' => 'Status pin harus berupa boolean.',
+            ];
+
+            $validator = Validator::make($request->all(), [
                 'category_id' => ['required', 'exists:categories,id'],
                 'tags' => ['nullable', 'array'],
                 'tags.*' => ['exists:tags,name'],
@@ -248,7 +284,14 @@ class ArticleController extends Controller
                 'thumbnail' => ['nullable', 'image', 'max:5120'],
                 'is_active' => ['required', 'boolean'],
                 'is_pinned' => ['required', 'boolean'],
-            ]);
+            ], $messages);
+
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error', implode('<br>', $validator->errors()->all()));
+            }
 
             DB::beginTransaction();
 
@@ -258,7 +301,6 @@ class ArticleController extends Controller
 
             $body = $request->content;
             $embedHtml = $request->filled('embed') ? $request->embed : '';
-
             if ($embedHtml) {
                 $combined = '<div class="article-wrapper">'
                     . '<div class="article-body">' . $body . '</div>'
@@ -272,18 +314,16 @@ class ArticleController extends Controller
 
             $data['content'] = $combined;
 
-            $disk = config('filesystems.default');
-
             if ($request->remove_thumbnail == '1') {
                 if ($article->thumbnail) {
-                    Storage::disk($disk)->delete($article->thumbnail);
+                    Storage::delete($article->thumbnail);
                     $data['thumbnail'] = null;
                 }
             } elseif ($request->hasFile('thumbnail')) {
                 if ($article->thumbnail) {
-                    Storage::disk($disk)->delete($article->thumbnail);
+                    Storage::delete($article->thumbnail);
                 }
-                $data['thumbnail'] = Storage::disk($disk)->put('thumbnails', $request->file('thumbnail'));
+                $data['thumbnail'] = Storage::put('thumbnails', $request->file('thumbnail'));
             }
 
             $article->update($data);
@@ -296,7 +336,7 @@ class ArticleController extends Controller
             Notification::create([
                 'user_id' => Auth::id(),
                 'title' => 'Artikel Diperbaharui',
-                'message' => 'Artikel "' . $article->title . '" telah berhasil diperbaharui oleh ' . (Auth::user()?->name ?? 'System') . '.',
+                'message' => 'Artikel ' . $article->title . ' berhasil diperbaharui oleh ' . (Auth::user()->name ?? 'System') . '.',
             ]);
 
             DB::commit();
@@ -304,14 +344,11 @@ class ArticleController extends Controller
             return redirect()
                 ->route('articles.index')
                 ->with('success', 'Artikel berhasil diperbaharui.');
-        } catch (ValidationException $e) {
-            DB::rollBack();
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Data yang diisi tidak valid. Silakan periksa kembali.');
         } catch (Throwable $th) {
             DB::rollBack();
+
+            Log::error('Error updating article: ' . $th->getMessage());
+
             return redirect()
                 ->back()
                 ->withInput()
@@ -324,23 +361,31 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        if ($article->thumbnail) {
-            $disk = config('filesystems.default');
-            Storage::disk($disk)->delete($article->thumbnail);
+        try {
+            DB::beginTransaction();
+
+            Notification::create([
+                'user_id' => Auth::id(),
+                'title' => 'Artikel Dihapus',
+                'message' => 'Artikel ' . $article->title . ' berhasil dihapus oleh ' . (Auth::user()->name ?? 'System') . '.',
+            ]);
+
+            $article->delete();
+
+            DB::commit();
+
+            return redirect()
+                ->route('articles.index')
+                ->with('success', 'Artikel berhasil dihapus.');
+        } catch (Throwable $th) {
+            DB::rollBack();
+
+            Log::error('Error deleting article: ' . $th->getMessage());
+
+            return redirect()
+                ->back()
+                ->with('error', 'Terjadi kesalahan saat menghapus artikel.');
         }
-
-        // Create a notification for the deletion
-        Notification::create([
-            'user_id' => Auth::id(),
-            'title' => 'Artikel Dihapus',
-            'message' => 'Artikel "' . $article->title . '" telah dihapus oleh ' . (Auth::user()?->name ?? 'System') . '.',
-        ]);
-
-        $article->delete();
-
-        return redirect()
-            ->route('articles.index')
-            ->with('success', 'Artikel berhasil dihapus.');
     }
 
     /**
@@ -349,9 +394,23 @@ class ArticleController extends Controller
     public function uploadImage(Request $request)
     {
         try {
-            $request->validate([
+            $messages = [
+                'upload.required' => 'File gambar wajib diupload.',
+                'upload.image' => 'File yang diupload harus berupa gambar.',
+                'upload.max' => 'Ukuran gambar tidak boleh lebih dari :max KB.',
+            ];
+
+            $validator = Validator::make($request->all(), [
                 'upload' => 'required|image|max:5120',
-            ]);
+            ], $messages);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => [
+                        'message' => $validator->errors()->first()
+                    ]
+                ], 400);
+            }
 
             $disk = config('filesystems.default');
             $path = Storage::put('contents', $request->file('upload'));
@@ -365,14 +424,6 @@ class ArticleController extends Controller
             return response()->json([
                 'url' => $url
             ]);
-        } catch (ValidationException $e) {
-            Log::error('Validation error uploading image to CKEditor: ' . $e->getMessage());
-
-            return response()->json([
-                'error' => [
-                    'message' => 'File yang diupload harus berupa gambar dengan ukuran maksimal 5MB.'
-                ]
-            ], 400);
         } catch (Throwable $th) {
             Log::error('Error uploading image to CKEditor: ' . $th->getMessage());
 

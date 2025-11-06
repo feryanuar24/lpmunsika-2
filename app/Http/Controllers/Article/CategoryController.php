@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -34,10 +35,25 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $messages = [
+            'name.required' => 'Nama kategori wajib diisi.',
+            'name.string' => 'Nama kategori harus berupa teks.',
+            'name.max' => 'Nama kategori tidak boleh lebih dari :max karakter.',
+            'name.unique' => 'Nama kategori sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
             'description' => ['nullable', 'string'],
-        ]);
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', implode('<br>', $validator->errors()->all()));
+        }
 
         $request->merge([
             'slug' => Str::slug($request->name),
@@ -79,10 +95,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $request->validate([
+        $messages = [
+            'name.required' => 'Nama kategori wajib diisi.',
+            'name.string' => 'Nama kategori harus berupa teks.',
+            'name.max' => 'Nama kategori tidak boleh lebih dari :max karakter.',
+            'name.unique' => 'Nama kategori sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255', 'unique:categories,name,' . $category->id],
             'description' => ['nullable', 'string'],
-        ]);
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', implode('<br>', $validator->errors()->all()));
+        }
 
         $request->merge([
             'slug' => Str::slug($request->name),

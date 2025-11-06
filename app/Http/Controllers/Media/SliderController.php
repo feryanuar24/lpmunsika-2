@@ -7,6 +7,7 @@ use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class SliderController extends Controller
@@ -36,55 +37,42 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
-        // Catch validation exceptions so we can return with both
-        // validation errors and a flash error message.
-        try {
-            $messages = [
-                'name.required' => 'Nama wajib diisi.',
-                'name.string' => 'Nama harus berupa teks.',
-                'name.max' => 'Nama maksimal :max karakter.',
-                'name.unique' => 'Nama sudah digunakan.',
+        $messages = [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama maksimal :max karakter.',
+            'name.unique' => 'Nama sudah digunakan.',
+            'banner.required' => 'Banner wajib diunggah.',
+            'banner.image' => 'File banner harus berupa gambar.',
+            'banner.max' => 'Banner maksimal :max kilobita.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
 
-                'banner.required' => 'Banner wajib diunggah.',
-                'banner.image' => 'File banner harus berupa gambar.',
-                'banner.max' => 'Banner maksimal :max kilobita.',
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255', 'unique:sliders,name'],
+            'banner' => ['required', 'image', 'max:5120'],
+            'description' => ['nullable', 'string'],
+        ], $messages);
 
-                'description.string' => 'Deskripsi harus berupa teks.',
-            ];
-
-            $request->validate([
-                'name' => ['required', 'string', 'max:255', 'unique:sliders,name'],
-                'banner' => ['required', 'image', 'max:5120'],
-                'description' => ['nullable', 'string'],
-            ], $messages);
-        } catch (ValidationException $e) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', $e->getMessage());
+        if ($validator->fails()) {
+            return back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
         }
 
-        try {
-            $data = $request->except('banner');
+        $data = $validator->validated();
+        unset($data['banner']);
 
-            if ($request->hasFile('banner')) {
-                $slider = Storage::put('sliders', $request->file('banner'));
-                $data['banner'] = $slider;
-            }
-
-            Slider::create($data);
-
-            return redirect()
-                ->route('sliders.index')
-                ->with('success', 'Slider berhasil dibuat.');
-        } catch (\Throwable $th) {
-            Log::error('Error creating slider: ' . $th->getMessage());
-
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan server');
+        if ($request->hasFile('banner')) {
+            $slider = Storage::put('sliders', $request->file('banner'));
+            $data['banner'] = $slider;
         }
+
+        Slider::create($data);
+
+        return redirect()
+            ->route('sliders.index')
+            ->with('success', 'Slider berhasil dibuat.');
     }
 
     /**
@@ -116,56 +104,43 @@ class SliderController extends Controller
      */
     public function update(Request $request, Slider $slider)
     {
-        try {
-            $messages = [
-                'name.required' => 'Nama wajib diisi.',
-                'name.string' => 'Nama harus berupa teks.',
-                'name.max' => 'Nama maksimal :max karakter.',
-                'name.unique' => 'Nama sudah digunakan.',
+        $messages = [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama maksimal :max karakter.',
+            'name.unique' => 'Nama sudah digunakan.',
+            'banner.image' => 'File banner harus berupa gambar.',
+            'banner.max' => 'Banner maksimal :max kilobita.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
 
-                'banner.image' => 'File banner harus berupa gambar.',
-                'banner.max' => 'Banner maksimal :max kilobita.',
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255', 'unique:sliders,name,' . $slider->id],
+            'banner' => ['nullable', 'image', 'max:5120'],
+            'description' => ['nullable', 'string'],
+        ], $messages);
 
-                'description.string' => 'Deskripsi harus berupa teks.',
-            ];
-
-            $request->validate([
-                'name' => ['required', 'string', 'max:255', 'unique:sliders,name,' . $slider->id],
-                'banner' => ['nullable', 'image', 'max:5120'],
-                'description' => ['nullable', 'string'],
-            ], $messages);
-        } catch (ValidationException $e) {
-            Log::warning('Validation error updating slider: ' . $e->getMessage());
-
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan validasi.');
+        if ($validator->fails()) {
+            return back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
         }
 
-        try {
-            $data = $request->except(['banner']);
+        $data = $validator->validated();
+        unset($data['banner']);
 
-            if ($request->hasFile('banner')) {
-                if ($slider->banner) {
-                    Storage::delete($slider->banner);
-                }
-                $data['banner'] = Storage::put('sliders', $request->file('banner'));
+        if ($request->hasFile('banner')) {
+            if ($slider->banner) {
+                Storage::delete($slider->banner);
             }
-
-            $slider->update($data);
-
-            return redirect()
-                ->route('sliders.index')
-                ->with('success', 'Slider berhasil diperbarui.');
-        } catch (\Throwable $th) {
-            Log::error('Error updating slider: ' . $th->getMessage());
-
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan server');
+            $data['banner'] = Storage::put('sliders', $request->file('banner'));
         }
+
+        $slider->update($data);
+
+        return redirect()
+            ->route('sliders.index')
+            ->with('success', 'Slider berhasil diperbarui.');
     }
 
     /**

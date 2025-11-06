@@ -4,6 +4,7 @@ namespace App\Http\Controllers\PermissionRole;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -33,15 +34,32 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $messages = [
+            'display_name.required' => 'Nama role wajib diisi.',
+            'display_name.string' => 'Nama role harus berupa teks.',
+            'display_name.max' => 'Nama role maksimal :max karakter.',
+            'display_name.unique' => 'Nama role sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi maksimal :max karakter.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'display_name' => ['required', 'string', 'max:255', 'unique:roles,display_name'],
             'description' => ['nullable', 'string', 'max:255'],
-        ]);
+        ], $messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
 
         Role::create([
-            'name' => strtolower(str_replace(' ', '_', $request->display_name)),
-            'display_name' => $request->display_name,
-            'description' => $request->description,
+            'name' => strtolower(str_replace(' ', '_', $validated['display_name'])),
+            'display_name' => $validated['display_name'],
+            'description' => $validated['description'] ?? null,
         ]);
 
         return redirect()->route('roles.index')->with('success', 'Role berhasil dibuat.');
@@ -76,15 +94,32 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $request->validate([
+        $messages = [
+            'display_name.required' => 'Nama role wajib diisi.',
+            'display_name.string' => 'Nama role harus berupa teks.',
+            'display_name.max' => 'Nama role maksimal :max karakter.',
+            'display_name.unique' => 'Nama role sudah digunakan.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            'description.max' => 'Deskripsi maksimal :max karakter.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'display_name' => ['required', 'string', 'max:255', 'unique:roles,display_name,' . $role->id],
             'description' => ['nullable', 'string', 'max:255'],
-        ]);
+        ], $messages);
+
+        if ($validator->fails()) {
+            return back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
 
         $role->update([
-            'name' => strtolower(str_replace(' ', '_', $request->display_name)),
-            'display_name' => $request->display_name,
-            'description' => $request->description,
+            'name' => strtolower(str_replace(' ', '_', $validated['display_name'])),
+            'display_name' => $validated['display_name'],
+            'description' => $validated['description'] ?? null,
         ]);
 
         return redirect()->route('roles.index')->with('success', 'Role berhasil diperbarui.');

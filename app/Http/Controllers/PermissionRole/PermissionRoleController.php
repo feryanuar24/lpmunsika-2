@@ -7,6 +7,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PermissionRoleController extends Controller
 {
@@ -49,13 +50,28 @@ class PermissionRoleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $messages = [
+            'permission_id.required' => 'Permission wajib dipilih.',
+            'permission_id.exists' => 'Permission tidak valid.',
+            'role_id.required' => 'Role wajib dipilih.',
+            'role_id.exists' => 'Role tidak valid.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'permission_id' => 'required|exists:permissions,id',
             'role_id' => 'required|exists:roles,id',
-        ]);
+        ], $messages);
 
-        $permission = Permission::find($request->permission_id);
-        $role = Role::find($request->role_id);
+        if ($validator->fails()) {
+            return back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        $permission = Permission::find($validated['permission_id']);
+        $role = Role::find($validated['role_id']);
         $role->givePermission($permission);
 
         return redirect()->route('permission-role.index')->with('success', 'Permission berhasil ditambahkan ke role.');

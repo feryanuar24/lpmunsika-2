@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Embed;
 use App\Models\Platform;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EmbedController extends Controller
 {
@@ -38,19 +39,31 @@ class EmbedController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $messages = [
+            'platform_id.required' => 'Platform wajib dipilih.',
+            'platform_id.exists' => 'Platform tidak valid.',
+            'title.required' => 'Judul wajib diisi.',
+            'title.string' => 'Judul harus berupa teks.',
+            'title.max' => 'Judul maksimal :max karakter.',
+            'embed_code.required' => 'Embed code wajib diisi.',
+            'embed_code.string' => 'Embed code harus berupa teks.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'platform_id' => ['required', 'exists:platforms,id'],
             'title' => ['required', 'string', 'max:255'],
             'embed_code' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-        ]);
+        ], $messages);
 
-        Embed::create([
-            'platform_id' => $request->platform_id,
-            'title' => $request->title,
-            'embed_code' => $request->embed_code,
-            'description' => $request->description,
-        ]);
+        if ($validator->fails()) {
+            return back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
+        Embed::create($validator->validated());
 
         return redirect()->route('embeds.index')->with('success', 'Embed berhasil ditambahkan.');
     }
@@ -85,19 +98,31 @@ class EmbedController extends Controller
      */
     public function update(Request $request, Embed $embed)
     {
-        $request->validate([
+        $messages = [
+            'platform_id.required' => 'Platform wajib dipilih.',
+            'platform_id.exists' => 'Platform tidak valid.',
+            'title.required' => 'Judul wajib diisi.',
+            'title.string' => 'Judul harus berupa teks.',
+            'title.max' => 'Judul maksimal :max karakter.',
+            'embed_code.required' => 'Embed code wajib diisi.',
+            'embed_code.string' => 'Embed code harus berupa teks.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
+
+        $validator = Validator::make($request->all(), [
             'platform_id' => ['required', 'exists:platforms,id'],
             'title' => ['required', 'string', 'max:255'],
             'embed_code' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-        ]);
+        ], $messages);
 
-        $embed->update([
-            'platform_id' => $request->platform_id,
-            'title' => $request->title,
-            'embed_code' => $request->embed_code,
-            'description' => $request->description,
-        ]);
+        if ($validator->fails()) {
+            return back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
+        $embed->update($validator->validated());
 
         return redirect()->route('embeds.index')->with('success', 'Embed berhasil diperbarui.');
     }

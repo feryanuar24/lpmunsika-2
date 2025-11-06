@@ -11,11 +11,10 @@ use Illuminate\Support\Facades\Log;
 class FileController extends Controller
 {
     /**
-     * Serve private thumbnail file from local disk.
+     * Serve private file from local disk.
      */
     public function show($path)
     {
-        Log::info("Serving file: {$path}");
         if (!Storage::exists($path)) {
             abort(404);
         }

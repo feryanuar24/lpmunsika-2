@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
@@ -21,30 +25,6 @@ class ProfileController extends Controller
         return view('pages.profile.index', [
             'data' => $data,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
     }
 
     /**
@@ -66,23 +46,72 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . Auth::id()],
-            'password' => ['nullable', 'min:8', 'confirmed'],
-        ]);
+        try {
+            $messages = [
+                'name.required' => 'Nama wajib diisi.',
+                'name.string' => 'Nama harus berupa teks.',
+                'name.max' => 'Nama maksimal :max karakter.',
+                'email.required' => 'Email wajib diisi.',
+                'email.string' => 'Email harus berupa teks.',
+                'email.email' => 'Format email tidak valid.',
+                'email.max' => 'Email maksimal :max karakter.',
+                'email.unique' => 'Email sudah digunakan.',
+                'password.min' => 'Password minimal :min karakter.',
+                'password.confirmed' => 'Konfirmasi password tidak cocok.',
+                'password.regex' => 'Password harus mengandung setidaknya satu huruf besar, satu huruf kecil, satu angka, dan satu karakter khusus.',
+            ];
 
-        $user = User::findOrFail(Auth::id());
+            $validator = Validator::make($request->all(), [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . Auth::id()],
+                'password' => [
+                    'nullable',
+                    'min:8',
+                    'confirmed',
+                    'regex:/[a-z]/',
+                    'regex:/[A-Z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[@$!%*#?&]/',
+                ],
+            ], $messages);
 
-        if (!empty($validated['password'])) {
-            $validated['password'] = bcrypt($validated['password']);
-        } else {
-            unset($validated['password']);
+            if ($validator->fails()) {
+                return back()
+                    ->with('error', implode('<br>', $validator->errors()->all()))
+                    ->withInput();
+            }
+
+            $validated = $validator->validated();
+
+            $user = User::findOrFail(Auth::id());
+
+            DB::beginTransaction();
+
+            if (!empty($validated['password'])) {
+                $validated['password'] = bcrypt($validated['password']);
+            } else {
+                unset($validated['password']);
+            }
+
+            $user->update($validated);
+
+            Notification::create([
+                'user_id' => $user->id,
+                'title' => 'Pengguna Memperbarui Akun',
+                'message' => 'Pengguna ' . ($user->name ?? 'System') . ' berhasil memperbaharui akun.',
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui.');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            Log::error('Error updating profile: ' . $th->getMessage());
+
+            return back()
+                ->with('error', 'Terjadi kesalahan saat memperbarui profil.');
         }
-
-        $user->update($validated);
-
-        return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui.');
     }
 
     /**
@@ -90,10 +119,31 @@ class ProfileController extends Controller
      */
     public function destroy()
     {
-        User::destroy(Auth::id());
+        try {
+            DB::beginTransaction();
 
-        Auth::logout();
+            $user = Auth::user();
 
-        return redirect()->route('landing')->with('success', 'Akun Anda telah dihapus.');
+            User::destroy($user->id);
+
+            Notification::create([
+                'user_id' => $user->id,
+                'title' => 'Pengguna Menghapus Akun',
+                'message' => 'Pengguna ' . ($user->name ?? 'System') . ' berhasil menghapus akun.',
+            ]);
+
+            DB::commit();
+
+            Auth::logout();
+
+            return redirect()->route('landing')->with('success', 'Akun Anda telah dihapus.');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            Log::error('Error deleting profile: ' . $th->getMessage());
+
+            return back()
+                ->with('error', 'Terjadi kesalahan saat menghapus akun Anda.');
+        }
     }
 }
